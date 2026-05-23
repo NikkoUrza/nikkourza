@@ -217,6 +217,90 @@ section{padding:5.5rem 3rem}
 }
 
 /* ============================================================
+   AUDIO PLAYER
+============================================================ */
+.beat-player-wrap{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.38s cubic-bezier(0.4,0,0.2,1);
+  border-top:0 solid rgba(45,212,204,0.08);
+}
+.beat-player-wrap.open{
+  max-height:120px;
+  border-top:1px solid rgba(45,212,204,0.08);
+}
+.beat-player-inner{
+  background:rgba(6,30,28,0.55);
+  padding:0.85rem 1.3rem;
+  display:flex;flex-direction:column;gap:0.5rem;
+}
+.beat-wm{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.beat-wm-tag{
+  font-size:0.46rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(45,212,204,0.38);border:1px solid rgba(45,212,204,0.14);
+  padding:0.15rem 0.55rem;
+}
+.beat-timer{
+  font-family:'Bebas Neue';font-size:0.88rem;letter-spacing:2px;
+  color:rgba(244,244,240,0.3);
+}
+.beat-prog-track{
+  width:100%;height:3px;
+  background:rgba(45,212,204,0.1);
+  border-radius:0;cursor:pointer;position:relative;
+}
+.beat-prog-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--teal),var(--cyan));
+  transition:width 0.25s linear;
+  pointer-events:none;
+}
+.beat-prog-track::after{
+  content:'';position:absolute;
+  right:0;top:50%;transform:translateY(-50%) translateX(50%);
+  width:8px;height:8px;border-radius:50%;
+  background:var(--cyan);opacity:0;
+  transition:opacity 0.2s;
+}
+.beat-prog-track:hover::after{opacity:1}
+.beat-ctrl{
+  display:flex;align-items:center;gap:0.7rem;
+}
+.beat-play-btn{
+  width:28px;height:28px;flex-shrink:0;
+  background:var(--cyan);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.18s;
+}
+.beat-play-btn:hover{background:var(--teal)}
+.beat-play-btn .play-icon{
+  border-left:9px solid var(--abyss);
+  border-top:6px solid transparent;
+  border-bottom:6px solid transparent;
+  margin-left:2px;
+}
+.beat-play-btn .pause-icon{
+  width:10px;display:flex;gap:3px;
+}
+.beat-play-btn .pause-icon span{
+  display:block;width:3px;height:12px;
+  background:var(--abyss);
+}
+.beat-play-btn.playing .play-icon{display:none}
+.beat-play-btn.playing .pause-icon{display:flex}
+.beat-play-btn:not(.playing) .play-icon{display:block}
+.beat-play-btn:not(.playing) .pause-icon{display:none}
+
+/* BEATS row — override num/pb comportamiento con player */
+.beat-row.has-player{
+  display:grid;
+  grid-template-columns:2.2rem 1fr 5rem 4rem auto;
+}
+.beat-row.has-player:hover .beat-num{display:none}
+.beat-row.has-player:hover .beat-pb{display:flex}
+
+/* ============================================================
    LICENCIAS
 ============================================================ */
 #licencias{background:var(--abyss)}
@@ -591,53 +675,134 @@ footer{
   <h2 class="sec-title">COMPRAR<br><span>BEATS</span></h2>
   <!-- ═══ NOTA: Reemplaza TU_LLAVE_EPAYCO por tu Public Key de ePayco ═══
        Dashboard ePayco → Configuración → Llaves → Public Key              -->
-  <div class="beats-table">
-    <!-- BEAT 1 -->
-    <div class="beat-row">
+  <div class="beats-table" id="beatsTable">
+
+    <!-- BEAT 1 —— Noche Libre 808 -->
+    <div class="beat-row has-player" id="br-1" onclick="toggleBeatPlayer(1,event)">
       <div><span class="beat-num">01</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">NOCHE LIBRE 808</p><div class="beat-chips"><span class="bc">Lo-fi</span><span class="bc">Trap</span></div></div>
       <span class="beat-bpm">140 BPM</span><span class="beat-key">Am</span>
-      <div class="beat-lics">
+      <div class="beat-lics" onclick="event.stopPropagation()">
         <button class="lb" onclick="pagarEpayco('Noche Libre 808 — Lic. Basic','115000','beat-NL808-basic')">Basic<span>$35 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Noche Libre 808 — Lic. Premium','247500','beat-NL808-premium')">Premium<span>$75 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Noche Libre 808 — Lic. Exclusiva','1155000','beat-NL808-excl')">Excl.<span>$350 USD</span></button>
       </div>
     </div>
-    <!-- BEAT 2 -->
-    <div class="beat-row">
+    <div class="beat-player-wrap" id="bpw-1">
+      <div class="beat-player-inner">
+        <div class="beat-wm">
+          <span class="beat-wm-tag">▶ Preview · NIKKO URZA</span>
+          <span class="beat-timer" id="bpt-1">0:00</span>
+        </div>
+        <div class="beat-prog-track" id="bptrack-1" onclick="seekBeat(1,event)">
+          <div class="beat-prog-fill" id="bpfill-1"></div>
+        </div>
+        <div class="beat-ctrl">
+          <button class="beat-play-btn" id="bpbtn-1" onclick="togglePlay(1,event)">
+            <div class="play-icon"></div>
+            <div class="pause-icon"><span></span><span></span></div>
+          </button>
+          <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">NOCHE LIBRE 808 · Lo-fi Trap · 140 BPM · Am</span>
+        </div>
+        <audio id="bpaudio-1" preload="none" src="beats/noche-libre-808-preview.mp3"></audio>
+      </div>
+    </div>
+
+    <!-- BEAT 2 —— Abismo Teal -->
+    <div class="beat-row has-player" id="br-2" onclick="toggleBeatPlayer(2,event)">
       <div><span class="beat-num">02</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">ABISMO TEAL</p><div class="beat-chips"><span class="bc">Afrobeat</span></div></div>
       <span class="beat-bpm">98 BPM</span><span class="beat-key">Gm</span>
-      <div class="beat-lics">
+      <div class="beat-lics" onclick="event.stopPropagation()">
         <button class="lb" onclick="pagarEpayco('Abismo Teal — Lic. Basic','148500','beat-AT-basic')">Basic<span>$45 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Abismo Teal — Lic. Premium','297000','beat-AT-premium')">Premium<span>$90 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Abismo Teal — Lic. Exclusiva','1650000','beat-AT-excl')">Excl.<span>$500 USD</span></button>
       </div>
     </div>
-    <!-- BEAT 3 -->
-    <div class="beat-row">
+    <div class="beat-player-wrap" id="bpw-2">
+      <div class="beat-player-inner">
+        <div class="beat-wm">
+          <span class="beat-wm-tag">▶ Preview · NIKKO URZA</span>
+          <span class="beat-timer" id="bpt-2">0:00</span>
+        </div>
+        <div class="beat-prog-track" id="bptrack-2" onclick="seekBeat(2,event)">
+          <div class="beat-prog-fill" id="bpfill-2"></div>
+        </div>
+        <div class="beat-ctrl">
+          <button class="beat-play-btn" id="bpbtn-2" onclick="togglePlay(2,event)">
+            <div class="play-icon"></div>
+            <div class="pause-icon"><span></span><span></span></div>
+          </button>
+          <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">ABISMO TEAL · Afrobeat · 98 BPM · Gm</span>
+        </div>
+        <audio id="bpaudio-2" preload="none" src="beats/abismo-teal-preview.mp3"></audio>
+      </div>
+    </div>
+
+    <!-- BEAT 3 —— Sin Permiso -->
+    <div class="beat-row has-player" id="br-3" onclick="toggleBeatPlayer(3,event)">
       <div><span class="beat-num">03</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">SIN PERMISO</p><div class="beat-chips"><span class="bc">Rap</span><span class="bc">Boom Bap</span></div></div>
       <span class="beat-bpm">88 BPM</span><span class="beat-key">Dm</span>
-      <div class="beat-lics">
+      <div class="beat-lics" onclick="event.stopPropagation()">
         <button class="lb" onclick="pagarEpayco('Sin Permiso — Lic. Basic','99000','beat-SP-basic')">Basic<span>$30 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Sin Permiso — Lic. Premium','214500','beat-SP-premium')">Premium<span>$65 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Sin Permiso — Lic. Exclusiva','990000','beat-SP-excl')">Excl.<span>$300 USD</span></button>
       </div>
     </div>
-    <!-- BEAT 4 -->
-    <div class="beat-row">
+    <div class="beat-player-wrap" id="bpw-3">
+      <div class="beat-player-inner">
+        <div class="beat-wm">
+          <span class="beat-wm-tag">▶ Preview · NIKKO URZA</span>
+          <span class="beat-timer" id="bpt-3">0:00</span>
+        </div>
+        <div class="beat-prog-track" id="bptrack-3" onclick="seekBeat(3,event)">
+          <div class="beat-prog-fill" id="bpfill-3"></div>
+        </div>
+        <div class="beat-ctrl">
+          <button class="beat-play-btn" id="bpbtn-3" onclick="togglePlay(3,event)">
+            <div class="play-icon"></div>
+            <div class="pause-icon"><span></span><span></span></div>
+          </button>
+          <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">SIN PERMISO · Rap / Boom Bap · 88 BPM · Dm</span>
+        </div>
+        <audio id="bpaudio-3" preload="none" src="beats/sin-permiso-preview.mp3"></audio>
+      </div>
+    </div>
+
+    <!-- BEAT 4 —— Océano Profundo -->
+    <div class="beat-row has-player" id="br-4" onclick="toggleBeatPlayer(4,event)">
       <div><span class="beat-num">04</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">OCÉANO PROFUNDO</p><div class="beat-chips"><span class="bc">Reggaeton</span></div></div>
       <span class="beat-bpm">95 BPM</span><span class="beat-key">Fm</span>
-      <div class="beat-lics">
+      <div class="beat-lics" onclick="event.stopPropagation()">
         <button class="lb" onclick="pagarEpayco('Océano Profundo — Lic. Basic','132000','beat-OP-basic')">Basic<span>$40 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Océano Profundo — Lic. Premium','280500','beat-OP-premium')">Premium<span>$85 USD</span></button>
         <button class="lb" onclick="pagarEpayco('Océano Profundo — Lic. Exclusiva','1485000','beat-OP-excl')">Excl.<span>$450 USD</span></button>
       </div>
     </div>
+    <div class="beat-player-wrap" id="bpw-4">
+      <div class="beat-player-inner">
+        <div class="beat-wm">
+          <span class="beat-wm-tag">▶ Preview · NIKKO URZA</span>
+          <span class="beat-timer" id="bpt-4">0:00</span>
+        </div>
+        <div class="beat-prog-track" id="bptrack-4" onclick="seekBeat(4,event)">
+          <div class="beat-prog-fill" id="bpfill-4"></div>
+        </div>
+        <div class="beat-ctrl">
+          <button class="beat-play-btn" id="bpbtn-4" onclick="togglePlay(4,event)">
+            <div class="play-icon"></div>
+            <div class="pause-icon"><span></span><span></span></div>
+          </button>
+          <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">OCÉANO PROFUNDO · Reggaeton · 95 BPM · Fm</span>
+        </div>
+        <audio id="bpaudio-4" preload="none" src="beats/oceano-profundo-preview.mp3"></audio>
+      </div>
+    </div>
+
   </div>
-  <p style="font-size:0.58rem;color:rgba(244,244,240,0.25);margin-top:0.8rem">* Precios en COP calculados a TRM ~$3,300. El checkout de ePayco muestra el monto exacto antes de confirmar.</p>
+  <p style="font-size:0.58rem;color:rgba(244,244,240,0.25);margin-top:0.8rem">* Precios en COP calculados a TRM ~$3,300. El checkout de ePayco muestra el monto exacto antes de confirmar. · <span style="color:rgba(45,212,204,0.4)">▶ Haz clic en cada beat para escuchar el preview</span></p>
   <div class="cart-notif" id="cartNotif"></div>
 </section>
 <div class="divider"></div>
@@ -1036,6 +1201,115 @@ function subNL(){
   if(!e||!e.includes('@')){r.style.display='block';r.style.color='#e87';r.textContent='Ingresa un email válido.';return;}
   r.style.display='block';r.style.color='var(--teal)';r.textContent='✓ '+e+' añadido a la lista.';
   document.getElementById('nle').value='';
+}
+
+/* ═══════════════════════════════════════════════════
+   BEAT AUDIO PLAYER
+   Los archivos MP3 van en la carpeta /beats/
+   Ejemplo: beats/noche-libre-808-preview.mp3
+═══════════════════════════════════════════════════ */
+var activeBeat = null; // ID del beat actualmente abierto
+var raf = null;        // requestAnimationFrame loop
+
+function fmtTime(s){
+  if(isNaN(s)||!isFinite(s)) return '0:00';
+  var m=Math.floor(s/60),sec=Math.floor(s%60);
+  return m+':'+(sec<10?'0':'')+sec;
+}
+
+function stopAllBeats(){
+  for(var i=1;i<=4;i++){
+    var a=document.getElementById('bpaudio-'+i);
+    var b=document.getElementById('bpbtn-'+i);
+    if(a&&!a.paused){a.pause();}
+    if(b){b.classList.remove('playing');}
+  }
+  if(raf){cancelAnimationFrame(raf);raf=null;}
+}
+
+function toggleBeatPlayer(id, e){
+  // Si el clic viene de los botones de licencia, no hace nada
+  if(e&&e.target&&e.target.closest&&e.target.closest('.beat-lics')) return;
+  var wrap=document.getElementById('bpw-'+id);
+  if(!wrap) return;
+
+  // Si está cerrado → abrir (y cerrar el anterior si era otro)
+  if(!wrap.classList.contains('open')){
+    if(activeBeat && activeBeat!==id){
+      var prevWrap=document.getElementById('bpw-'+activeBeat);
+      if(prevWrap)prevWrap.classList.remove('open');
+      stopAllBeats();
+    }
+    wrap.classList.add('open');
+    activeBeat=id;
+    // Auto-play cuando se abre
+    startPlay(id);
+  } else {
+    // Si está abierto → solo toggle play/pause
+    var audio=document.getElementById('bpaudio-'+id);
+    if(audio){
+      if(audio.paused){ startPlay(id); } else { pausePlay(id); }
+    }
+  }
+}
+
+function togglePlay(id, e){
+  if(e){e.stopPropagation();}
+  var audio=document.getElementById('bpaudio-'+id);
+  if(!audio) return;
+  if(audio.paused){ startPlay(id); } else { pausePlay(id); }
+}
+
+function startPlay(id){
+  stopAllBeats();
+  var audio=document.getElementById('bpaudio-'+id);
+  var btn=document.getElementById('bpbtn-'+id);
+  if(!audio) return;
+  audio.play().then(function(){
+    if(btn) btn.classList.add('playing');
+    tickPlayer(id);
+  }).catch(function(err){
+    // El archivo aún no existe — mostrar mensaje amigable
+    var timer=document.getElementById('bpt-'+id);
+    if(timer) timer.textContent='— —';
+    console.warn('Audio no encontrado: beats/'+['noche-libre-808-preview','abismo-teal-preview','sin-permiso-preview','oceano-profundo-preview'][id-1]+'.mp3');
+  });
+  audio.onended=function(){ pausePlay(id); resetPlayer(id); };
+}
+
+function pausePlay(id){
+  var audio=document.getElementById('bpaudio-'+id);
+  var btn=document.getElementById('bpbtn-'+id);
+  if(audio) audio.pause();
+  if(btn) btn.classList.remove('playing');
+  if(raf){cancelAnimationFrame(raf);raf=null;}
+}
+
+function resetPlayer(id){
+  var fill=document.getElementById('bpfill-'+id);
+  var timer=document.getElementById('bpt-'+id);
+  if(fill) fill.style.width='0%';
+  if(timer) timer.textContent='0:00';
+}
+
+function tickPlayer(id){
+  var audio=document.getElementById('bpaudio-'+id);
+  var fill=document.getElementById('bpfill-'+id);
+  var timer=document.getElementById('bpt-'+id);
+  if(!audio||audio.paused) return;
+  var pct=audio.duration?((audio.currentTime/audio.duration)*100):0;
+  if(fill) fill.style.width=pct+'%';
+  if(timer) timer.textContent=fmtTime(audio.currentTime)+(audio.duration?' / '+fmtTime(audio.duration):'');
+  raf=requestAnimationFrame(function(){ tickPlayer(id); });
+}
+
+function seekBeat(id, e){
+  var audio=document.getElementById('bpaudio-'+id);
+  var track=document.getElementById('bptrack-'+id);
+  if(!audio||!track||!audio.duration) return;
+  var rect=track.getBoundingClientRect();
+  var pct=(e.clientX-rect.left)/rect.width;
+  audio.currentTime=Math.max(0,Math.min(1,pct))*audio.duration;
 }
 </script>
 </body>

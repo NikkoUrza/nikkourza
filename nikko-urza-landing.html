@@ -312,6 +312,42 @@ body::before{
   animation:pulse 2s ease-in-out infinite;
   margin-right:0.4rem;
 }
+
+/* SOUNDCLOUD EMBED */
+.sc-wrap{
+  margin-bottom:2.5rem;
+}
+.sc-embed-box{
+  border:1px solid rgba(45,212,204,0.15);
+  background:rgba(6,30,28,0.45);
+  overflow:hidden;
+  position:relative;
+}
+.sc-embed-box::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--cyan),transparent);
+  z-index:1;
+}
+.sc-embed-box iframe{
+  display:block;
+  border:none;
+  width:100%;
+}
+.sc-open-link{
+  display:flex;align-items:center;justify-content:space-between;
+  text-decoration:none;
+  padding:0.65rem 1.1rem;
+  border-top:1px solid rgba(45,212,204,0.1);
+  background:rgba(45,212,204,0.03);
+  transition:background 0.18s;
+}
+.sc-open-link:hover{background:rgba(45,212,204,0.07)}
+.sc-open-left{display:flex;align-items:center;gap:0.55rem}
+.sc-dot{width:8px;height:8px;border-radius:50%;background:#FF5500;flex-shrink:0}
+.sc-open-txt{font-size:0.54rem;letter-spacing:1px;color:rgba(244,244,240,0.4);text-transform:uppercase}
+.sc-open-arr{font-size:0.6rem;color:rgba(45,212,204,0.4)}
 </style>
 </head>
 <body>
@@ -426,6 +462,29 @@ body::before{
       </div>
     </div>
 
+  </div>
+
+  <!-- MI MÚSICA — SoundCloud -->
+  <div class="section-label" style="animation-delay:0.2s"><span class="live-dot"></span>Mi música</div>
+
+  <div class="sc-wrap">
+    <div class="sc-embed-box">
+      <iframe
+        id="sc-player"
+        allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"
+        height="300"
+        scrolling="no"
+        frameborder="0">
+      </iframe>
+      <a class="sc-open-link" href="https://soundcloud.com/nikkourza" target="_blank" rel="noopener">
+        <div class="sc-open-left">
+          <div class="sc-dot"></div>
+          <span class="sc-open-txt">Escuchar en SoundCloud · @nikkourza</span>
+        </div>
+        <span class="sc-open-arr">↗</span>
+      </a>
+    </div>
   </div>
 
   <!-- WEB CTA -->
