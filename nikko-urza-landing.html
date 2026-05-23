@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIKKO URZA</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cyan:#2DD4CC;--teal:#1BB8B0;--deep:#065E5A;--abyss:#061E1C;--warm:#F4F4F0;--black:#080C0C;
+  --gray:rgba(244,244,240,0.08);--border:rgba(45,212,204,0.15);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--black);
+  color:var(--warm);
+  font-family:'Space Mono',monospace;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* BG GRAIN + GLOW */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(13,153,144,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 80%, rgba(6,94,90,0.1) 0%, transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+.container{
+  position:relative;z-index:1;
+  max-width:480px;
+  margin:0 auto;
+  padding:3.5rem 1.5rem 4rem;
+}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:3rem}
+
+.avatar{
+  width:88px;height:88px;
+  border-radius:50%;
+  border:2px solid rgba(45,212,204,0.3);
+  background:linear-gradient(135deg,var(--deep),var(--abyss));
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.2rem;
+  position:relative;
+  overflow:hidden;
+}
+.avatar::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 35% 35%,rgba(45,212,204,0.25),transparent 60%);
+}
+.avatar-initials{
+  font-family:'Bebas Neue';font-size:1.8rem;
+  color:rgba(45,212,204,0.6);letter-spacing:3px;
+  position:relative;z-index:1;
+}
+
+.artist-name{
+  font-family:'Bebas Neue';
+  font-size:clamp(2.2rem,8vw,3rem);
+  letter-spacing:6px;
+  color:var(--warm);
+  line-height:1;
+  margin-bottom:0.4rem;
+}
+.artist-name span{color:var(--cyan)}
+
+.artist-tagline{
+  font-family:'DM Serif Display';
+  font-style:italic;
+  font-size:0.9rem;
+  color:rgba(244,244,240,0.45);
+  margin-bottom:1rem;
+}
+
+.artist-tags{
+  display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;
+  margin-bottom:0;
+}
+.artist-tag{
+  font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;
+  border:1px solid rgba(45,212,204,0.2);color:rgba(45,212,204,0.6);
+  padding:0.2rem 0.6rem;
+}
+
+/* DIVIDER */
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(45,212,204,0.2),transparent);
+  margin:2rem 0;
+}
+
+/* SECTION LABEL */
+.section-label{
+  font-size:0.55rem;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(244,244,240,0.3);margin-bottom:1rem;
+  display:flex;align-items:center;gap:0.6rem;
+}
+.section-label::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,rgba(45,212,204,0.15),transparent);
+}
+
+/* RELEASE CARDS */
+.releases{display:flex;flex-direction:column;gap:0.9rem;margin-bottom:2.5rem}
+
+.release-card{
+  border:1px solid var(--border);
+  background:rgba(6,30,28,0.4);
+  padding:1rem 1.2rem;
+  display:flex;align-items:center;gap:1rem;
+  transition:all 0.22s;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  text-decoration:none;
+  color:inherit;
+}
+.release-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:2px;background:var(--teal);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform 0.22s;
+}
+.release-card:hover{
+  border-color:rgba(45,212,204,0.35);
+  background:rgba(45,212,204,0.06);
+  transform:translateX(4px);
+}
+.release-card:hover::before{transform:scaleY(1)}
+
+.release-cover{
+  width:52px;height:52px;flex-shrink:0;
+  background:var(--deep);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.release-cover::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 40% 40%,rgba(45,212,204,0.2),transparent 60%);
+}
+.release-wave{width:70%;opacity:0.5;position:relative;z-index:1}
+.release-new{
+  position:absolute;top:-1px;right:-1px;
+  background:var(--cyan);color:var(--abyss);
+  font-size:0.45rem;letter-spacing:1px;font-weight:700;
+  padding:0.15rem 0.35rem;text-transform:uppercase;
+}
+
+.release-info{flex:1;min-width:0}
+.release-type{font-size:0.5rem;letter-spacing:3px;color:var(--teal);text-transform:uppercase;margin-bottom:0.2rem}
+.release-title{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:1px;color:var(--warm);margin-bottom:0.1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.release-meta{font-size:0.58rem;color:rgba(244,244,240,0.35)}
+
+.release-arrow{
+  font-size:0.7rem;color:rgba(45,212,204,0.4);
+  transition:all 0.2s;flex-shrink:0;
+}
+.release-card:hover .release-arrow{color:var(--cyan);transform:translateX(2px)}
+
+/* EXPANDED PLATFORMS */
+.platforms-wrap{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s ease;
+  border-top:0 solid var(--border);
+}
+.platforms-wrap.open{
+  max-height:300px;
+  border-top:1px solid var(--border);
+}
+.platforms-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0.5rem;padding:0.9rem 1.2rem;
+  background:rgba(6,8,8,0.6);
+}
+.platform-link{
+  display:flex;align-items:center;gap:0.5rem;
+  text-decoration:none;
+  padding:0.5rem 0.7rem;
+  border:1px solid rgba(45,212,204,0.1);
+  transition:all 0.18s;
+}
+.platform-link:hover{border-color:rgba(45,212,204,0.3);background:rgba(45,212,204,0.05)}
+.platform-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.platform-name{font-size:0.62rem;color:rgba(244,244,240,0.6);letter-spacing:1px}
+.platform-link:hover .platform-name{color:var(--warm)}
+
+/* PLATFORM COLORS */
+.dot-spotify{background:#1DB954}
+.dot-apple{background:#FC3C44}
+.dot-youtube{background:#FF0000}
+.dot-soundcloud{background:#FF5500}
+.dot-tidal{background:#00FFFF}
+.dot-deezer{background:#A238FF}
+.dot-amazon{background:#25D1DA}
+.dot-boomplay{background:#F5841F}
+
+/* SOCIAL LINKS */
+.socials{display:flex;flex-direction:column;gap:0.7rem;margin-bottom:2.5rem}
+
+.social-link{
+  display:flex;align-items:center;justify-content:space-between;
+  text-decoration:none;
+  border:1px solid var(--border);
+  padding:0.9rem 1.2rem;
+  background:rgba(6,30,28,0.3);
+  transition:all 0.2s;
+  position:relative;overflow:hidden;
+}
+.social-link::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(45,212,204,0.04);
+  opacity:0;transition:opacity 0.2s;
+}
+.social-link:hover{border-color:rgba(45,212,204,0.3);transform:translateY(-2px)}
+.social-link:hover::after{opacity:1}
+
+.social-left{display:flex;align-items:center;gap:0.8rem}
+.social-icon{
+  width:32px;height:32px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.65rem;font-weight:700;letter-spacing:1px;
+}
+.social-text{}
+.social-platform{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,240,0.35);margin-bottom:0.1rem}
+.social-handle{font-family:'Bebas Neue';font-size:1rem;letter-spacing:2px;color:var(--warm)}
+.social-arr{font-size:0.65rem;color:rgba(45,212,204,0.35);transition:all 0.18s}
+.social-link:hover .social-arr{color:var(--cyan);transform:translateX(3px)}
+
+/* WEB LINK — destacado */
+.web-cta{
+  display:flex;align-items:center;justify-content:space-between;
+  text-decoration:none;
+  border:1px solid rgba(45,212,204,0.35);
+  background:rgba(45,212,204,0.06);
+  padding:1.1rem 1.4rem;
+  margin-bottom:2.5rem;
+  transition:all 0.2s;
+  position:relative;overflow:hidden;
+}
+.web-cta::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:var(--cyan);
+}
+.web-cta:hover{background:rgba(45,212,204,0.1);border-color:rgba(45,212,204,0.5);transform:translateY(-2px)}
+
+.web-cta-left{display:flex;flex-direction:column;gap:0.2rem}
+.web-cta-label{font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal)}
+.web-cta-title{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:2px;color:var(--warm)}
+.web-cta-sub{font-size:0.6rem;color:rgba(244,244,240,0.4)}
+.web-cta-icon{
+  width:36px;height:36px;background:var(--cyan);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;color:var(--abyss);font-weight:700;
+  flex-shrink:0;
+  transition:background 0.2s;
+}
+.web-cta:hover .web-cta-icon{background:var(--teal)}
+
+/* MANIFESTO QUOTE */
+.quote-block{
+  border-left:2px solid rgba(45,212,204,0.25);
+  padding:0.8rem 1.2rem;
+  margin-bottom:2rem;
+}
+.quote-text{
+  font-family:'DM Serif Display';
+  font-style:italic;
+  font-size:0.88rem;
+  color:rgba(244,244,240,0.45);
+  line-height:1.7;
+}
+.quote-attr{
+  font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(244,244,240,0.2);margin-top:0.5rem;
+}
+
+/* FOOTER */
+.footer{
+  text-align:center;
+  padding-top:2rem;
+  border-top:1px solid rgba(45,212,204,0.08);
+}
+.footer-logo{font-family:'Bebas Neue';font-size:0.9rem;letter-spacing:4px;color:rgba(244,244,240,0.2)}
+.footer-logo span{color:rgba(45,212,204,0.4)}
+.footer-copy{font-size:0.55rem;color:rgba(244,244,240,0.15);margin-top:0.4rem}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.container > *{animation:fadeUp 0.5s ease both}
+.header{animation-delay:0.05s}
+.section-label:nth-of-type(1){animation-delay:0.1s}
+.releases{animation-delay:0.15s}
+.socials{animation-delay:0.25s}
+.web-cta{animation-delay:0.3s}
+.quote-block{animation-delay:0.35s}
+.footer{animation-delay:0.4s}
+
+/* PULSE DOT — live indicator */
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
+.live-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--teal);
+  display:inline-block;
+  animation:pulse 2s ease-in-out infinite;
+  margin-right:0.4rem;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="avatar">
+      <span class="avatar-initials">NU</span>
+    </div>
+    <h1 class="artist-name">NIKKO <span>URZA</span></h1>
+    <p class="artist-tagline">Artista libre. Sin género. Sin filtro.</p>
+    <div class="artist-tags">
+      <span class="artist-tag">Cantante</span>
+      <span class="artist-tag">Productor</span>
+      <span class="artist-tag">Colombia</span>
+      <span class="artist-tag">Independiente</span>
+    </div>
+  </div>
+
+  <!-- LANZAMIENTOS -->
+  <div class="section-label"><span class="live-dot"></span>Últimos lanzamientos</div>
+
+  <div class="releases">
+
+    <!-- Release 1 -->
+    <div>
+      <div class="release-card" onclick="togglePlatforms('r1')">
+        <div class="release-cover">
+          <div class="release-new">Nuevo</div>
+          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
+            <path d="M0 15 Q7 5 15 15 Q22 25 30 15 Q37 5 45 15 Q52 25 60 15" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="release-info">
+          <p class="release-type">Sencillo · 2026</p>
+          <p class="release-title">Sin Permiso</p>
+          <p class="release-meta">Afrobeat / Trap · 3:42</p>
+        </div>
+        <span class="release-arrow" id="arr-r1">▾</span>
+      </div>
+      <div class="platforms-wrap" id="r1">
+        <div class="platforms-inner">
+          <a class="platform-link" href="#"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-amazon"></div><span class="platform-name">Amazon Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-boomplay"></div><span class="platform-name">Boomplay</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Release 2 -->
+    <div>
+      <div class="release-card" onclick="togglePlatforms('r2')">
+        <div class="release-cover" style="background:linear-gradient(135deg,#0D9990,#061E1C)">
+          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
+            <path d="M0 20 Q5 8 12 18 Q18 28 25 14 Q32 4 40 18 Q47 28 55 12 Q58 8 60 10" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="release-info">
+          <p class="release-type">EP · 2025</p>
+          <p class="release-title">Océano — EP</p>
+          <p class="release-meta">Reggae / Lo-fi · 5 tracks</p>
+        </div>
+        <span class="release-arrow" id="arr-r2">▾</span>
+      </div>
+      <div class="platforms-wrap" id="r2">
+        <div class="platforms-inner">
+          <a class="platform-link" href="#"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-amazon"></div><span class="platform-name">Amazon Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-boomplay"></div><span class="platform-name">Boomplay</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Release 3 -->
+    <div>
+      <div class="release-card" onclick="togglePlatforms('r3')">
+        <div class="release-cover" style="background:linear-gradient(135deg,#1BB8B0,#065E5A)">
+          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
+            <path d="M0 10 Q8 22 15 12 Q22 4 30 16 Q38 26 45 10 Q52 2 60 14" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div class="release-info">
+          <p class="release-type">Sencillo · 2025</p>
+          <p class="release-title">Noche Libre</p>
+          <p class="release-meta">Rap / Boom Bap · 2:58</p>
+        </div>
+        <span class="release-arrow" id="arr-r3">▾</span>
+      </div>
+      <div class="platforms-wrap" id="r3">
+        <div class="platforms-inner">
+          <a class="platform-link" href="#"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-amazon"></div><span class="platform-name">Amazon Music</span></a>
+          <a class="platform-link" href="#"><div class="platform-dot dot-boomplay"></div><span class="platform-name">Boomplay</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WEB CTA -->
+  <a href="index.html" class="web-cta">
+    <div class="web-cta-left">
+      <span class="web-cta-label">Sitio oficial</span>
+      <span class="web-cta-title">nikkourza.com</span>
+      <span class="web-cta-sub">Beats · Servicios · Presskit · Mezcla & Master</span>
+    </div>
+    <div class="web-cta-icon">→</div>
+  </a>
+
+  <!-- REDES -->
+  <div class="section-label">Redes sociales</div>
+
+  <div class="socials">
+    <a href="https://instagram.com/nikkourza" class="social-link">
+      <div class="social-left">
+        <div class="social-icon" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;font-size:0.5rem;font-weight:700;letter-spacing:0.5px">IG</div>
+        <div class="social-text">
+          <div class="social-platform">Instagram</div>
+          <div class="social-handle">@nikkourza</div>
+        </div>
+      </div>
+      <span class="social-arr">→</span>
+    </a>
+    <a href="https://tiktok.com/@nikkourza" class="social-link">
+      <div class="social-left">
+        <div class="social-icon" style="background:#010101;border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:0.5rem;font-weight:700">TK</div>
+        <div class="social-text">
+          <div class="social-platform">TikTok</div>
+          <div class="social-handle">@nikkourza</div>
+        </div>
+      </div>
+      <span class="social-arr">→</span>
+    </a>
+    <a href="https://youtube.com/@nikkourza" class="social-link">
+      <div class="social-left">
+        <div class="social-icon" style="background:#FF0000;color:#fff;font-size:0.5rem;font-weight:700">YT</div>
+        <div class="social-text">
+          <div class="social-platform">YouTube</div>
+          <div class="social-handle">Nikko Urza</div>
+        </div>
+      </div>
+      <span class="social-arr">→</span>
+    </a>
+    <a href="https://soundcloud.com/nikkourza" class="social-link">
+      <div class="social-left">
+        <div class="social-icon" style="background:#FF5500;color:#fff;font-size:0.5rem;font-weight:700">SC</div>
+        <div class="social-text">
+          <div class="social-platform">SoundCloud</div>
+          <div class="social-handle">nikkourza</div>
+        </div>
+      </div>
+      <span class="social-arr">→</span>
+    </a>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote-block">
+    <p class="quote-text">"No necesitas permiso para crear. Nunca lo necesitaste."</p>
+    <p class="quote-attr">— Nikko Urza</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">NIKKO <span>URZA</span></div>
+    <div class="footer-copy">© 2026 · Colombia · Música sin etiquetas</div>
+  </div>
+
+</div>
+
+<script>
+var open = null;
+function togglePlatforms(id) {
+  var el = document.getElementById(id);
+  var arr = document.getElementById('arr-' + id);
+  if (!el) return;
+  if (open && open !== id) {
+    var prev = document.getElementById(open);
+    var prevArr = document.getElementById('arr-' + open);
+    if (prev) prev.classList.remove('open');
+    if (prevArr) prevArr.style.transform = '';
+  }
+  var isOpen = el.classList.contains('open');
+  el.classList.toggle('open', !isOpen);
+  if (arr) arr.style.transform = isOpen ? '' : 'rotate(180deg)';
+  open = isOpen ? null : id;
+}
+</script>
+</body>
+</html>
