@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descarga tu Beat — Nikko Urza</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cyan:#2DD4CC;--teal:#1BB8B0;--deep:#065E5A;--abyss:#061E1C;--warm:#F4F4F0;--black:#080C0C}
+body{background:var(--black);color:var(--warm);font-family:'Space Mono',monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(45,212,204,0.08),transparent 65%);pointer-events:none}
+.card{position:relative;z-index:1;max-width:480px;width:100%;border:1px solid rgba(45,212,204,0.2);background:rgba(6,30,28,0.6);padding:2.5rem}
+.logo{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:5px;color:rgba(244,244,240,0.4);margin-bottom:2rem}
+.logo span{color:var(--teal)}
+.state{text-align:center;padding:1.5rem 0}
+
+/* LOADING */
+.spinner{width:40px;height:40px;border:2px solid rgba(45,212,204,0.15);border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1.2rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-txt{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,240,0.4)}
+
+/* SUCCESS */
+.check{width:56px;height:56px;background:rgba(45,212,204,0.1);border:1px solid rgba(45,212,204,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:1.4rem}
+.success-title{font-family:'Bebas Neue';font-size:1.8rem;letter-spacing:3px;color:var(--warm);margin-bottom:0.4rem}
+.success-sub{font-size:0.65rem;color:rgba(244,244,240,0.45);margin-bottom:1.8rem;line-height:1.7}
+.beat-card{border:1px solid rgba(45,212,204,0.18);padding:1.1rem;margin-bottom:1.5rem}
+.beat-row{display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:1px solid rgba(45,212,204,0.06);font-size:0.65rem}
+.beat-row:last-child{border-bottom:none}
+.beat-lbl{color:rgba(244,244,240,0.38)}
+.beat-val{color:var(--warm);font-weight:700}
+.beat-val.cyan{color:var(--cyan)}
+.btn-dl{display:block;width:100%;background:var(--cyan);color:var(--abyss);border:none;padding:1rem;font-family:'Space Mono';font-size:0.68rem;letter-spacing:2px;font-weight:700;text-transform:uppercase;cursor:pointer;text-decoration:none;text-align:center;transition:background 0.2s;margin-bottom:0.8rem}
+.btn-dl:hover{background:var(--teal)}
+.btn-wsp{display:block;width:100%;border:1px solid rgba(45,212,204,0.25);color:var(--teal);padding:0.75rem;font-family:'Space Mono';font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;text-decoration:none;text-align:center;transition:all 0.2s}
+.btn-wsp:hover{background:rgba(45,212,204,0.07)}
+.note{font-size:0.58rem;color:rgba(244,244,240,0.28);line-height:1.7;margin-top:1.2rem;border-top:1px solid rgba(45,212,204,0.08);padding-top:1rem}
+
+/* ERROR */
+.error-icon{font-size:2rem;margin-bottom:0.8rem}
+.error-title{font-family:'Bebas Neue';font-size:1.5rem;letter-spacing:2px;color:#f87171;margin-bottom:0.4rem}
+.error-sub{font-size:0.65rem;color:rgba(244,244,240,0.45);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="card">
+  <div class="logo">NIKKO <span>URZA</span></div>
+
+  <!-- LOADING -->
+  <div class="state" id="stateLoading">
+    <div class="spinner"></div>
+    <p class="loading-txt">Verificando tu compra...</p>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="state" id="stateSuccess" style="display:none">
+    <div class="check">✓</div>
+    <h1 class="success-title">¡Listo para descargar!</h1>
+    <p class="success-sub" id="successSub">Tu compra fue confirmada. Descarga tu beat aquí.</p>
+    <div class="beat-card">
+      <div class="beat-row"><span class="beat-lbl">Beat</span><span class="beat-val" id="dBeat">—</span></div>
+      <div class="beat-row"><span class="beat-lbl">Licencia</span><span class="beat-val" id="dLic">—</span></div>
+      <div class="beat-row"><span class="beat-lbl">Comprador</span><span class="beat-val" id="dNombre">—</span></div>
+      <div class="beat-row"><span class="beat-lbl">Descargas</span><span class="beat-val cyan" id="dDescargas">—</span></div>
+    </div>
+    <a href="#" id="btnDescargar" class="btn-dl" target="_blank">↓ Descargar Beat</a>
+    <a href="https://wa.me/573046455070" class="btn-wsp" target="_blank">📱 Hablar con Nikko por WhatsApp</a>
+    <p class="note">
+      Guarda el link de esta página — puedes volver a descargar cuando quieras.<br>
+      Para dudas sobre la licencia o los stems escríbele directamente a Nikko.
+    </p>
+  </div>
+
+  <!-- ERROR -->
+  <div class="state" id="stateError" style="display:none">
+    <div class="error-icon">⚠</div>
+    <h2 class="error-title" id="errorTitle">Token inválido</h2>
+    <p class="error-sub" id="errorSub">
+      Este link no es válido o ya expiró. Si acabas de pagar y ves este error,
+      espera un momento y recarga la página. Si el problema persiste escríbele a Nikko.
+    </p>
+    <br>
+    <a href="https://wa.me/573046455070?text=Hola%20Nikko%2C%20pagué%20un%20beat%20pero%20el%20link%20de%20descarga%20no%20funciona" class="btn-wsp" target="_blank" style="margin-top:1rem">
+      📱 Reportar problema por WhatsApp
+    </a>
+  </div>
+</div>
+
+<script>
+var API_URL = 'https://nikkourza.vercel.app'; // ← actualiza con tu URL de Vercel
+
+function show(id) {
+  ['stateLoading','stateSuccess','stateError'].forEach(function(s){
+    document.getElementById(s).style.display = s === id ? 'block' : 'none';
+  });
+}
+
+async function verificarDescarga() {
+  var params = new URLSearchParams(window.location.search);
+  var token = params.get('token');
+
+  if (!token) {
+    show('stateError');
+    document.getElementById('errorTitle').textContent = 'Link inválido';
+    document.getElementById('errorSub').textContent = 'No se encontró token de compra en este link.';
+    return;
+  }
+
+  try {
+    var res = await fetch(API_URL + '/api/descarga?token=' + token);
+    var data = await res.json();
+
+    if (!res.ok || !data.ok) {
+      show('stateError');
+      document.getElementById('errorSub').textContent =
+        data.error || 'Token inválido o expirado.';
+      return;
+    }
+
+    // Mostrar datos
+    document.getElementById('dBeat').textContent = data.beat || '—';
+    document.getElementById('dLic').textContent = (data.licencia || '').toUpperCase();
+    document.getElementById('dNombre').textContent = data.comprador || '—';
+    document.getElementById('dDescargas').textContent = data.descargas + ' vez(es)';
+    document.getElementById('successSub').textContent =
+      'Hola ' + (data.comprador || '') + ', tu compra fue confirmada.';
+
+    if (data.driveUrl) {
+      document.getElementById('btnDescargar').href = data.driveUrl;
+    } else {
+      document.getElementById('btnDescargar').textContent = 'Link disponible pronto — contacta a Nikko';
+      document.getElementById('btnDescargar').href = 'https://wa.me/573046455070';
+    }
+
+    show('stateSuccess');
+
+  } catch (err) {
+    show('stateError');
+    document.getElementById('errorSub').textContent =
+      'Error de conexión. Intenta de nuevo o escríbele a Nikko.';
+  }
+}
+
+verificarDescarga();
+</script>
+</body>
+</html>
