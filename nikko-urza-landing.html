@@ -360,7 +360,7 @@ body::before{
       <span class="avatar-initials">NU</span>
     </div>
     <h1 class="artist-name">NIKKO <span>URZA</span></h1>
-    <p class="artist-tagline">La música es lo único que nos hace libres.</p>
+    <p class="artist-tagline">Artista libre. Sin género. Sin filtro.</p>
     <div class="artist-tags">
       <span class="artist-tag">Cantante</span>
       <span class="artist-tag">Productor</span>
@@ -369,99 +369,32 @@ body::before{
     </div>
   </div>
 
-  <!-- LANZAMIENTOS -->
+  <!-- LANZAMIENTOS — SoundCloud widget por track -->
   <div class="section-label"><span class="live-dot"></span>Últimos lanzamientos</div>
 
-  <div class="releases">
+  <div style="margin-bottom:2rem">
+    <p style="font-size:0.6rem;color:rgba(244,244,240,0.35);margin-bottom:1.2rem;letter-spacing:1px">
+      Escucha directo aquí · haz clic en el título para abrir en SoundCloud
+    </p>
 
-    <!-- Release 1 -->
-    <div>
-      <div class="release-card" onclick="togglePlatforms('r1')">
-        <div class="release-cover">
-          <div class="release-new">Nuevo</div>
-          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
-            <path d="M0 15 Q7 5 15 15 Q22 25 30 15 Q37 5 45 15 Q52 25 60 15" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="release-info">
-          <p class="release-type">Sencillo · 2026</p>
-          <p class="release-title">Sin Permiso</p>
-          <p class="release-meta">Afrobeat / Trap · 3:42</p>
-        </div>
-        <span class="release-arrow" id="arr-r1">▾</span>
-      </div>
-      <div class="platforms-wrap" id="r1">
-        <div class="platforms-inner">
-          <a class="platform-link" href="#"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-amazon"></div><span class="platform-name">Amazon Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-boomplay"></div><span class="platform-name">Boomplay</span></a>
-        </div>
-      </div>
-    </div>
+    <!-- Widget SoundCloud — tracks recientes del perfil -->
+    <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay"
+      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+      style="border:1px solid rgba(45,212,204,0.2);display:block">
+    </iframe>
 
-    <!-- Release 2 -->
-    <div>
-      <div class="release-card" onclick="togglePlatforms('r2')">
-        <div class="release-cover" style="background:linear-gradient(135deg,#0D9990,#061E1C)">
-          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
-            <path d="M0 20 Q5 8 12 18 Q18 28 25 14 Q32 4 40 18 Q47 28 55 12 Q58 8 60 10" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="release-info">
-          <p class="release-type">EP · 2025</p>
-          <p class="release-title">Océano — EP</p>
-          <p class="release-meta">Reggae / Lo-fi · 5 tracks</p>
-        </div>
-        <span class="release-arrow" id="arr-r2">▾</span>
-      </div>
-      <div class="platforms-wrap" id="r2">
-        <div class="platforms-inner">
-          <a class="platform-link" href="#"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-amazon"></div><span class="platform-name">Amazon Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-boomplay"></div><span class="platform-name">Boomplay</span></a>
+    <a href="https://soundcloud.com/nikkourza" target="_blank"
+       style="display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(45,212,204,0.15);padding:0.7rem 1rem;margin-top:0.6rem;text-decoration:none;transition:all 0.18s;background:rgba(6,30,28,0.3)"
+       onmouseover="this.style.borderColor='rgba(45,212,204,0.35)'" onmouseout="this.style.borderColor='rgba(45,212,204,0.15)'">
+      <div style="display:flex;align-items:center;gap:0.6rem">
+        <div style="width:28px;height:28px;background:#FF5500;display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:700;color:#fff;flex-shrink:0">SC</div>
+        <div>
+          <div style="font-size:0.58rem;letter-spacing:1px;color:rgba(244,244,240,0.35);text-transform:uppercase">SoundCloud</div>
+          <div style="font-family:'Bebas Neue',cursive;font-size:0.9rem;letter-spacing:2px;color:var(--warm)">@nikkourza</div>
         </div>
       </div>
-    </div>
-
-    <!-- Release 3 -->
-    <div>
-      <div class="release-card" onclick="togglePlatforms('r3')">
-        <div class="release-cover" style="background:linear-gradient(135deg,#1BB8B0,#065E5A)">
-          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
-            <path d="M0 10 Q8 22 15 12 Q22 4 30 16 Q38 26 45 10 Q52 2 60 14" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="release-info">
-          <p class="release-type">Sencillo · 2025</p>
-          <p class="release-title">Noche Libre</p>
-          <p class="release-meta">Rap / Boom Bap · 2:58</p>
-        </div>
-        <span class="release-arrow" id="arr-r3">▾</span>
-      </div>
-      <div class="platforms-wrap" id="r3">
-        <div class="platforms-inner">
-          <a class="platform-link" href="#"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-amazon"></div><span class="platform-name">Amazon Music</span></a>
-          <a class="platform-link" href="#"><div class="platform-dot dot-boomplay"></div><span class="platform-name">Boomplay</span></a>
-        </div>
-      </div>
-    </div>
-
+      <span style="color:rgba(45,212,204,0.5);font-size:0.65rem">Ver todos →</span>
+    </a>
   </div>
 
   <!-- MI MÚSICA — SoundCloud -->
