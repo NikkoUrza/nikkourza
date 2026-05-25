@@ -149,6 +149,8 @@ tr:hover td{background:rgba(45,212,204,0.03)}
     <div class="nav-item" onclick="showPage('beats')"><span class="nav-icon">♪</span>Beats</div>
     <div class="nav-item" onclick="showPage('ventas')"><span class="nav-icon">$</span>Ventas</div>
     <div class="nav-item" onclick="showPage('servicios')"><span class="nav-icon">◈</span>Servicios</div>
+    <div class="nav-item" onclick="showPage('portafolio')"><span class="nav-icon">◎</span>Portafolio</div>
+    <div class="nav-item" onclick="showPage('presskit')"><span class="nav-icon">✦</span>Presskit</div>
     <div class="sidebar-footer">
       <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
     </div>
@@ -214,6 +216,79 @@ tr:hover td{background:rgba(45,212,204,0.03)}
       </div>
     </div>
 
+    <!-- PORTAFOLIO -->
+    <div class="page" id="page-portafolio">
+      <h1 class="page-title">PORTA<span>FOLIO</span></h1>
+      <p class="page-sub">Mezclas y masters — muestra tu trabajo con links a plataformas</p>
+      <button class="btn-primary" onclick="abrirModalPortafolio()" style="margin-bottom:1.5rem">+ Agregar Trabajo</button>
+      <div class="beats-grid" id="portafolioGrid">
+        <div class="loading-row" style="grid-column:1/-1">Cargando portafolio...</div>
+      </div>
+    </div>
+
+    <!-- PRESSKIT -->
+    <div class="page" id="page-presskit">
+      <h1 class="page-title">PRESS<span>KIT</span></h1>
+      <p class="page-sub">Actualiza tu imagen, biografía y contenido del presskit</p>
+
+      <div class="form-section">
+        <p class="form-title">Foto de portada (Hero)</p>
+        <div class="fg"><label class="fl">URL de la imagen HomePortada</label><input class="fi" id="pkHero" value="/Images/HomePortada.png" placeholder="URL o ruta de la imagen"></div>
+        <div style="margin-top:0.5rem">
+          <img id="pkHeroPreview" src="/Images/HomePortada.png" style="max-width:200px;border:1px solid rgba(45,212,204,0.2);display:block" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Foto del Presskit</p>
+        <div class="fg"><label class="fl">URL de la imagen PressKit</label><input class="fi" id="pkFoto" value="/Images/PressKit.png" placeholder="URL o ruta de la imagen"></div>
+        <div style="margin-top:0.5rem">
+          <img id="pkFotoPreview" src="/Images/PressKit.png" style="max-width:160px;border:1px solid rgba(45,212,204,0.2);display:block" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Biografía</p>
+        <div class="fg"><label class="fl">Quote principal</label>
+          <textarea class="fi" id="pkQuote" rows="3">Soy ese artista que quiere ser dueño de su arte y de su tiempo, que quiere crear con libertad, que no se encasilla en un género porque la música es infinita.</textarea>
+        </div>
+        <div class="fg"><label class="fl">Biografía completa</label>
+          <textarea class="fi" id="pkBio" rows="5">Cantante, productor musical y audiovisual originario de Colombia. Con más de 12 años construyendo un sonido con alma propia...</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Tags / Géneros</p>
+        <div class="fg"><label class="fl">Tags separados por coma</label>
+          <input class="fi" id="pkTags" value="Afrobeat, Rap, Reggae, Trap, Lo-fi, Colombia, Independiente">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Estadísticas</p>
+        <div class="g2">
+          <div class="fg"><label class="fl">Años activo</label><input class="fi" id="pkAnios" value="12+"></div>
+          <div class="fg"><label class="fl">Géneros</label><input class="fi" id="pkGeneros" value="∞"></div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Videos embebidos (opcional)</p>
+        <div class="fg"><label class="fl">URL iframe 1 (YouTube embed)</label><input class="fi" id="pkVideo1" placeholder="https://www.youtube.com/embed/VIDEO_ID"></div>
+        <div class="fg"><label class="fl">URL iframe 2</label><input class="fi" id="pkVideo2" placeholder="https://www.youtube.com/embed/VIDEO_ID"></div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Link de descarga del presskit</p>
+        <div class="fg"><label class="fl">URL del PDF o carpeta de Drive</label><input class="fi" id="pkDownload" placeholder="https://drive.google.com/file/d/..."></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="guardarPresskit()">Guardar Cambios →</button>
+      </div>
+      <div id="pkOk" style="display:none;margin-top:1rem;border:1px solid var(--teal);padding:0.8rem 1rem;font-size:0.68rem;color:var(--teal)">✓ Presskit actualizado. Los cambios se aplicarán en el index.html en tu próximo deploy.</div>
+    </div>
+
   </div><!-- /main -->
 </div><!-- /app -->
 
@@ -247,6 +322,46 @@ tr:hover td{background:rgba(45,212,204,0.03)}
     <div class="btn-row">
       <button class="btn-primary" onclick="guardarBeat()">Guardar Beat →</button>
       <button class="btn-secondary" onclick="cerrarModal('modalBeat')">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PORTAFOLIO -->
+<div class="modal-bg" id="modalPortafolio">
+  <div class="modal">
+    <h2 class="modal-title" id="modalPortTitle">NUEVO <span>TRABAJO</span></h2>
+    <input type="hidden" id="portEditId">
+    <div class="fg"><label class="fl">Tipo *</label>
+      <select class="fi" id="portTipo">
+        <option value="mezcla">Mezcla</option>
+        <option value="master">Master</option>
+        <option value="mezcla+master">Mezcla + Master</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Título del proyecto *</label><input class="fi" id="portTitulo" placeholder="Ej: EP 'Nocturno' — Artista X"></div>
+    <div class="fg"><label class="fl">Artista</label><input class="fi" id="portArtista" placeholder="Nombre del artista"></div>
+    <div class="g2">
+      <div class="fg"><label class="fl">Género</label><input class="fi" id="portGenero" placeholder="Afrobeat, Trap..."></div>
+      <div class="fg"><label class="fl">Año</label><input class="fi" id="portAnio" type="number" placeholder="2026"></div>
+    </div>
+    <div class="form-title" style="margin-top:0.5rem">Links a plataformas</div>
+    <div class="g2">
+      <div class="fg"><label class="fl">Spotify</label><input class="fi" id="portSpotify" placeholder="https://open.spotify.com/..."></div>
+      <div class="fg"><label class="fl">Apple Music</label><input class="fi" id="portApple" placeholder="https://music.apple.com/..."></div>
+    </div>
+    <div class="g2">
+      <div class="fg"><label class="fl">YouTube / YouTube Music</label><input class="fi" id="portYoutube" placeholder="https://youtube.com/..."></div>
+      <div class="fg"><label class="fl">SoundCloud</label><input class="fi" id="portSoundcloud" placeholder="https://soundcloud.com/..."></div>
+    </div>
+    <div class="g2">
+      <div class="fg"><label class="fl">Deezer</label><input class="fi" id="portDeezer" placeholder="https://deezer.com/..."></div>
+      <div class="fg"><label class="fl">Tidal</label><input class="fi" id="portTidal" placeholder="https://tidal.com/..."></div>
+    </div>
+    <div class="fg"><label class="fl">Google Drive (archivo o preview)</label><input class="fi" id="portDrive" placeholder="https://drive.google.com/file/d/..."></div>
+    <div class="fg"><label class="fl">URL de carátula (imagen)</label><input class="fi" id="portCaratula" placeholder="https://drive.google.com/uc?export=view&id=..."></div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="guardarPortafolio()">Guardar →</button>
+      <button class="btn-secondary" onclick="cerrarModal('modalPortafolio')">Cancelar</button>
     </div>
   </div>
 </div>
@@ -512,10 +627,174 @@ function toast(msg, error) {
 }
 function cerrarModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// Cerrar modal al clic fuera
+// Cerrar modales al clic fuera
 document.getElementById('modalBeat').addEventListener('click', function(e) {
   if (e.target === this) cerrarModal('modalBeat');
 });
+document.getElementById('modalPortafolio').addEventListener('click', function(e) {
+  if (e.target === this) cerrarModal('modalPortafolio');
+});
+
+// ── PORTAFOLIO ──────────────────────────────────────────────────────────────
+var portData = [];
+var SUPA_URL = 'https://euaxqqdsxxzuwzauygtz.supabase.co';
+var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1YXhxcWRzeHh6dXd6YXV5Z3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1ODc2NzAsImV4cCI6MjA5NTE2MzY3MH0.BxZ4tRX1atxy-dE5UZ_wzTQcxw251P5MIKQya8jV0JQ';
+
+async function cargarPortafolio() {
+  var grid = document.getElementById('portafolioGrid');
+  grid.innerHTML = '<div class="loading-row" style="grid-column:1/-1">Cargando...</div>';
+  try {
+    var r = await fetch(SUPA_URL + '/rest/v1/portafolio?select=*&order=created_at.desc', {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+    });
+    portData = await r.json();
+    if (!Array.isArray(portData) || !portData.length) {
+      grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">◎</div>No hay trabajos. Agrega el primero.</div>';
+      return;
+    }
+    grid.innerHTML = portData.map(function(p) {
+      var links = [];
+      if (p.spotify_url) links.push('<a href="'+p.spotify_url+'" target="_blank" style="color:#1DB954;font-size:0.55rem;text-decoration:none">Spotify</a>');
+      if (p.youtube_url) links.push('<a href="'+p.youtube_url+'" target="_blank" style="color:#FF0000;font-size:0.55rem;text-decoration:none">YouTube</a>');
+      if (p.soundcloud_url) links.push('<a href="'+p.soundcloud_url+'" target="_blank" style="color:#FF5500;font-size:0.55rem;text-decoration:none">SoundCloud</a>');
+      return '<div class="beat-card-admin">' +
+        '<div class="bca-cover">' + (p.caratula_url ? '<img src="'+p.caratula_url+'" style="width:100%;height:100%;object-fit:cover">' : '<div class="bca-cover-placeholder">'+p.tipo.toUpperCase()+'</div>') + '</div>' +
+        '<div class="bca-body">' +
+          '<div class="bca-nombre">' + p.titulo + '</div>' +
+          '<div class="bca-meta">' + (p.artista||'—') + ' · ' + (p.genero||'—') + ' · ' + (p.anio||'—') + '</div>' +
+          '<div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin:0.5rem 0">' + links.join('') + '</div>' +
+          '<div class="bca-actions">' +
+            '<button class="btn-sm btn-edit" onclick="editarPortafolio(\''+p.id+'\')">Editar</button>' +
+            '<button class="btn-sm btn-del" onclick="eliminarPortafolio(\''+p.id+'\')">Eliminar</button>' +
+          '</div>' +
+        '</div></div>';
+    }).join('');
+  } catch(e) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Error: la tabla portafolio no existe aún. Créala en Supabase primero.</div>';
+  }
+}
+
+function abrirModalPortafolio() {
+  document.getElementById('portEditId').value = '';
+  ['portTitulo','portArtista','portGenero','portAnio','portSpotify','portApple',
+   'portYoutube','portSoundcloud','portDeezer','portTidal','portDrive','portCaratula']
+    .forEach(function(id){ document.getElementById(id).value = ''; });
+  document.getElementById('portTipo').value = 'mezcla';
+  document.getElementById('modalPortafolioTitle') && (document.getElementById('modalPortTitle').innerHTML = 'NUEVO <span>TRABAJO</span>');
+  document.getElementById('modalPortafolio').classList.add('open');
+}
+
+function editarPortafolio(id) {
+  var p = portData.find(function(x){ return x.id === id; });
+  if (!p) return;
+  document.getElementById('portEditId').value = p.id;
+  document.getElementById('portTitulo').value = p.titulo||''
+  document.getElementById('portArtista').value = p.artista||'';
+  document.getElementById('portGenero').value = p.genero||'';
+  document.getElementById('portAnio').value = p.anio||'';
+  document.getElementById('portTipo').value = p.tipo||'mezcla';
+  document.getElementById('portSpotify').value = p.spotify_url||'';
+  document.getElementById('portApple').value = p.apple_url||'';
+  document.getElementById('portYoutube').value = p.youtube_url||'';
+  document.getElementById('portSoundcloud').value = p.soundcloud_url||'';
+  document.getElementById('portDeezer').value = p.deezer_url||'';
+  document.getElementById('portTidal').value = p.tidal_url||'';
+  document.getElementById('portDrive').value = p.drive_url||'';
+  document.getElementById('portCaratula').value = p.caratula_url||'';
+  document.getElementById('modalPortTitle').innerHTML = 'EDITAR <span>TRABAJO</span>';
+  document.getElementById('modalPortafolio').classList.add('open');
+}
+
+async function guardarPortafolio() {
+  var titulo = document.getElementById('portTitulo').value.trim();
+  if (!titulo) { toast('El título es obligatorio', true); return; }
+  var editId = document.getElementById('portEditId').value;
+  var payload = {
+    titulo, tipo: document.getElementById('portTipo').value,
+    artista: document.getElementById('portArtista').value,
+    genero: document.getElementById('portGenero').value,
+    anio: parseInt(document.getElementById('portAnio').value)||null,
+    spotify_url: document.getElementById('portSpotify').value,
+    apple_url: document.getElementById('portApple').value,
+    youtube_url: document.getElementById('portYoutube').value,
+    soundcloud_url: document.getElementById('portSoundcloud').value,
+    deezer_url: document.getElementById('portDeezer').value,
+    tidal_url: document.getElementById('portTidal').value,
+    drive_url: document.getElementById('portDrive').value,
+    caratula_url: document.getElementById('portCaratula').value
+  };
+  try {
+    var url = SUPA_URL + '/rest/v1/portafolio' + (editId ? '?id=eq.'+editId : '');
+    var method = editId ? 'PATCH' : 'POST';
+    var r = await fetch(url, {
+      method, body: JSON.stringify(editId ? payload : [payload]),
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer '+SUPA_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }
+    });
+    if (r.ok || r.status === 201) {
+      toast(editId ? 'Trabajo actualizado ✓' : 'Trabajo agregado ✓');
+      cerrarModal('modalPortafolio'); cargarPortafolio();
+    } else { toast('Error al guardar', true); }
+  } catch(e) { toast('Error de conexión', true); }
+}
+
+async function eliminarPortafolio(id) {
+  if (!confirm('¿Eliminar este trabajo del portafolio?')) return;
+  await fetch(SUPA_URL+'/rest/v1/portafolio?id=eq.'+id, {
+    method: 'DELETE',
+    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer '+SUPA_KEY }
+  });
+  toast('Trabajo eliminado'); cargarPortafolio();
+}
+
+// ── PRESSKIT ────────────────────────────────────────────────────────────────
+function guardarPresskit() {
+  var datos = {
+    hero: document.getElementById('pkHero').value,
+    foto: document.getElementById('pkFoto').value,
+    quote: document.getElementById('pkQuote').value,
+    bio: document.getElementById('pkBio').value,
+    tags: document.getElementById('pkTags').value,
+    anios: document.getElementById('pkAnios').value,
+    generos: document.getElementById('pkGeneros').value,
+    video1: document.getElementById('pkVideo1').value,
+    video2: document.getElementById('pkVideo2').value,
+    download: document.getElementById('pkDownload').value
+  };
+  localStorage.setItem('nikkourza_presskit', JSON.stringify(datos));
+  // Preview
+  var heroImg = document.getElementById('pkHeroPreview');
+  var fotoImg = document.getElementById('pkFotoPreview');
+  if (heroImg) { heroImg.src = datos.hero; heroImg.style.display='block'; }
+  if (fotoImg) { fotoImg.src = datos.foto; fotoImg.style.display='block'; }
+  document.getElementById('pkOk').style.display='block';
+  toast('Presskit guardado ✓');
+}
+
+// Cargar datos guardados del presskit
+(function() {
+  try {
+    var saved = JSON.parse(localStorage.getItem('nikkourza_presskit')||'null');
+    if (saved) {
+      if(saved.hero) document.getElementById('pkHero').value=saved.hero;
+      if(saved.foto) document.getElementById('pkFoto').value=saved.foto;
+      if(saved.quote) document.getElementById('pkQuote').value=saved.quote;
+      if(saved.bio) document.getElementById('pkBio').value=saved.bio;
+      if(saved.tags) document.getElementById('pkTags').value=saved.tags;
+      if(saved.anios) document.getElementById('pkAnios').value=saved.anios;
+      if(saved.generos) document.getElementById('pkGeneros').value=saved.generos;
+      if(saved.video1) document.getElementById('pkVideo1').value=saved.video1;
+      if(saved.video2) document.getElementById('pkVideo2').value=saved.video2;
+      if(saved.download) document.getElementById('pkDownload').value=saved.download;
+    }
+  } catch(e){}
+})();
+
+// Extender showPage para portafolio y presskit
+var _origShowPage = showPage;
+showPage = function(id) {
+  _origShowPage && _origShowPage.call(this, id);
+  if (id==='portafolio') cargarPortafolio();
+};
 </script>
 </body>
 </html>
