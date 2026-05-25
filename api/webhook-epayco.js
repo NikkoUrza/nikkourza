@@ -5,10 +5,11 @@
 const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 const crypto = require('crypto');
+const crearCuentaCliente = require('./crear-cuenta');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
 );
 const resend = new Resend(process.env.RESEND_API_KEY);
 const SITE_URL = process.env.SITE_URL || 'https://nikkourza.vercel.app';
@@ -144,17 +145,31 @@ async function procesarVentaBeat({ referencia, email, nombre, monto, metodoPago,
     .single();
 
   if (ventaFinal && !ventaFinal.email_enviado) {
-    await enviarEmailDescarga({
+    const resCuenta = await crearCuentaCliente({
       email,
       nombre,
+      ventaId: ventaFinal.id,
       beatNombre: beatData.nombre || ventaFinal.beat_nombre,
       licencia: ventaFinal.licencia,
-      monto: ventaFinal.monto_usd,
-      token: ventaFinal.token_descarga,
-      ventaId: ventaFinal.id
+      token: ventaFinal.token_descarga
     });
 
-    await supabase.from('ventas').update({ email_enviado: true }).eq('id', ventaFinal.id);
+    if (resCuenta.ok) {
+      await supabase.from('ventas').update({ email_enviado: true }).eq('id', ventaFinal.id);
+    } else {
+      console.error('Error al procesar cuenta/email para la venta:', resCuenta.error);
+      // Fallback: si falla crear la cuenta, enviar al menos el email normal de descarga
+      await enviarEmailDescarga({
+        email,
+        nombre,
+        beatNombre: beatData.nombre || ventaFinal.beat_nombre,
+        licencia: ventaFinal.licencia,
+        monto: ventaFinal.monto_usd,
+        token: ventaFinal.token_descarga,
+        ventaId: ventaFinal.id
+      });
+      await supabase.from('ventas').update({ email_enviado: true }).eq('id', ventaFinal.id);
+    }
   }
 }
 

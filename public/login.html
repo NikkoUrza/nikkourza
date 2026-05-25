@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Cuenta — Nikko Urza</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cyan:#2DD4CC;--teal:#1BB8B0;--deep:#065E5A;--abyss:#061E1C;--warm:#F4F4F0;--black:#080C0C}
+html,body{min-height:100vh;background:var(--black);color:var(--warm);font-family:'Space Mono',monospace}
+body{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 20%,rgba(45,212,204,0.07),transparent 60%);pointer-events:none;z-index:0}
+
+.card{position:relative;z-index:1;width:100%;max-width:420px;border:1px solid rgba(45,212,204,0.18);background:rgba(6,30,28,0.5);padding:2.5rem}
+.logo{font-family:'Bebas Neue';font-size:1.2rem;letter-spacing:5px;color:var(--warm);margin-bottom:0.3rem;text-decoration:none;display:block}
+.logo span{color:var(--cyan)}
+.logo-sub{font-size:0.52rem;letter-spacing:3px;text-transform:uppercase;color:rgba(244,244,240,0.28);margin-bottom:2rem}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid rgba(45,212,204,0.15);margin-bottom:1.8rem}
+.tab{flex:1;background:transparent;border:none;color:rgba(244,244,240,0.35);font-family:'Space Mono';font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;padding:0.7rem;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+
+/* FORMS */
+.form{display:none}.form.active{display:block}
+.fg{margin-bottom:1rem}
+.fl{font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,240,0.35);display:block;margin-bottom:0.3rem}
+.fi{width:100%;background:transparent;border:1px solid rgba(45,212,204,0.18);color:var(--warm);font-family:'Space Mono';font-size:0.72rem;padding:0.65rem 0.9rem;outline:none;transition:border-color 0.2s}
+.fi:focus{border-color:var(--teal)}
+.fi::placeholder{color:rgba(244,244,240,0.18)}
+.fi.error{border-color:#f87171}
+.field-err{font-size:0.56rem;color:#f87171;margin-top:0.25rem;display:none}
+
+.btn-main{width:100%;background:var(--cyan);color:var(--abyss);border:none;font-family:'Space Mono';font-size:0.65rem;letter-spacing:2px;padding:0.9rem;cursor:pointer;font-weight:700;text-transform:uppercase;transition:background 0.2s;margin-top:0.5rem}
+.btn-main:hover{background:var(--teal)}
+.btn-main:disabled{opacity:0.5;cursor:not-allowed}
+
+.divider-text{text-align:center;font-size:0.56rem;letter-spacing:2px;color:rgba(244,244,240,0.2);margin:1.2rem 0;position:relative}
+.divider-text::before,.divider-text::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:rgba(45,212,204,0.1)}
+.divider-text::before{left:0}.divider-text::after{right:0}
+
+/* ALERTS */
+.alert{font-size:0.65rem;padding:0.8rem 1rem;margin-bottom:1rem;line-height:1.6;display:none}
+.alert.ok{border:1px solid var(--teal);background:rgba(45,212,204,0.06);color:var(--teal)}
+.alert.err{border:1px solid #f87171;background:rgba(248,113,113,0.07);color:#f87171}
+
+/* PASSWORD STRENGTH */
+.pw-strength{height:3px;background:rgba(45,212,204,0.08);margin-top:0.4rem;border-radius:2px;overflow:hidden}
+.pw-bar{height:100%;width:0;transition:all 0.3s;border-radius:2px}
+.pw-label{font-size:0.52rem;color:rgba(244,244,240,0.3);margin-top:0.2rem}
+
+/* FORGOT */
+.forgot{font-size:0.56rem;color:rgba(244,244,240,0.3);text-align:right;margin-top:0.3rem;cursor:pointer;transition:color 0.15s}
+.forgot:hover{color:var(--teal)}
+
+.back-link{font-size:0.58rem;color:rgba(244,244,240,0.28);text-decoration:none;display:flex;align-items:center;gap:0.4rem;margin-top:1.5rem;transition:color 0.15s}
+.back-link:hover{color:var(--teal)}
+
+/* RESET PASSWORD */
+#formReset{display:none}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="card">
+  <a href="index.html" class="logo">NIKKO <span>URZA</span></a>
+  <p class="logo-sub">Mi cuenta</p>
+
+  <div id="alertBox" class="alert"></div>
+
+  <!-- TABS -->
+  <div class="tabs" id="tabsRow">
+    <button class="tab active" onclick="showTab('login')">Iniciar sesión</button>
+    <button class="tab" onclick="showTab('registro')">Crear cuenta</button>
+  </div>
+
+  <!-- LOGIN -->
+  <div class="form active" id="formLogin">
+    <div class="fg">
+      <label class="fl">Email</label>
+      <input class="fi" type="email" id="loginEmail" placeholder="tu@email.com" onkeydown="if(event.key==='Enter')login()">
+    </div>
+    <div class="fg">
+      <label class="fl">Contraseña</label>
+      <input class="fi" type="password" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()">
+      <p class="forgot" onclick="showForgot()">¿Olvidaste tu contraseña?</p>
+    </div>
+    <button class="btn-main" id="btnLogin" onclick="login()">Entrar →</button>
+  </div>
+
+  <!-- REGISTRO -->
+  <div class="form" id="formRegistro">
+    <div class="fg">
+      <label class="fl">Tu nombre</label>
+      <input class="fi" type="text" id="regNombre" placeholder="¿Cómo te llamamos?">
+    </div>
+    <div class="fg">
+      <label class="fl">Email</label>
+      <input class="fi" type="email" id="regEmail" placeholder="tu@email.com">
+    </div>
+    <div class="fg">
+      <label class="fl">Contraseña</label>
+      <input class="fi" type="password" id="regPass" placeholder="Mínimo 8 caracteres" oninput="checkStrength(this.value)">
+      <div class="pw-strength"><div class="pw-bar" id="pwBar"></div></div>
+      <p class="pw-label" id="pwLabel"></p>
+    </div>
+    <div class="fg">
+      <label class="fl">WhatsApp (opcional)</label>
+      <input class="fi" type="tel" id="regWsp" placeholder="+57 300 000 0000">
+    </div>
+    <button class="btn-main" id="btnReg" onclick="registro()">Crear cuenta →</button>
+  </div>
+
+  <!-- RESET PASSWORD -->
+  <div id="formReset">
+    <p style="font-size:0.65rem;color:rgba(244,244,244,0.5);margin-bottom:1.2rem;line-height:1.7">
+      Ingresa tu email y te enviamos un link para restablecer tu contraseña.
+    </p>
+    <div class="fg">
+      <label class="fl">Email</label>
+      <input class="fi" type="email" id="resetEmail" placeholder="tu@email.com" onkeydown="if(event.key==='Enter')resetPass()">
+    </div>
+    <button class="btn-main" onclick="resetPass()">Enviar link →</button>
+    <p class="forgot" style="margin-top:1rem;text-align:center" onclick="showTab('login')">← Volver al login</p>
+  </div>
+
+  <a href="index.html" class="back-link">← Volver al sitio</a>
+</div>
+
+<script>
+var SUPABASE_URL = 'https://euaxqqdsxxzuwzauygtz.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1YXhxcWRzeHh6dXd6YXV5Z3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1ODc2NzAsImV4cCI6MjA5NTE2MzY3MH0.BxZ4tRX1atxy-dE5UZ_wzTQcxw251P5MIKQya8jV0JQ';
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── Verificar si ya está logueado ──────────────────────────
+(async function() {
+  var { data } = await sb.auth.getSession();
+  if (data.session) {
+    window.location.href = 'cuenta.html';
+  }
+  // Manejar link de activación / reset
+  var hash = window.location.hash;
+  if (hash.includes('type=recovery') || hash.includes('type=magiclink')) {
+    var params = new URLSearchParams(hash.substring(1));
+    var type = params.get('type');
+    if (type === 'recovery' || type === 'magiclink') {
+      mostrarFormReset();
+    }
+  }
+})();
+
+function showTab(tab) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.form').forEach(function(f){ f.classList.remove('active'); });
+  document.getElementById('formReset').style.display = 'none';
+  document.getElementById('tabsRow').style.display = 'flex';
+  var activeTab = tab === 'login' ? 0 : 1;
+  document.querySelectorAll('.tab')[activeTab].classList.add('active');
+  document.getElementById('form' + (tab === 'login' ? 'Login' : 'Registro')).classList.add('active');
+  clearAlert();
+}
+
+function showForgot() {
+  document.querySelectorAll('.form').forEach(function(f){ f.classList.remove('active'); });
+  document.getElementById('formReset').style.display = 'block';
+  document.getElementById('tabsRow').style.display = 'none';
+  clearAlert();
+}
+
+function mostrarFormReset() {
+  document.querySelectorAll('.form').forEach(function(f){ f.classList.remove('active'); });
+  document.getElementById('formReset').style.display = 'none';
+  document.getElementById('tabsRow').style.display = 'none';
+  // Mostrar form de nueva contraseña
+  var resetCard = document.querySelector('.card');
+  resetCard.innerHTML = resetCard.innerHTML + '<div id="newPassForm" style="margin-top:1rem"></div>';
+  document.getElementById('newPassForm').innerHTML =
+    '<p style="font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:1rem">Nueva contraseña</p>' +
+    '<div class="fg"><label class="fl">Nueva contraseña</label><input class="fi" type="password" id="newPass1" placeholder="Mínimo 8 caracteres"></div>' +
+    '<div class="fg"><label class="fl">Confirmar contraseña</label><input class="fi" type="password" id="newPass2" placeholder="Repite la contraseña"></div>' +
+    '<button class="btn-main" onclick="guardarNuevaPass()">Guardar y acceder →</button>';
+}
+
+async function guardarNuevaPass() {
+  var p1 = document.getElementById('newPass1').value;
+  var p2 = document.getElementById('newPass2').value;
+  if (!p1 || p1.length < 8) { showAlert('La contraseña debe tener al menos 8 caracteres', 'err'); return; }
+  if (p1 !== p2) { showAlert('Las contraseñas no coinciden', 'err'); return; }
+  var { error } = await sb.auth.updateUser({ password: p1 });
+  if (error) { showAlert(error.message, 'err'); return; }
+  showAlert('✓ Contraseña actualizada. Redirigiendo...', 'ok');
+  setTimeout(function(){ window.location.href = 'cuenta.html'; }, 1500);
+}
+
+async function login() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var pass = document.getElementById('loginPass').value;
+  var btn = document.getElementById('btnLogin');
+  if (!email || !pass) { showAlert('Por favor completa todos los campos', 'err'); return; }
+  btn.disabled = true; btn.textContent = 'Entrando...';
+  var { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false; btn.textContent = 'Entrar →';
+  if (error) {
+    var msg = error.message.includes('Invalid') ? 'Email o contraseña incorrectos'
+      : error.message.includes('confirm') ? 'Debes confirmar tu email primero. Revisa tu bandeja de entrada.'
+      : error.message;
+    showAlert(msg, 'err');
+    return;
+  }
+  window.location.href = 'cuenta.html';
+}
+
+async function registro() {
+  var nombre = document.getElementById('regNombre').value.trim();
+  var email = document.getElementById('regEmail').value.trim();
+  var pass = document.getElementById('regPass').value;
+  var wsp = document.getElementById('regWsp').value.trim();
+  var btn = document.getElementById('btnReg');
+
+  if (!nombre) { showAlert('Por favor ingresa tu nombre', 'err'); return; }
+  if (!email || !email.includes('@')) { showAlert('Email inválido', 'err'); return; }
+  if (!pass || pass.length < 8) { showAlert('La contraseña debe tener al menos 8 caracteres', 'err'); return; }
+
+  btn.disabled = true; btn.textContent = 'Creando cuenta...';
+
+  var { error } = await sb.auth.signUp({
+    email, password: pass,
+    options: {
+      data: { nombre, whatsapp: wsp },
+      emailRedirectTo: 'https://nikkourza.com/cuenta.html'
+    }
+  });
+
+  btn.disabled = false; btn.textContent = 'Crear cuenta →';
+
+  if (error) {
+    var msg = error.message.includes('already') ? 'Ya existe una cuenta con ese email. Inicia sesión.'
+      : error.message;
+    showAlert(msg, 'err');
+    return;
+  }
+
+  showAlert('✓ Cuenta creada. Revisa tu email para confirmar y activar tu cuenta.', 'ok');
+}
+
+async function resetPass() {
+  var email = document.getElementById('resetEmail').value.trim();
+  if (!email) { showAlert('Ingresa tu email', 'err'); return; }
+  var { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://nikkourza.com/login.html#type=recovery'
+  });
+  if (error) { showAlert(error.message, 'err'); return; }
+  showAlert('✓ Te enviamos un link para restablecer tu contraseña. Revisa tu bandeja de entrada.', 'ok');
+}
+
+function checkStrength(val) {
+  var bar = document.getElementById('pwBar');
+  var lbl = document.getElementById('pwLabel');
+  if (!bar) return;
+  var score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  var colors = ['#ef4444','#f97316','#eab308','#22c55e'];
+  var labels = ['Muy débil','Débil','Buena','Fuerte'];
+  bar.style.width = (score * 25) + '%';
+  bar.style.background = colors[score-1] || '#ef4444';
+  lbl.textContent = val.length > 0 ? labels[score-1] || 'Muy débil' : '';
+}
+
+function showAlert(msg, type) {
+  var a = document.getElementById('alertBox');
+  a.textContent = msg; a.className = 'alert ' + type; a.style.display = 'block';
+}
+function clearAlert() {
+  var a = document.getElementById('alertBox');
+  a.style.display = 'none'; a.textContent = '';
+}
+</script>
+</body>
+</html>

@@ -574,16 +574,11 @@ async function cargarServicios() {
   var tb = document.getElementById('tbServicios');
   tb.innerHTML = '<tr><td colspan="9" class="loading-row">Cargando...</td></tr>';
   try {
-    var res = await fetch(API_URL.replace('/api','') + '/api/ventas', {
+    var sr = await fetch(API_URL + '/api/servicios', {
       headers: { 'x-admin-secret': ADMIN_SECRET }
     });
-    // Usar Supabase directamente para servicios
-    var SUPA_URL = 'https://euaxqqdsxxzuwzauygtz.supabase.co';
-    var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1YXhxcWRzeHh6dXd6YXV5Z3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1ODc2NzAsImV4cCI6MjA5NTE2MzY3MH0.BxZ4tRX1atxy-dE5UZ_wzTQcxw251P5MIKQya8jV0JQ';
-    var sr = await fetch(SUPA_URL + '/rest/v1/servicios_contratados?select=*&order=created_at.desc', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
-    });
-    var servicios = await sr.json();
+    var data = await sr.json();
+    var servicios = data.servicios || [];
     if (!servicios || !servicios.length) {
       tb.innerHTML = '<tr><td colspan="9" class="empty">Sin servicios contratados</td></tr>';
       return;

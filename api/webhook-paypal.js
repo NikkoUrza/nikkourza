@@ -6,10 +6,11 @@ const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 const crypto = require('crypto');
 const fetch = require('node-fetch');
+const crearCuentaCliente = require('./crear-cuenta');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY
+  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
 );
 const resend = new Resend(process.env.RESEND_API_KEY);
 const SITE_URL = process.env.SITE_URL || 'https://nikkourza.vercel.app';
@@ -136,27 +137,30 @@ async function procesarVentaBeatPayPal({ referencia, email, nombre, monto, itemN
   if (venta && !venta.email_enviado) {
     const linkDescarga = `${SITE_URL}/descarga?token=${token}`;
 
-    // Obtener URL de Drive según licencia
-    let driveUrl = null;
-    if (venta.beat_id) {
-      const { data: beat } = await supabase.from('beats').select('*').eq('id', venta.beat_id).single();
-      if (beat) {
-        driveUrl = venta.licencia === 'premium' ? beat.drive_premium_url
-          : venta.licencia === 'exclusiva' ? beat.drive_excl_url
-          : beat.drive_basic_url;
-      }
-    }
-
-    await enviarEmailDescarga({
-      email, nombre,
+    const resCuenta = await crearCuentaCliente({
+      email,
+      nombre,
+      ventaId: venta.id,
       beatNombre: venta.beat_nombre,
       licencia: venta.licencia,
-      monto: venta.monto_usd,
-      token,
-      linkDescarga
+      token
     });
 
-    await supabase.from('ventas').update({ email_enviado: true }).eq('id', venta.id);
+    if (resCuenta.ok) {
+      await supabase.from('ventas').update({ email_enviado: true }).eq('id', venta.id);
+    } else {
+      console.error('Error al procesar cuenta/email para la venta PayPal:', resCuenta.error);
+      // Fallback: si falla crear la cuenta, enviar al menos el email normal de descarga
+      await enviarEmailDescarga({
+        email, nombre,
+        beatNombre: venta.beat_nombre,
+        licencia: venta.licencia,
+        monto: venta.monto_usd,
+        token,
+        linkDescarga
+      });
+      await supabase.from('ventas').update({ email_enviado: true }).eq('id', venta.id);
+    }
   }
 }
 

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mi Cuenta — Nikko Urza</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cyan:#2DD4CC;--teal:#1BB8B0;--deep:#065E5A;--abyss:#061E1C;--warm:#F4F4F0;--black:#080C0C;--border:rgba(45,212,204,0.15)}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--warm);font-family:'Space Mono',monospace;min-height:100vh}
+
+/* HEADER */
+.header{border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(6,8,8,0.92);position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.header-logo{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:4px;text-decoration:none;color:var(--warm)}
+.header-logo span{color:var(--cyan)}
+.header-right{display:flex;align-items:center;gap:1.2rem}
+.user-name{font-size:0.6rem;letter-spacing:1px;color:rgba(244,244,244,0.45)}
+.btn-logout{background:transparent;border:1px solid rgba(244,244,240,0.12);color:rgba(244,244,244,0.35);font-family:'Space Mono';font-size:0.56rem;letter-spacing:1px;padding:0.3rem 0.75rem;cursor:pointer;text-transform:uppercase;transition:all 0.15s}
+.btn-logout:hover{border-color:rgba(244,244,240,0.3);color:var(--warm)}
+
+/* MAIN */
+.main{max-width:900px;margin:0 auto;padding:2.5rem 2rem}
+.section-title{font-family:'Bebas Neue';font-size:1.8rem;letter-spacing:3px;margin-bottom:0.3rem}
+.section-title span{color:var(--cyan)}
+.section-sub{font-size:0.58rem;color:rgba(244,244,244,0.35);margin-bottom:2rem;letter-spacing:1px}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2.5rem}
+.stat{border:1px solid var(--border);background:rgba(6,30,28,0.4);padding:1.2rem}
+.stat-num{font-family:'Bebas Neue';font-size:2rem;color:var(--cyan);display:block;line-height:1}
+.stat-lbl{font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,244,0.3);margin-top:0.3rem}
+
+/* LICENCIAS */
+.licencias-grid{display:flex;flex-direction:column;gap:1rem;margin-bottom:2.5rem}
+
+.lic-item{border:1px solid var(--border);background:rgba(6,30,28,0.35);overflow:hidden;transition:border-color 0.2s}
+.lic-item:hover{border-color:rgba(45,212,204,0.3)}
+.lic-header{display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:center;padding:1.2rem 1.4rem;cursor:pointer}
+.lic-cover{width:56px;height:56px;background:linear-gradient(135deg,var(--deep),var(--abyss));display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden}
+.lic-cover img{width:100%;height:100%;object-fit:cover}
+.lic-cover-txt{font-family:'Bebas Neue';font-size:0.7rem;color:rgba(45,212,204,0.35);letter-spacing:2px;text-align:center;line-height:1.2}
+.lic-info{}
+.lic-beat{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:1px;color:var(--warm);margin-bottom:0.15rem}
+.lic-meta{font-size:0.58rem;color:rgba(244,244,244,0.38);line-height:1.6}
+.lic-badge{font-size:0.5rem;letter-spacing:2px;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:2px;display:inline-block;margin-top:0.2rem}
+.lic-badge.basic{background:rgba(244,244,240,0.08);color:rgba(244,244,240,0.5);border:1px solid rgba(244,244,240,0.15)}
+.lic-badge.premium{background:rgba(45,212,204,0.1);color:var(--teal);border:1px solid rgba(45,212,204,0.25)}
+.lic-badge.exclusiva{background:rgba(251,191,36,0.1);color:#fbbf24;border:1px solid rgba(251,191,36,0.25)}
+.lic-actions{display:flex;flex-direction:column;gap:0.4rem;align-items:flex-end}
+
+/* BOTONES */
+.btn-dl{background:var(--cyan);color:var(--abyss);border:none;font-family:'Space Mono';font-size:0.55rem;letter-spacing:1px;padding:0.45rem 0.9rem;cursor:pointer;font-weight:700;text-transform:uppercase;transition:background 0.15s;text-decoration:none;display:inline-block;white-space:nowrap}
+.btn-dl:hover{background:var(--teal)}
+.btn-contrato{background:transparent;border:1px solid rgba(45,212,204,0.22);color:var(--teal);font-family:'Space Mono';font-size:0.52rem;letter-spacing:1px;padding:0.4rem 0.85rem;cursor:pointer;text-transform:uppercase;transition:all 0.15s;text-decoration:none;display:inline-block;white-space:nowrap}
+.btn-contrato:hover{background:rgba(45,212,204,0.08)}
+
+/* DETALLE EXPANDIBLE */
+.lic-detail{display:none;border-top:1px solid rgba(45,212,204,0.1);padding:1.2rem 1.4rem;background:rgba(6,8,8,0.4)}
+.lic-detail.open{display:block}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.4rem}
+.detail-row{display:flex;justify-content:space-between;padding:0.3rem 0;border-bottom:1px solid rgba(45,212,204,0.06);font-size:0.62rem}
+.detail-row:last-child{border-bottom:none}
+.detail-lbl{color:rgba(244,244,244,0.35)}
+.detail-val{color:var(--warm)}
+
+/* PERFIL */
+.perfil-card{border:1px solid var(--border);background:rgba(6,30,28,0.35);padding:1.5rem;margin-bottom:2rem}
+.perfil-title{font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:1.2rem}
+.fg{margin-bottom:0.9rem}
+.fl{font-size:0.52rem;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,244,0.32);display:block;margin-bottom:0.28rem}
+.fi{width:100%;background:transparent;border:1px solid rgba(45,212,204,0.17);color:var(--warm);font-family:'Space Mono';font-size:0.7rem;padding:0.6rem 0.85rem;outline:none;transition:border-color 0.2s;max-width:420px}
+.fi:focus{border-color:var(--teal)}
+.btn-save{background:var(--cyan);color:var(--abyss);border:none;font-family:'Space Mono';font-size:0.6rem;letter-spacing:2px;padding:0.7rem 1.5rem;cursor:pointer;font-weight:700;text-transform:uppercase;transition:background 0.2s}
+.btn-save:hover{background:var(--teal)}
+
+/* EMPTY */
+.empty{text-align:center;padding:3rem 1rem;border:1px dashed rgba(45,212,204,0.12)}
+.empty-icon{font-size:2rem;opacity:0.3;margin-bottom:0.8rem}
+.empty-txt{font-size:0.65rem;color:rgba(244,244,244,0.3);line-height:1.8}
+.empty-cta{display:inline-block;margin-top:1rem;background:var(--cyan);color:var(--abyss);text-decoration:none;font-family:'Space Mono';font-size:0.62rem;letter-spacing:2px;padding:0.75rem 1.5rem;font-weight:700;text-transform:uppercase}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid rgba(45,212,204,0.12);margin-bottom:2rem}
+.tab{background:transparent;border:none;color:rgba(244,244,244,0.35);font-family:'Space Mono';font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;padding:0.65rem 1.2rem;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s}
+.tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+
+/* LOADING */
+.loading{text-align:center;padding:2rem;font-size:0.62rem;letter-spacing:2px;color:rgba(244,244,244,0.28)}
+.spinner{width:32px;height:32px;border:2px solid rgba(45,212,204,0.1);border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 0.8rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;z-index:999;border:1px solid var(--teal);background:rgba(6,30,28,0.95);color:var(--teal);font-size:0.62rem;padding:0.75rem 1.2rem;letter-spacing:1px;opacity:0;transform:translateY(6px);transition:all 0.22s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="index.html" class="header-logo">NIKKO <span>URZA</span></a>
+  <div class="header-right">
+    <span class="user-name" id="userName">Cargando...</span>
+    <button class="btn-logout" onclick="logout()">Salir</button>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LOADING INICIAL -->
+  <div class="loading" id="loadingState">
+    <div class="spinner"></div>
+    <p>Cargando tu cuenta...</p>
+  </div>
+
+  <!-- CONTENIDO -->
+  <div id="mainContent" style="display:none">
+
+    <!-- STATS -->
+    <div class="stats">
+      <div class="stat"><span class="stat-num" id="statLics">0</span><span class="stat-lbl">Licencias activas</span></div>
+      <div class="stat"><span class="stat-num" id="statDesc">0</span><span class="stat-lbl">Descargas totales</span></div>
+      <div class="stat"><span class="stat-num" id="statGasto">$0</span><span class="stat-lbl">Total invertido (USD)</span></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab active" onclick="showSection('licencias', this)">Mis Licencias</button>
+      <button class="tab" onclick="showSection('perfil', this)">Mi Perfil</button>
+    </div>
+
+    <!-- LICENCIAS -->
+    <div id="secLicencias">
+      <h2 class="section-title">MIS <span>LICENCIAS</span></h2>
+      <p class="section-sub">Todos tus beats comprados — descarga cuando quieras</p>
+      <div class="licencias-grid" id="licenciasGrid">
+        <div class="loading"><div class="spinner"></div><p>Cargando...</p></div>
+      </div>
+    </div>
+
+    <!-- PERFIL -->
+    <div id="secPerfil" style="display:none">
+      <h2 class="section-title">MI <span>PERFIL</span></h2>
+      <p class="section-sub">Actualiza tus datos de contacto</p>
+      <div class="perfil-card">
+        <p class="perfil-title">Datos personales</p>
+        <div class="fg"><label class="fl">Email</label><input class="fi" id="perfilEmail" type="email" disabled style="opacity:0.45"></div>
+        <div class="fg"><label class="fl">Nombre</label><input class="fi" id="perfilNombre" type="text" placeholder="Tu nombre artístico o real"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="perfilWsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <button class="btn-save" onclick="guardarPerfil()">Guardar cambios →</button>
+      </div>
+      <div class="perfil-card">
+        <p class="perfil-title">Cambiar contraseña</p>
+        <div class="fg"><label class="fl">Nueva contraseña</label><input class="fi" id="newPass" type="password" placeholder="Mínimo 8 caracteres"></div>
+        <button class="btn-save" onclick="cambiarPass()">Actualizar contraseña →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+var SUPABASE_URL = 'https://euaxqqdsxxzuwzauygtz.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1YXhxcWRzeHh6dXd6YXV5Z3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1ODc2NzAsImV4cCI6MjA5NTE2MzY3MH0.BxZ4tRX1atxy-dE5UZ_wzTQcxw251P5MIKQya8jV0JQ';
+var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+var currentUser = null;
+
+// ── INIT ──────────────────────────────────────────────────
+(async function init() {
+  var { data: { session } } = await sb.auth.getSession();
+  if (!session) {
+    window.location.href = 'login.html';
+    return;
+  }
+  currentUser = session.user;
+  document.getElementById('userName').textContent = currentUser.user_metadata?.nombre || currentUser.email;
+  document.getElementById('loadingState').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+  cargarLicencias();
+  cargarPerfil();
+})();
+
+// ── LICENCIAS ──────────────────────────────────────────────
+async function cargarLicencias() {
+  var grid = document.getElementById('licenciasGrid');
+  try {
+    var { data: ventas, error } = await sb
+      .from('ventas')
+      .select('*')
+      .or('cliente_id.eq.' + currentUser.id + ',comprador_email.eq.' + currentUser.email)
+      .eq('estado', 'confirmado')
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+
+    // Actualizar stats
+    var totalDesc = ventas?.reduce(function(s,v){ return s + (v.descargas||0); }, 0) || 0;
+    var totalGasto = ventas?.reduce(function(s,v){ return s + (v.monto_usd||0); }, 0) || 0;
+    document.getElementById('statLics').textContent = ventas?.length || 0;
+    document.getElementById('statDesc').textContent = totalDesc;
+    document.getElementById('statGasto').textContent = '$' + totalGasto.toFixed(0);
+
+    if (!ventas || !ventas.length) {
+      grid.innerHTML = '<div class="empty">' +
+        '<div class="empty-icon">♪</div>' +
+        '<p class="empty-txt">Aún no tienes beats comprados.<br>Explora la tienda y encuentra el sonido que buscas.</p>' +
+        '<a href="index.html#beats" class="empty-cta">Ver Beats →</a>' +
+      '</div>';
+      return;
+    }
+
+    grid.innerHTML = ventas.map(function(v, i) {
+      var licClase = v.licencia === 'premium' ? 'premium' : v.licencia === 'exclusiva' ? 'exclusiva' : 'basic';
+      var fechaStr = new Date(v.created_at).toLocaleDateString('es-CO', { day:'2-digit', month:'long', year:'numeric' });
+      var descLink = v.token_descarga ? 'descarga.html?token=' + v.token_descarga : '#';
+      var contratoLink = v.contrato_url || '#';
+
+      return '<div class="lic-item" id="li-' + i + '">' +
+        '<div class="lic-header" onclick="toggleDetail(' + i + ')">' +
+          '<div class="lic-cover">' +
+            (v.caratula_url
+              ? '<img src="' + v.caratula_url + '" alt="' + (v.beat_nombre||'Beat') + '">'
+              : '<div class="lic-cover-txt">' + (v.beat_nombre||'BEAT').substring(0,4) + '</div>') +
+          '</div>' +
+          '<div class="lic-info">' +
+            '<p class="lic-beat">' + (v.beat_nombre||'Beat') + '</p>' +
+            '<p class="lic-meta">Comprado el ' + fechaStr + ' · ' + (v.metodo_pago||'—') + '</p>' +
+            '<span class="lic-badge ' + licClase + '">' + (v.licencia||'basic').toUpperCase() + '</span>' +
+          '</div>' +
+          '<div class="lic-actions">' +
+            '<a href="' + descLink + '" class="btn-dl" ' + (v.token_descarga ? '' : 'style="opacity:0.4;pointer-events:none"') + '>↓ Descargar</a>' +
+            '<a href="' + contratoLink + '" class="btn-contrato" target="_blank" ' + (v.contrato_url ? '' : 'style="opacity:0.4;pointer-events:none"') + '>📄 Contrato</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="lic-detail" id="ld-' + i + '">' +
+          '<div class="detail-grid">' +
+            '<div>' +
+              detalleRow('Beat', v.beat_nombre||'—') +
+              detalleRow('Licencia', (v.licencia||'—').toUpperCase()) +
+              detalleRow('Monto', '$' + (v.monto_usd||0) + ' USD') +
+              detalleRow('Método de pago', v.metodo_pago||'—') +
+            '</div>' +
+            '<div>' +
+              detalleRow('Fecha de compra', fechaStr) +
+              detalleRow('Descargas realizadas', v.descargas||0) +
+              detalleRow('Estado', '✓ Confirmado') +
+              detalleRow('Referencia', (v.referencia_pago||'—').substring(0,20)) +
+            '</div>' +
+          '</div>' +
+          '<div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid rgba(45,212,204,0.08)">' +
+            '<p style="font-size:0.58rem;color:rgba(244,244,244,0.3);line-height:1.7">' +
+            '¿Dudas sobre tu licencia? <a href="https://wa.me/573046455070" style="color:var(--teal)">Escríbele a Nikko por WhatsApp</a>' +
+            '</p>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+  } catch(err) {
+    grid.innerHTML = '<div class="empty"><p class="empty-txt">Error cargando tus licencias. Intenta recargar la página.</p></div>';
+    console.error(err);
+  }
+}
+
+function detalleRow(lbl, val) {
+  return '<div class="detail-row"><span class="detail-lbl">' + lbl + '</span><span class="detail-val">' + val + '</span></div>';
+}
+
+function toggleDetail(i) {
+  var d = document.getElementById('ld-' + i);
+  if (d) d.classList.toggle('open');
+}
+
+// ── PERFIL ──────────────────────────────────────────────────
+async function cargarPerfil() {
+  document.getElementById('perfilEmail').value = currentUser.email;
+  var meta = currentUser.user_metadata || {};
+  document.getElementById('perfilNombre').value = meta.nombre || '';
+  document.getElementById('perfilWsp').value = meta.whatsapp || '';
+}
+
+async function guardarPerfil() {
+  var nombre = document.getElementById('perfilNombre').value.trim();
+  var wsp = document.getElementById('perfilWsp').value.trim();
+  var { error } = await sb.auth.updateUser({ data: { nombre, whatsapp: wsp } });
+  if (error) { toast('Error: ' + error.message, true); return; }
+  // Actualizar tabla clientes
+  await sb.from('clientes').upsert({ id: currentUser.id, nombre, whatsapp: wsp });
+  toast('✓ Perfil actualizado');
+}
+
+async function cambiarPass() {
+  var pass = document.getElementById('newPass').value;
+  if (!pass || pass.length < 8) { toast('La contraseña debe tener al menos 8 caracteres', true); return; }
+  var { error } = await sb.auth.updateUser({ password: pass });
+  if (error) { toast('Error: ' + error.message, true); return; }
+  document.getElementById('newPass').value = '';
+  toast('✓ Contraseña actualizada');
+}
+
+// ── NAVEGACIÓN ──────────────────────────────────────────────
+function showSection(id, el) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('secLicencias').style.display = id === 'licencias' ? 'block' : 'none';
+  document.getElementById('secPerfil').style.display = id === 'perfil' ? 'block' : 'none';
+}
+
+async function logout() {
+  await sb.auth.signOut();
+  window.location.href = 'index.html';
+}
+
+function toast(msg, err) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (err ? ' error' : '') + ' show';
+  setTimeout(function(){ t.className = 'toast' + (err ? ' error' : ''); }, 2500);
+}
+</script>
+</body>
+</html>
