@@ -165,7 +165,7 @@ section{padding:5.5rem 3rem}
 .ptab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
 .ptab:hover{color:var(--warm)}
 .port-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.2rem}
-.pc{border:1px solid rgba(45,212,204,0.1);background:rgba(45,212,204,0.02);transition:all 0.22s;cursor:pointer;overflow:hidden;position:relative}
+.pc{border:1px solid rgba(45,212,204,0.1);background:rgba(45,212,204,0.02);transition:all 0.22s;cursor:pointer;overflow:hidden}
 .pc:hover{border-color:rgba(45,212,204,0.32);transform:translateY(-4px)}
 .pc-cover{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .pc-play{position:absolute;width:42px;height:42px;background:var(--cyan);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s}
@@ -599,7 +599,6 @@ footer{
     <li><a href="#servicios" onclick="closeNav()">Servicios</a></li>
     <li><a href="#contacto" onclick="closeNav()">Contacto</a></li>
     <li><a href="nikko-urza-landing.html" style="color:var(--cyan)">Link in Bio ↗</a></li>
-    <li><a href="login.html" style="color:var(--warm);border:1px solid rgba(45,212,204,0.3);padding:0.3rem 0.8rem;letter-spacing:2px">Mi Cuenta</a></li>
   </ul>
   <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menú">
     <span></span><span></span><span></span>
@@ -609,14 +608,13 @@ footer{
 <!-- ===== HERO ===== -->
 <section id="hero">
   <div class="hero-bg"></div>
-  <div style="position:absolute;inset:0;z-index:0;overflow:hidden"><img src="Images/HomePortada.png" alt="Nikko Urza" style="width:100%;height:100%;object-fit:cover;opacity:0.18;filter:grayscale(30%)"></div>
   <p class="hero-label">Cantante · Productor · Colombia</p>
   <h1 class="hero-title">NIKKO<span>URZA</span></h1>
   <p class="hero-sub">Artista independiente<br>Música como acto filosófico.</p>
   <div class="hero-ctas">
-    <a href="#beats" class="btn-p">Ver Beats</a>
-    <a href="#servicios" class="btn-o">Contratar Servicios</a>
-    <a href="#presskit" class="btn-o">Presskit</a>
+    <a href="#beats" class="btn-p" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'});return false;">Ver Beats</a>
+    <a href="#servicios" class="btn-o" onclick="document.getElementById('servicios').scrollIntoView({behavior:'smooth'});return false;">Contratar Servicios</a>
+    <a href="#presskit" class="btn-o" onclick="document.getElementById('presskit').scrollIntoView({behavior:'smooth'});return false;">Presskit</a>
   </div>
   <span class="hero-scroll">Scroll para explorar</span>
 </section>
@@ -636,16 +634,9 @@ footer{
         <span class="tag">Colombia</span><span class="tag">Independiente</span>
       </div>
       <button class="press-dl">↓ Descargar Presskit Completo</button>
-      <div style="margin-top:2rem">
-        <p style="font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.55);margin-bottom:0.8rem">Mi música en SoundCloud</p>
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
-          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
-          style="border:1px solid rgba(45,212,204,0.15)">
-        </iframe>
-      </div>
     </div>
     <div>
-      <div class="press-img"><img src="Images/PressKit.png" alt="Nikko Urza Presskit" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1"></div>
+      <div class="press-img"><div class="press-img-txt">NIKKO<br>URZA</div></div>
       <div class="press-stats">
         <div class="stat-card"><span class="stat-num">12+</span><span class="stat-lbl">Años activo</span></div>
         <div class="stat-card"><span class="stat-num">∞</span><span class="stat-lbl">Géneros</span></div>
@@ -667,12 +658,8 @@ footer{
     <button class="ptab" onclick="filterPort('master',this)">Masters</button>
     <button class="ptab" onclick="filterPort('beat',this)">Beats</button>
   </div>
-  <!-- Artistas para mezclas y masters — links a plataformas -->
-  <div id="portMeta" style="display:none;margin-bottom:1.5rem;padding:1rem;border:1px solid rgba(45,212,204,0.12);background:rgba(6,30,28,0.4);font-size:0.65rem;color:rgba(244,244,240,0.5);line-height:1.8">
-    <span id="portMetaTxt"></span>
-  </div>
   <div class="port-grid" id="portGrid">
-    <div class="pc" data-t="mezcla" data-artista="Artista Ejemplo" data-plataforma="https://open.spotify.com"><div class="pc-cover" style="background:linear-gradient(135deg,#065E5A,#061E1C)"><svg width="70%" viewBox="0 0 200 60" fill="none"><path d="M0 30 Q25 10 50 30 Q75 50 100 30 Q125 10 150 30 Q175 50 200 30" stroke="#2DD4CC" stroke-width="2" fill="none" opacity="0.5"/></svg><div class="pc-play"></div></div><div class="pc-info"><p class="pc-type">Mezcla</p><p class="pc-title">Proyecto Alfa</p><p class="pc-meta">Afrobeat · 2026</p></div></div>
+    <div class="pc" data-t="mezcla"><div class="pc-cover" style="background:linear-gradient(135deg,#065E5A,#061E1C)"><svg width="70%" viewBox="0 0 200 60" fill="none"><path d="M0 30 Q25 10 50 30 Q75 50 100 30 Q125 10 150 30 Q175 50 200 30" stroke="#2DD4CC" stroke-width="2" fill="none" opacity="0.5"/></svg><div class="pc-play"></div></div><div class="pc-info"><p class="pc-type">Mezcla</p><p class="pc-title">Proyecto Alfa</p><p class="pc-meta">Afrobeat · 2026</p></div></div>
     <div class="pc" data-t="master"><div class="pc-cover" style="background:linear-gradient(135deg,#0D9990,#065E5A)"><svg width="70%" viewBox="0 0 200 60" fill="none"><path d="M0 30 Q20 5 40 30 Q60 55 80 30 Q100 5 120 30 Q140 55 160 30 Q180 5 200 30" stroke="#2DD4CC" stroke-width="2" fill="none" opacity="0.5"/></svg><div class="pc-play"></div></div><div class="pc-info"><p class="pc-type">Master</p><p class="pc-title">Sin Permiso</p><p class="pc-meta">Trap · 2025</p></div></div>
     <div class="pc" data-t="beat"><div class="pc-cover" style="background:linear-gradient(135deg,#1BB8B0,#0D9990)"><svg width="70%" viewBox="0 0 200 60" fill="none"><path d="M0 20 Q10 8 20 28 Q30 48 40 18 Q50 4 60 28 Q70 52 80 22 Q90 8 100 32 Q110 52 120 18 Q130 4 140 28 Q150 50 160 18 Q170 4 180 28 Q190 50 200 22" stroke="#2DD4CC" stroke-width="2" fill="none" opacity="0.5"/></svg><div class="pc-play"></div></div><div class="pc-info"><p class="pc-type">Beat</p><p class="pc-title">Noche Libre 808</p><p class="pc-meta">Lo-fi Trap · 140 BPM</p><p class="pc-price">USD $35</p></div></div>
     <div class="pc" data-t="mezcla"><div class="pc-cover" style="background:linear-gradient(135deg,#04342C,#061E1C)"><svg width="70%" viewBox="0 0 200 60" fill="none"><path d="M0 30 Q30 15 60 30 Q90 45 120 30 Q150 15 180 30" stroke="#1BB8B0" stroke-width="2" fill="none" opacity="0.45"/></svg><div class="pc-play"></div></div><div class="pc-info"><p class="pc-type">Mezcla</p><p class="pc-title">EP Océano</p><p class="pc-meta">Reggae · 2025</p></div></div>
@@ -686,40 +673,12 @@ footer{
 <section id="beats">
   <p class="sec-label">03 — Tienda de Beats</p>
   <h2 class="sec-title">COMPRAR<br><span>BEATS</span></h2>
-
-  <!-- FILTROS -->
-  <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center">
-    <span style="font-size:0.54rem;letter-spacing:2px;text-transform:uppercase;color:rgba(244,244,240,0.3);margin-right:0.3rem">Filtrar:</span>
-    <select id="filtroGenero" onchange="filtrarBeats()" style="background:rgba(6,30,28,0.8);border:1px solid rgba(45,212,204,0.2);color:rgba(244,244,240,0.7);font-family:Space Mono,monospace;font-size:0.6rem;padding:0.4rem 0.7rem;cursor:pointer;outline:none">
-      <option value="">Todos los géneros</option>
-      <option value="lofi">Lo-fi</option>
-      <option value="trap">Trap</option>
-      <option value="afrobeat">Afrobeat</option>
-      <option value="rap">Rap</option>
-      <option value="reggaeton">Reggaeton</option>
-    </select>
-    <select id="filtroBPM" onchange="filtrarBeats()" style="background:rgba(6,30,28,0.8);border:1px solid rgba(45,212,204,0.2);color:rgba(244,244,240,0.7);font-family:Space Mono,monospace;font-size:0.6rem;padding:0.4rem 0.7rem;cursor:pointer;outline:none">
-      <option value="">Cualquier BPM</option>
-      <option value="slow">Lento (&lt; 90)</option>
-      <option value="mid">Medio (90–120)</option>
-      <option value="fast">Rápido (&gt; 120)</option>
-    </select>
-    <select id="filtroKey" onchange="filtrarBeats()" style="background:rgba(6,30,28,0.8);border:1px solid rgba(45,212,204,0.2);color:rgba(244,244,240,0.7);font-family:Space Mono,monospace;font-size:0.6rem;padding:0.4rem 0.7rem;cursor:pointer;outline:none">
-      <option value="">Cualquier key</option>
-      <option value="Am">Am</option><option value="Gm">Gm</option>
-      <option value="Dm">Dm</option><option value="Fm">Fm</option>
-      <option value="Cm">Cm</option><option value="Em">Em</option>
-    </select>
-    <button onclick="limpiarFiltros()" style="background:transparent;border:1px solid rgba(45,212,204,0.15);color:rgba(244,244,240,0.3);font-family:Space Mono,monospace;font-size:0.54rem;letter-spacing:1px;padding:0.4rem 0.8rem;cursor:pointer;transition:all 0.15s;text-transform:uppercase" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='rgba(244,244,240,0.3)'">✕ Limpiar</button>
-    <span id="filtroCount" style="font-size:0.56rem;color:rgba(244,244,240,0.25);margin-left:0.3rem"></span>
-  </div>
-
   <!-- ═══ NOTA: Reemplaza TU_LLAVE_EPAYCO por tu Public Key de ePayco ═══
        Dashboard ePayco → Configuración → Llaves → Public Key              -->
   <div class="beats-table" id="beatsTable">
 
     <!-- BEAT 1 —— Noche Libre 808 -->
-    <div class="beat-row has-player" id="br-1" data-genero="lofi trap" data-bpm="140" data-key="Am" onclick="toggleBeatPlayer(1,event)">
+    <div class="beat-row has-player" id="br-1" onclick="toggleBeatPlayer(1,event)">
       <div><span class="beat-num">01</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">NOCHE LIBRE 808</p><div class="beat-chips"><span class="bc">Lo-fi</span><span class="bc">Trap</span></div></div>
       <span class="beat-bpm">140 BPM</span><span class="beat-key">Am</span>
@@ -750,7 +709,7 @@ footer{
     </div>
 
     <!-- BEAT 2 —— Abismo Teal -->
-    <div class="beat-row has-player" id="br-2" data-genero="afrobeat" data-bpm="98" data-key="Gm" onclick="toggleBeatPlayer(2,event)">
+    <div class="beat-row has-player" id="br-2" onclick="toggleBeatPlayer(2,event)">
       <div><span class="beat-num">02</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">ABISMO TEAL</p><div class="beat-chips"><span class="bc">Afrobeat</span></div></div>
       <span class="beat-bpm">98 BPM</span><span class="beat-key">Gm</span>
@@ -781,7 +740,7 @@ footer{
     </div>
 
     <!-- BEAT 3 —— Sin Permiso -->
-    <div class="beat-row has-player" id="br-3" data-genero="rap" data-bpm="88" data-key="Dm" onclick="toggleBeatPlayer(3,event)">
+    <div class="beat-row has-player" id="br-3" onclick="toggleBeatPlayer(3,event)">
       <div><span class="beat-num">03</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">SIN PERMISO</p><div class="beat-chips"><span class="bc">Rap</span><span class="bc">Boom Bap</span></div></div>
       <span class="beat-bpm">88 BPM</span><span class="beat-key">Dm</span>
@@ -812,7 +771,7 @@ footer{
     </div>
 
     <!-- BEAT 4 —— Océano Profundo -->
-    <div class="beat-row has-player" id="br-4" data-genero="reggaeton" data-bpm="95" data-key="Fm" onclick="toggleBeatPlayer(4,event)">
+    <div class="beat-row has-player" id="br-4" onclick="toggleBeatPlayer(4,event)">
       <div><span class="beat-num">04</span><div class="beat-pb"></div></div>
       <div><p class="beat-name">OCÉANO PROFUNDO</p><div class="beat-chips"><span class="bc">Reggaeton</span></div></div>
       <span class="beat-bpm">95 BPM</span><span class="beat-key">Fm</span>
@@ -852,68 +811,11 @@ footer{
 <section id="licencias">
   <p class="sec-label">04 — Licencias</p>
   <h2 class="sec-title">ELIGE TU<br><span>LICENCIA</span></h2>
-  <p style="font-size:0.65rem;color:rgba(244,244,240,0.4);margin-bottom:1.5rem;line-height:1.8">Cada licencia incluye un <strong style="color:rgba(45,212,204,0.7)">contrato firmado digitalmente</strong> que recibirás por email junto al beat. Define exactamente qué puedes y no puedes hacer con la pista.</p>
   <div class="lic-grid">
-    <div class="lic-card">
-      <p class="lic-type">Licencia</p><p class="lic-name">BASIC</p>
-      <p class="lic-price">$35 <span>USD</span></p>
-      <ul class="lic-feats">
-        <li>MP3 alta calidad 320kbps</li>
-        <li>Hasta 100,000 streams</li>
-        <li>Plataformas digitales (Spotify, etc.)</li>
-        <li>1 artista / 1 canción</li>
-        <li>Crédito obligatorio: "Prod. Nikko Urza"</li>
-        <li>No TV / cine / publicidad</li>
-        <li>No exclusiva — puede venderse a otros</li>
-        <li style="color:rgba(45,212,204,0.6);border-top:1px solid rgba(45,212,204,0.1);margin-top:0.3rem;padding-top:0.3rem">✉ Contrato PDF por email</li>
-      </ul>
-      <button class="btn-o" style="width:100%;text-align:center;margin-bottom:0.5rem" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button>
-      <button class="btn-o" style="width:100%;text-align:center;font-size:0.52rem" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Inquietudes</button>
-    </div>
-    <div class="lic-card feat">
-      <div class="lic-badge">Más Popular</div>
-      <p class="lic-type">Licencia</p><p class="lic-name">PREMIUM</p>
-      <p class="lic-price">$75 <span>USD</span></p>
-      <ul class="lic-feats">
-        <li>WAV 24bit + MP3 + Stems separados</li>
-        <li>Streams ilimitados</li>
-        <li>TV, YouTube, publicidad (hasta $150k rev.)</li>
-        <li>Hasta 2,500 copias físicas</li>
-        <li>Crédito obligatorio: "Prod. Nikko Urza"</li>
-        <li>No exclusiva — puede venderse a otros</li>
-        <li style="color:rgba(45,212,204,0.6);border-top:1px solid rgba(45,212,204,0.1);margin-top:0.3rem;padding-top:0.3rem">✉ Contrato PDF por email</li>
-      </ul>
-      <button class="btn-p" style="width:100%;text-align:center;margin-bottom:0.5rem" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button>
-      <button class="btn-o" style="width:100%;text-align:center;font-size:0.52rem" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Inquietudes</button>
-    </div>
-    <div class="lic-card">
-      <p class="lic-type">Licencia</p><p class="lic-name">EXCLUSIVA</p>
-      <p class="lic-price">$350+ <span>USD</span></p>
-      <ul class="lic-feats">
-        <li>Stems completos multitrack (todos los tracks)</li>
-        <li>Derechos exclusivos totales</li>
-        <li>Beat se retira permanentemente de venta</li>
-        <li>Uso comercial ilimitado (TV, cine, sync)</li>
-        <li>Sin crédito obligatorio</li>
-        <li>Precio negociable según proyecto</li>
-        <li style="color:rgba(45,212,204,0.6);border-top:1px solid rgba(45,212,204,0.1);margin-top:0.3rem;padding-top:0.3rem">✉ Contrato exclusivo personalizado</li>
-      </ul>
-      <button class="btn-o" style="width:100%;text-align:center;margin-bottom:0.5rem" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Consultar precio</button>
-      <button class="btn-o" style="width:100%;text-align:center;font-size:0.52rem" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Inquietudes</button>
-    </div>
-    <div class="lic-card">
-      <p class="lic-type">Licencia</p><p class="lic-name">CUSTOM</p>
-      <p class="lic-price" style="font-size:1.8rem">HABLEMOS</p>
-      <ul class="lic-feats">
-        <li>Sellos discográficos</li>
-        <li>Proyectos audiovisuales / cine</li>
-        <li>Sincronización (sync licensing)</li>
-        <li>Publicidad y campañas de marca</li>
-        <li>Términos 100% personalizados</li>
-        <li style="color:rgba(45,212,204,0.6);border-top:1px solid rgba(45,212,204,0.1);margin-top:0.3rem;padding-top:0.3rem">✉ Contrato a medida</li>
-      </ul>
-      <button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar</button>
-    </div>
+    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">BASIC</p><p class="lic-price">$35 <span>USD</span></p><ul class="lic-feats"><li>MP3 alta calidad 320kbps</li><li>Hasta 100,000 streams</li><li>Plataformas digitales</li><li>Crédito obligatorio</li><li>No TV / cine / pub.</li><li>No exclusiva</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Adquirir</button></div>
+    <div class="lic-card feat"><div class="lic-badge">Más Popular</div><p class="lic-type">Licencia</p><p class="lic-name">PREMIUM</p><p class="lic-price">$75 <span>USD</span></p><ul class="lic-feats"><li>WAV + MP3 + stems</li><li>Streams ilimitados</li><li>TV, YouTube, publicidad</li><li>Hasta 1,000 copias físicas</li><li>Crédito obligatorio</li><li>No exclusiva</li></ul><button class="btn-p" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Adquirir</button></div>
+    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">EXCLUSIVA</p><p class="lic-price">$350+ <span>USD</span></p><ul class="lic-feats"><li>Stems completos multitrack</li><li>Derechos exclusivos totales</li><li>Beat se retira de venta</li><li>Uso comercial ilimitado</li><li>Sin crédito obligatorio</li><li>Negociable</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Consultar</button></div>
+    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">CUSTOM</p><p class="lic-price" style="font-size:1.8rem">HABLEMOS</p><ul class="lic-feats"><li>Sellos discográficos</li><li>Proyectos audiovisuales</li><li>Sincronización (sync)</li><li>Publicidad y campañas</li><li>Términos personalizados</li><li>Contacto directo</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar</button></div>
   </div>
 </section>
 <div class="divider"></div>
@@ -929,166 +831,219 @@ footer{
     <div class="svc-card" id="c-ep"><div class="svc-head"><p class="svc-tag">Proyecto completo</p><p class="svc-name">EP / Álbum</p><p class="svc-desc">4+ canciones. Consistencia sonora en todo el proyecto. Precio especial.</p><p class="svc-price">Cotización <sub>personalizada</sub></p></div><button class="svc-btn" onclick="openFlow('ep')">Solicitar Cotización →</button></div>
     <div class="svc-card" id="c-consul"><div class="svc-head"><p class="svc-tag">Sesión 1:1</p><p class="svc-name">Consultoría Creativa</p><p class="svc-desc">Dirección de sonido, feedback honesto, revisión de proyecto. Sin filtro.</p><p class="svc-price">USD $50 <sub>/ hora</sub></p></div><button class="svc-btn" onclick="openFlow('consul')">Contratar &amp; Agendar →</button></div>
     <div class="svc-card" id="c-prod"><div class="svc-head"><p class="svc-tag">Producción</p><p class="svc-name">Producción Musical</p><p class="svc-desc">Beat, arreglos, melodía, estructura. Desde cero o sobre tu idea.</p><p class="svc-price">USD $150 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('prod')">Contratar →</button></div>
-    <div class="svc-card" id="c-custom"><div class="svc-head"><p class="svc-tag">Beat personalizado</p><p class="svc-name">Beat Custom</p><p class="svc-desc">Un beat hecho específicamente para ti. Tu género, tu referencia, tu visión. Precio según complejidad.</p><p class="svc-price">Cotización <sub>personalizada</sub></p></div><button class="svc-btn" onclick="openFlow('custom')">Cotizar →</button></div>
-    <div class="svc-card" id="c-show"><div class="svc-head"><p class="svc-tag">Shows en vivo</p><p class="svc-name">Shows &amp; Eventos</p><p class="svc-desc">Negociemos. Cada show es único — ciudad, formato, riders y producción definen el precio.</p><p class="svc-price">Cotización <sub>personalizada</sub></p></div><button class="svc-btn" onclick="openFlow('show')">Cotizar →</button></div>
   </div>
 
   <!-- FLOW: MEZCLA -->
+  <!-- ══════════════════════════════════════
+       FLOW: MEZCLA PROFESIONAL
+  ══════════════════════════════════════ -->
   <div class="flow-panel" id="flow-mezcla">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Cuéntame</span></div><div class="fsa"></div><div class="fstep"><div class="fsb done">2</div><span class="fsl">Pago</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Stems</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div></div>
+    <div class="fsteps">
+      <div class="fstep"><div class="fsb done">1</div><span class="fsl">Datos</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">2</div><span class="fsl">Stems</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">3</div><span class="fsl">Pago</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div>
+    </div>
     <p class="ptitle">Mezcla Profesional — <span>USD $80</span></p>
-    <p class="psub">Déjame tus datos y cuéntame el proyecto. Los stems los coordinaremos una vez confirmado el pago.</p>
+    <p class="psub">Completa tus datos y sube los stems. Luego elige cómo pagar.</p>
     <div class="g2">
-      <div><div class="fg"><label class="fl">Nombre artístico</label><input class="fi" type="text" placeholder="Como quieres el crédito"></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div><div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+57 3046455070"></div><div class="fg"><label class="fl">Género / Referente</label><input class="fi" type="text" placeholder="Ej: Afrobeat, ref: Burna Boy"></div><div class="fg"><label class="fl">Deadline</label><input class="fi" type="date"></div></div>
-      <div><div class="doubts-area"><div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">Dudas antes de pagar</span></div><p class="doubts-hint">¿No sabes si tu proyecto aplica o tienes preguntas sobre el proceso? Nikko responde antes de que pagues.</p><div class="chips"><button class="chip" onclick="dc('dm','¿Mis stems están en MP3, aplica?')">¿MP3 aplica?</button><button class="chip" onclick="dc('dm','¿Cuántas revisiones incluye?')">¿Revisiones?</button><button class="chip" onclick="dc('dm','¿Puedo enviarte referencia de sonido?')">¿Ref. de sonido?</button><button class="chip" onclick="dc('dm','¿Qué pasa si no me gusta el resultado?')">¿Garantía?</button></div><textarea class="fi" id="dm" rows="5" placeholder="Escribe tus dudas o haz clic en las sugerencias..."></textarea></div><div class="stems-note"><strong>→ Los stems van después del pago</strong>Recibirás un link de tu carpeta de Drive por email. WAV 24bit, stems separados, desde el compás 1.</div></div>
+      <div>
+        <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="m-nombre" type="text" placeholder="Como quieres el crédito"></div>
+        <div class="fg"><label class="fl">Email *</label><input class="fi" id="m-email" type="email" placeholder="tu@email.com"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="m-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">Género / Referente</label><input class="fi" id="m-genero" type="text" placeholder="Ej: Afrobeat, ref: Burna Boy"></div>
+        <div class="fg"><label class="fl">Deadline</label><input class="fi" id="m-deadline" type="date"></div>
+      </div>
+      <div>
+        <div class="fg"><label class="fl">Tempo (BPM) *</label><input class="fi" id="m-bpm" type="number" placeholder="Ej: 98" required></div>
+        <div class="fg"><label class="fl">Key de la canción *</label><input class="fi" id="m-key" type="text" placeholder="Ej: Am, Gm, C#m" required></div>
+        <div class="fg"><label class="fl">Link de tus stems (Drive / WeTransfer) *</label><input class="fi" id="m-stems" type="url" placeholder="https://drive.google.com/..." required></div>
+        <div class="fg"><label class="fl">Comentarios y recomendaciones</label><textarea class="fi" id="m-comentarios" rows="4" placeholder="Qué buscas, referencias de sonido, qué NO quieres, detalles del proyecto..."></textarea></div>
+      </div>
     </div>
-    <button class="submit-btn" onclick="submitFlow('mezcla')">Pagar USD $80 →</button>
-    <p class="form-note">Pago seguro con ePayco — tarjeta, PSE, Nequi, Daviplata o efectivo. Entrega: 3–5 días hábiles.</p>
-    <div class="ok-msg" id="ok-mezcla">✓ ¡Listo! Revisa tu email. Si dejaste dudas, Nikko te responde antes de comenzar.<br><span style="font-size:0.58rem;opacity:0.55">El link de tu carpeta de Drive llega con la confirmación del pago.</span></div>
+    <div class="stems-note">
+      <strong>→ Cómo preparar tus stems</strong>
+      WAV 24bit / 44.1kHz · Stems separados por instrumento · Todos desde el compás 1 · Sube a Drive o WeTransfer y pega el link arriba
+    </div>
+    <button class="submit-btn" onclick="submitConPago('mezcla', 80, 'Mezcla Profesional', ['m-nombre','m-email','m-bpm','m-key','m-stems'])">Continuar al pago →</button>
+    <p class="form-note">Al continuar verás las opciones de pago. Entrega: 3–5 días hábiles tras confirmar.</p>
+    <div class="ok-msg" id="ok-mezcla">✓ Proyecto recibido. Nikko te contacta en menos de 24h para confirmar y comenzar.</div>
   </div>
 
-  <!-- FLOW: MASTER -->
+  <!-- ══════════════════════════════════════
+       FLOW: MASTERIZACIÓN
+  ══════════════════════════════════════ -->
   <div class="flow-panel" id="flow-master">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Cuéntame</span></div><div class="fsa"></div><div class="fstep"><div class="fsb done">2</div><span class="fsl">Pago</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Archivo</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Master</span></div></div>
+    <div class="fsteps">
+      <div class="fstep"><div class="fsb done">1</div><span class="fsl">Datos</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">2</div><span class="fsl">Mezcla</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">3</div><span class="fsl">Pago</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">4</div><span class="fsl">Master</span></div>
+    </div>
     <p class="ptitle">Masterización — <span>USD $40</span></p>
-    <p class="psub">Cuéntame sobre tu mezcla. El archivo lo coordinaremos después del pago.</p>
+    <p class="psub">Sube tu mezcla final y cuéntame los detalles. Luego elige cómo pagar.</p>
     <div class="g2">
-      <div><div class="fg"><label class="fl">Nombre artístico</label><input class="fi" type="text" placeholder="Para el crédito"></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div><div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+57 3046455070"></div><div class="fg"><label class="fl">Plataforma de destino</label><select class="fi"><option>Spotify / Apple Music</option><option>YouTube</option><option>SoundCloud</option><option>Distribución física</option><option>Todas</option></select></div><div class="fg"><label class="fl">Deadline</label><input class="fi" type="date"></div></div>
-      <div><div class="doubts-area"><div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">Dudas antes de pagar</span></div><p class="doubts-hint">¿No sabes qué LUFS usar? ¿Tu mezcla tiene compresor en el bus? Pregunta aquí.</p><div class="chips"><button class="chip" onclick="dc('dma','¿Qué LUFS recomiendas para Spotify?')">¿LUFS?</button><button class="chip" onclick="dc('dma','¿Mi mezcla tiene limiter, afecta algo?')">¿Limiter OK?</button><button class="chip" onclick="dc('dma','¿Cuántas revisiones incluye?')">¿Revisiones?</button></div><textarea class="fi" id="dma" rows="5" placeholder="Escribe tus dudas..."></textarea></div><div class="stems-note"><strong>→ Tu mezcla va después del pago</strong>Link de Drive en tu email. WAV 24bit, sin limitador en bus master, headroom -6dB mínimo.</div></div>
+      <div>
+        <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="ma-nombre" type="text" placeholder="Para el crédito"></div>
+        <div class="fg"><label class="fl">Email *</label><input class="fi" id="ma-email" type="email" placeholder="tu@email.com"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="ma-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">Plataforma de destino</label>
+          <select class="fi" id="ma-plataforma"><option>Spotify / Apple Music</option><option>YouTube</option><option>SoundCloud</option><option>Distribución física</option><option>Todas</option></select>
+        </div>
+      </div>
+      <div>
+        <div class="fg"><label class="fl">Tempo (BPM) *</label><input class="fi" id="ma-bpm" type="number" placeholder="Ej: 140" required></div>
+        <div class="fg"><label class="fl">Key de la canción *</label><input class="fi" id="ma-key" type="text" placeholder="Ej: Am, Gm" required></div>
+        <div class="fg"><label class="fl">Link de tu mezcla (Drive / WeTransfer) *</label><input class="fi" id="ma-stems" type="url" placeholder="https://drive.google.com/..." required></div>
+        <div class="fg"><label class="fl">Comentarios y recomendaciones</label><textarea class="fi" id="ma-comentarios" rows="4" placeholder="Brillante, cálido, más graves, referencia de LUFS, detalles importantes..."></textarea></div>
+      </div>
     </div>
-    <button class="submit-btn" onclick="submitFlow('master')">Pagar USD $40 →</button>
-    <p class="form-note">Pago seguro con ePayco — tarjeta, PSE, Nequi, Daviplata o efectivo. Entrega: 1–2 días hábiles.</p>
-    <div class="ok-msg" id="ok-master">✓ ¡Listo! Revisa tu email. Nikko te responde cualquier duda antes de comenzar.</div>
+    <div class="stems-note">
+      <strong>→ Para masterización envía</strong>
+      WAV 24bit / 32bit float · Sin limitador ni maximizador en el bus master · Headroom mínimo -6dB
+    </div>
+    <button class="submit-btn" onclick="submitConPago('master', 40, 'Masterización', ['ma-nombre','ma-email','ma-bpm','ma-key','ma-stems'])">Continuar al pago →</button>
+    <p class="form-note">Entrega: 1–2 días hábiles. Incluye una revisión gratuita.</p>
+    <div class="ok-msg" id="ok-master">✓ Mezcla recibida. Tu master estará listo en 1–2 días hábiles.</div>
   </div>
 
-  <!-- FLOW: MEZCLA+MASTER -->
+  <!-- ══════════════════════════════════════
+       FLOW: MEZCLA + MASTER
+  ══════════════════════════════════════ -->
   <div class="flow-panel" id="flow-mixmaster">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Cuéntame</span></div><div class="fsa"></div><div class="fstep"><div class="fsb done">2</div><span class="fsl">Pago</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Stems</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Mezcla</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">5</div><span class="fsl">Master</span></div></div>
+    <div class="fsteps">
+      <div class="fstep"><div class="fsb done">1</div><span class="fsl">Datos</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">2</div><span class="fsl">Stems</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">3</div><span class="fsl">Pago</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">4</div><span class="fsl">Mezcla</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">5</div><span class="fsl">Master</span></div>
+    </div>
     <p class="ptitle">Mezcla + Master — <span>USD $110</span></p>
-    <p class="psub">El paquete completo. Cuéntame el proyecto, los stems van después del pago.</p>
+    <p class="psub">El paquete completo. Desde stems crudos hasta listo para distribución.</p>
     <div class="g2">
-      <div><div class="fg"><label class="fl">Nombre artístico</label><input class="fi" type="text" placeholder="Para el crédito"></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div><div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+57 3046455070"></div><div class="fg"><label class="fl">Género / Referente</label><input class="fi" type="text" placeholder="Ej: Trap melódico, ref: Travis Scott"></div><div class="fg"><label class="fl">Deadline</label><input class="fi" type="date"></div></div>
-      <div><div class="doubts-area"><div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">Dudas antes de pagar</span></div><p class="doubts-hint">¿Dudas sobre cuántos stems separar o qué incluye el paquete? Pregunta aquí.</p><div class="chips"><button class="chip" onclick="dc('dmm','¿Cuántos stems debo separar mínimo?')">¿Cuántos stems?</button><button class="chip" onclick="dc('dmm','¿Cambios en la mezcla antes del master?')">¿Cambios intermedios?</button><button class="chip" onclick="dc('dmm','¿El paquete incluye revisiones?')">¿Revisiones?</button></div><textarea class="fi" id="dmm" rows="5" placeholder="Escribe tus dudas..."></textarea></div><div class="stems-note"><strong>→ Los stems van después del pago</strong>Link de Drive en tu email. WAV 24bit, desde el compás 1.</div></div>
+      <div>
+        <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="mm-nombre" type="text" placeholder="Para el crédito"></div>
+        <div class="fg"><label class="fl">Email *</label><input class="fi" id="mm-email" type="email" placeholder="tu@email.com"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="mm-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">Género / Referente</label><input class="fi" id="mm-genero" type="text" placeholder="Ej: Trap melódico, ref: Travis Scott"></div>
+      </div>
+      <div>
+        <div class="fg"><label class="fl">Tempo (BPM) *</label><input class="fi" id="mm-bpm" type="number" placeholder="Ej: 140" required></div>
+        <div class="fg"><label class="fl">Key de la canción *</label><input class="fi" id="mm-key" type="text" placeholder="Ej: Am, Gm" required></div>
+        <div class="fg"><label class="fl">Link de tus stems (Drive / WeTransfer) *</label><input class="fi" id="mm-stems" type="url" placeholder="https://drive.google.com/..." required></div>
+        <div class="fg"><label class="fl">Comentarios y recomendaciones</label><textarea class="fi" id="mm-comentarios" rows="4" placeholder="Qué buscas, referencias, qué NO quieres, detalles..."></textarea></div>
+      </div>
     </div>
-    <button class="submit-btn" onclick="submitFlow('mixmaster')">Pagar USD $110 →</button>
-    <p class="form-note">Pago seguro con ePayco — tarjeta, PSE, Nequi, Daviplata o efectivo. Entrega: 5–7 días hábiles.</p>
-    <div class="ok-msg" id="ok-mixmaster">✓ ¡Perfecto! Revisa tu email para el link de tu carpeta de Drive.</div>
+    <div class="stems-note">
+      <strong>→ Cómo preparar tus stems</strong>
+      WAV 24bit · Stems separados · Todos desde el compás 1 · Link de Drive o WeTransfer
+    </div>
+    <button class="submit-btn" onclick="submitConPago('mixmaster', 110, 'Mezcla + Master', ['mm-nombre','mm-email','mm-bpm','mm-key','mm-stems'])">Continuar al pago →</button>
+    <p class="form-note">Entrega: 5–7 días hábiles. El mejor valor por canción.</p>
+    <div class="ok-msg" id="ok-mixmaster">✓ Stems recibidos. Nikko comienza tu proyecto al confirmar el pago.</div>
   </div>
 
-  <!-- FLOW: EP -->
+  <!-- ══════════════════════════════════════
+       FLOW: EP / ÁLBUM — cotización
+  ══════════════════════════════════════ -->
   <div class="flow-panel" id="flow-ep">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Cuéntame</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">2</div><span class="fsl">Cotización</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Pago</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Proyecto</span></div></div>
-    <p class="ptitle">Cotización — <span>EP / Álbum</span></p>
-    <p class="psub">Cuéntame el proyecto. Recibirás una cotización en menos de 24h. Sin compromiso.</p>
-    <div class="g2">
-      <div><div class="fg"><label class="fl">Nombre artístico</label><input class="fi" type="text" placeholder="Tu nombre o el del artista"></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div><div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+57 3046455070"></div><div class="fg"><label class="fl">¿Qué necesitas?</label><select class="fi"><option>Mezcla completa</option><option>Masterización</option><option>Mezcla + Master</option><option>Producción + Mezcla + Master</option><option>Aún no lo sé</option></select></div><div class="fg"><label class="fl">Número de canciones</label><input class="fi" type="number" placeholder="Ej: 6" min="1"></div><div class="fg"><label class="fl">Deadline</label><input class="fi" type="date"></div></div>
-      <div><div class="fg"><label class="fl">Género(s)</label><input class="fi" type="text" placeholder="Ej: Afrobeat, R&B, Trap"></div><div class="fg"><label class="fl">Estado del proyecto</label><select class="fi"><option>Stems grabados y listos</option><option>Grabación en proceso</option><option>Solo ideas / demos</option><option>Mezclas listas, solo master</option></select></div><div class="doubts-area" style="margin-top:0"><div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">Cuéntame el proyecto y tus dudas</span></div><p class="doubts-hint">Visión, concepto, presupuesto aproximado, lo que necesites aclarar.</p><textarea class="fi" id="dep" rows="6" placeholder="Ej: Tengo 5 canciones de afrobeat. Quiero sonar como Wizkid pero más oscuro. Presupuesto aprox $400..."></textarea></div></div>
+    <div class="fsteps">
+      <div class="fstep"><div class="fsb done">1</div><span class="fsl">Cotización</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">2</div><span class="fsl">Respuesta</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">3</div><span class="fsl">Pago</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">4</div><span class="fsl">Proyecto</span></div>
     </div>
-    <button class="submit-btn" onclick="submitFlow('ep')">Enviar Solicitud →</button>
-    <p class="form-note">Reviso tu solicitud y realizo la cotización en menos de 24h. Sin compromiso.</p>
-    <div class="ok-msg" id="ok-ep">✓ Solicitud recibida. Recibirás tu cotización en menos de 24h.</div>
+    <p class="ptitle">Cotización — <span>EP / Álbum</span></p>
+    <p class="psub">Cuéntame el proyecto. Nikko te responde con precio y disponibilidad en menos de 24h. Sin compromiso.</p>
+    <div class="g2">
+      <div>
+        <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="ep-nombre" type="text" placeholder="Tu nombre o el del artista"></div>
+        <div class="fg"><label class="fl">Email *</label><input class="fi" id="ep-email" type="email" placeholder="tu@email.com"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="ep-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">¿Qué necesitas?</label>
+          <select class="fi" id="ep-servicio"><option>Mezcla completa</option><option>Masterización</option><option>Mezcla + Master</option><option>Producción + Mezcla + Master</option><option>Aún no lo sé</option></select>
+        </div>
+        <div class="fg"><label class="fl">Número de canciones</label><input class="fi" id="ep-canciones" type="number" placeholder="Ej: 6" min="1"></div>
+        <div class="fg"><label class="fl">Deadline</label><input class="fi" id="ep-deadline" type="date"></div>
+      </div>
+      <div>
+        <div class="fg"><label class="fl">Género(s)</label><input class="fi" id="ep-genero" type="text" placeholder="Ej: Afrobeat, R&B, Trap"></div>
+        <div class="fg"><label class="fl">Estado actual del proyecto</label>
+          <select class="fi" id="ep-estado"><option>Stems grabados y listos</option><option>Grabación en proceso</option><option>Solo ideas / demos</option><option>Mezclas listas, solo master</option></select>
+        </div>
+        <div class="fg"><label class="fl">Cuéntame el proyecto y tus dudas</label>
+          <textarea class="fi" id="ep-comentarios" rows="6" placeholder="Visión del álbum, concepto, artistas de referencia, presupuesto aproximado, lo que necesites aclarar..."></textarea>
+        </div>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="submitCotizacion('ep')">Enviar Solicitud de Cotización →</button>
+    <p class="form-note">Nikko revisa tu proyecto y te envía cotización en menos de 24h. Sin compromiso ni pago por adelantado.</p>
+    <div class="ok-msg" id="ok-ep">✓ Solicitud recibida. Recibirás tu cotización personalizada en menos de 24h. Si es urgente escríbele por WhatsApp: +57 3046455070</div>
   </div>
 
-  <!-- FLOW: CONSULTORÍA -->
+  <!-- ══════════════════════════════════════
+       FLOW: CONSULTORÍA
+  ══════════════════════════════════════ -->
   <div class="flow-panel" id="flow-consul">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Agenda</span></div><div class="fsa"></div><div class="fstep"><div class="fsb done">2</div><span class="fsl">Pago</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Confirmación</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Sesión</span></div></div>
+    <div class="fsteps">
+      <div class="fstep"><div class="fsb done">1</div><span class="fsl">Agenda</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">2</div><span class="fsl">Pago</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">3</div><span class="fsl">Confirmación</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">4</div><span class="fsl">Sesión</span></div>
+    </div>
     <p class="ptitle">Consultoría Creativa — <span>USD $50 / hora</span></p>
-    <p class="psub">Elige fecha y hora. El link de Google Meet llega con la confirmación del pago.</p>
-    <button class="admin-toggle" onclick="document.getElementById('adminP').classList.toggle('open')">⚙ Editar disponibilidad (admin)</button>
-    <div class="admin-panel" id="adminP"><p class="atitle">Días disponibles</p><div class="adays"><div class="aday on" onclick="this.classList.toggle('on')"><span>Lun</span><strong>26</strong></div><div class="aday" onclick="this.classList.toggle('on')"><span>Mar</span><strong>27</strong></div><div class="aday on" onclick="this.classList.toggle('on')"><span>Mié</span><strong>28</strong></div><div class="aday" onclick="this.classList.toggle('on')"><span>Jue</span><strong>29</strong></div><div class="aday on" onclick="this.classList.toggle('on')"><span>Vie</span><strong>30</strong></div><div class="aday" onclick="this.classList.toggle('on')"><span>Sáb</span><strong>31</strong></div></div><p class="atitle" style="margin-top:0.8rem">Horas disponibles</p><div class="aslots"><button class="aslot on" onclick="this.classList.toggle('on')">10:00 AM</button><button class="aslot on" onclick="this.classList.toggle('on')">11:00 AM</button><button class="aslot" onclick="this.classList.toggle('on')">12:00 PM</button><button class="aslot on" onclick="this.classList.toggle('on')">2:00 PM</button><button class="aslot on" onclick="this.classList.toggle('on')">3:00 PM</button><button class="aslot" onclick="this.classList.toggle('on')">4:00 PM</button><button class="aslot on" onclick="this.classList.toggle('on')">5:00 PM</button><button class="aslot" onclick="this.classList.toggle('on')">7:00 PM</button></div><p class="anote">Los slots activos son los únicos visibles para el cliente.</p></div>
-    <div style="margin-top:1rem">
-      <p style="font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:0.8rem">Agenda tu sesión — elige fecha y hora disponible</p>
+    <p class="psub">Agenda tu sesión en Calendly y elige cómo pagar.</p>
+    <div style="margin-bottom:1.2rem">
+      <p style="font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:0.8rem">Agenda tu sesión</p>
       <div class="calendly-inline-widget"
            data-url="https://calendly.com/nikkourza?hide_gdpr_banner=1&background_color=061E1C&text_color=F4F4F0&primary_color=2DD4CC"
-           style="min-width:280px;height:650px;border:1px solid rgba(45,212,204,0.18)">
+           style="min-width:280px;height:600px;border:1px solid rgba(45,212,204,0.18)">
       </div>
       <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-      <div class="doubts-area" style="margin-top:1rem">
-        <div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">¿Sobre qué es la sesión?</span></div>
-        <p class="doubts-hint">Opcional — cuéntame de qué quieres hablar para preparar mejor la sesión.</p>
-        <div class="chips">
-          <button class="chip" onclick="dc('dco','Revisión y feedback de mi mezcla')">Revisión de mezcla</button>
-          <button class="chip" onclick="dc('dco','Orientación sobre mi carrera artística')">Carrera artística</button>
-          <button class="chip" onclick="dc('dco','Aprender sobre producción')">Producción</button>
-        </div>
-        <textarea class="fi" id="dco" rows="3" placeholder="Cuéntame qué quieres trabajar en la sesión..."></textarea>
-      </div>
     </div>
+    <div class="fg"><label class="fl">¿Sobre qué es la sesión? (ayuda a prepararse mejor)</label>
+      <textarea class="fi" id="dco" rows="3" placeholder="Dirección de sonido, revisión de mezcla, orientación de carrera, producción..."></textarea>
+    </div>
+    <button class="submit-btn" onclick="submitConPago('consul', 50, 'Consultoría Creativa', [])">Pagar USD $50 →</button>
+    <p class="form-note">Link de Google Meet llega por email al confirmar el pago.</p>
+    <div class="ok-msg" id="ok-consul">✓ ¡Listo! Revisa tu email para el link de Google Meet.</div>
   </div>
 
-  <!-- FLOW: PRODUCCIÓN -->
+  <!-- ══════════════════════════════════════
+       FLOW: PRODUCCIÓN MUSICAL
+  ══════════════════════════════════════ -->
   <div class="flow-panel" id="flow-prod">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Brief</span></div><div class="fsa"></div><div class="fstep"><div class="fsb done">2</div><span class="fsl">Pago</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Producción</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div></div>
+    <div class="fsteps">
+      <div class="fstep"><div class="fsb done">1</div><span class="fsl">Brief</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb done">2</div><span class="fsl">Pago</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">3</div><span class="fsl">Producción</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div>
+    </div>
     <p class="ptitle">Producción Musical — <span>USD $150</span></p>
-    <p class="psub">Cuéntame la visión. Demo o referencia de voz van después del pago.</p>
+    <p class="psub">Cuéntame la visión completa del proyecto.</p>
     <div class="g2">
-      <div><div class="fg"><label class="fl">Nombre artístico</label><input class="fi" type="text" placeholder="Para el crédito"></div><div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div><div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+57 3046455070"></div><div class="fg"><label class="fl">Género deseado</label><input class="fi" type="text" placeholder="Ej: Afrobeat con elementos de trap"></div><div class="fg"><label class="fl">Artistas de referencia</label><input class="fi" type="text" placeholder="Ej: Burna Boy, Bad Bunny"></div><div class="fg"><label class="fl">¿Desde cero o sobre algo?</label><select class="fi"><option>Producción desde cero</option><option>Sobre una melodía que tengo</option><option>Sobre una letra ya escrita</option><option>Sobre un demo grabado</option></select></div></div>
-      <div><div class="doubts-area"><div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">Cuéntame la visión y tus dudas</span></div><p class="doubts-hint">¿Qué quieres que transmita? ¿Mood, uso? ¿Dudas sobre el proceso?</p><div class="chips"><button class="chip" onclick="dc('dpr','¿Cuántas revisiones incluye?')">¿Revisiones?</button><button class="chip" onclick="dc('dpr','¿Puedo enviar nota de voz como referencia?')">¿Nota de voz?</button><button class="chip" onclick="dc('dpr','¿Me entregas los stems de la producción?')">¿Stems incluidos?</button></div><textarea class="fi" id="dpr" rows="6" placeholder="Visión, mood, qué quieres transmitir, dudas..."></textarea></div><div class="stems-note"><strong>→ Tu demo o referencia va después del pago</strong>Link de Drive en tu email. MP3, WAV o nota de voz, lo que tengas.</div></div>
+      <div>
+        <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="pr-nombre" type="text" placeholder="Para el crédito"></div>
+        <div class="fg"><label class="fl">Email *</label><input class="fi" id="pr-email" type="email" placeholder="tu@email.com"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="pr-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">Género deseado</label><input class="fi" id="pr-genero" type="text" placeholder="Ej: Afrobeat con elementos de trap"></div>
+        <div class="fg"><label class="fl">Artistas de referencia</label><input class="fi" id="pr-ref" type="text" placeholder="Ej: Burna Boy, Bad Bunny"></div>
+        <div class="fg"><label class="fl">¿Desde cero o sobre algo?</label>
+          <select class="fi" id="pr-base"><option>Producción desde cero</option><option>Sobre una melodía que tengo</option><option>Sobre una letra ya escrita</option><option>Sobre un demo grabado</option></select>
+        </div>
+      </div>
+      <div>
+        <div class="fg"><label class="fl">Tempo aproximado (BPM)</label><input class="fi" id="pr-bpm" type="number" placeholder="Ej: 90-100 o dejar vacío"></div>
+        <div class="fg"><label class="fl">Key deseada (opcional)</label><input class="fi" id="pr-key" type="text" placeholder="Ej: Am, o dejar vacío"></div>
+        <div class="fg"><label class="fl">Link de demo o referencia de voz (opcional)</label><input class="fi" id="pr-demo" type="url" placeholder="https://drive.google.com/..."></div>
+        <div class="fg"><label class="fl">Cuéntame la visión *</label>
+          <textarea class="fi" id="pr-comentarios" rows="5" placeholder="Qué quieres que transmita, mood, ambiente, uso de la canción, detalles importantes..."></textarea>
+        </div>
+      </div>
     </div>
-    <button class="submit-btn" onclick="submitFlow('prod')">Pagar USD $150 →</button>
+    <button class="submit-btn" onclick="submitConPago('prod', 150, 'Producción Musical', ['pr-nombre','pr-email'])">Continuar al pago →</button>
     <p class="form-note">Incluye 2 revisiones. Entrega: 5–10 días según complejidad.</p>
-    <div class="ok-msg" id="ok-prod">✓ Brief recibido. Nikko te responde cualquier duda antes de comenzar.</div>
-  </div>
-  <!-- FLOW: BEAT CUSTOM -->
-  <div class="flow-panel" id="flow-custom">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Brief</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">2</div><span class="fsl">Cotización</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Pago</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div></div>
-    <p class="ptitle">Beat Custom — <span>Cotización personalizada</span></p>
-    <p class="psub">Cuéntame tu visión. Te respondo con precio y disponibilidad en menos de 24h.</p>
-    <div class="g2">
-      <div>
-        <div class="fg"><label class="fl">Nombre artístico</label><input class="fi" type="text" placeholder="Para el crédito"></div>
-        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div>
-        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+57 3046455070"></div>
-        <div class="fg"><label class="fl">Género deseado</label><input class="fi" type="text" placeholder="Ej: Afrobeat suave, trap oscuro..."></div>
-        <div class="fg"><label class="fl">Artistas de referencia</label><input class="fi" type="text" placeholder="Ej: Burna Boy, Sza, J. Cole"></div>
-        <div class="fg"><label class="fl">Uso de la canción</label>
-          <select class="fi"><option>Lanzamiento en plataformas</option><option>EP o álbum</option><option>Contenido para redes</option><option>Proyecto personal</option></select>
-        </div>
-      </div>
-      <div>
-        <div class="doubts-area">
-          <div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">Cuéntame la visión</span></div>
-          <p class="doubts-hint">Mood, ambiente, qué quieres que transmita, BPM aproximado, key si la tienes.</p>
-          <textarea class="fi" id="dcustom" rows="7" placeholder="Quiero un beat que suene como amanecer en la ciudad, melancólico pero con energía, BPM entre 90-100..."></textarea>
-        </div>
-      </div>
-    </div>
-    <button class="submit-btn" onclick="submitFlow('custom')">Enviar Solicitud →</button>
-    <p class="form-note">Te respondo con cotización y disponibilidad en menos de 24h. Sin compromiso.</p>
-    <div class="ok-msg" id="ok-custom">✓ Solicitud recibida. Te envío la cotización del beat custom en menos de 24h.</div>
-  </div>
-
-  <!-- FLOW: SHOW EN VIVO -->
-  <div class="flow-panel" id="flow-show">
-    <div class="fsteps"><div class="fstep"><div class="fsb done">1</div><span class="fsl">Info</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">2</div><span class="fsl">Cotización</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">3</div><span class="fsl">Contrato</span></div><div class="fsa"></div><div class="fstep"><div class="fsb">4</div><span class="fsl">Show</span></div></div>
-    <p class="ptitle">Show en Vivo — <span>Negociamos</span></p>
-    <p class="psub">Cada show es único. Dame los detalles y hablamos.</p>
-    <div class="g2">
-      <div>
-        <div class="fg"><label class="fl">Nombre / Empresa organizadora</label><input class="fi" type="text" placeholder="Nombre del organizador o promotor"></div>
-        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="tu@email.com"></div>
-        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" type="tel" placeholder="+57 3046455070"></div>
-        <div class="fg"><label class="fl">Ciudad y lugar del evento</label><input class="fi" type="text" placeholder="Ej: Cali — Bar La Nave"></div>
-        <div class="fg"><label class="fl">Fecha tentativa</label><input class="fi" type="date"></div>
-        <div class="fg"><label class="fl">Tipo de evento</label>
-          <select class="fi"><option>Festival / Evento masivo</option><option>Bar o club</option><option>Evento privado</option><option>Concierto íntimo / showcase</option><option>Otro</option></select>
-        </div>
-      </div>
-      <div>
-        <div class="fg"><label class="fl">Aforo estimado</label><input class="fi" type="text" placeholder="Ej: 200 personas"></div>
-        <div class="fg"><label class="fl">¿Incluye sonido y luces?</label>
-          <select class="fi"><option>Sí, el venue lo provee</option><option>No, necesitamos coordinar rider técnico</option><option>Parcialmente</option></select>
-        </div>
-        <div class="doubts-area" style="margin-top:0">
-          <div class="doubts-top"><span class="doubts-icon">?</span><span class="doubts-ttl">Detalles del show y condiciones</span></div>
-          <p class="doubts-hint">Duración del set, contexto del evento, otros artistas en la cartelera, condiciones de transporte/alojamiento si aplica.</p>
-          <textarea class="fi" id="dshow" rows="5" placeholder="Cuéntame todo lo relevante sobre el show..."></textarea>
-        </div>
-      </div>
-    </div>
-    <button class="submit-btn" onclick="submitFlow('show')">Enviar Solicitud →</button>
-    <p class="form-note">Revisamos tu propuesta y respondemos en menos de 48h con cotización y disponibilidad.</p>
-    <div class="ok-msg" id="ok-show">✓ Propuesta recibida. Nikko o su equipo te responden en menos de 48h para coordinar los detalles.</div>
+    <div class="ok-msg" id="ok-prod">✓ Brief recibido. Nikko comienza tu producción al confirmar el pago.</div>
   </div>
 
 </section>
@@ -1106,7 +1061,7 @@ footer{
         <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="ce" placeholder="tu@email.com"></div>
       </div>
       <div class="g2">
-        <div class="fg"><label class="fl">WhatsApp / Teléfono</label><input class="fi" type="tel" id="ct" placeholder="+57 3046455070"></div>
+        <div class="fg"><label class="fl">WhatsApp / Teléfono</label><input class="fi" type="tel" id="ct" placeholder="+57 300 000 0000"></div>
         <div class="fg"><label class="fl">¿Sobre qué me escribes?</label><select class="fi" id="ca"><option value="">Selecciona...</option><option>Contratar un servicio</option><option>Dudas sobre mezcla o master</option><option>Comprar un beat</option><option>Proyecto EP o álbum</option><option>Colaboración artística</option><option>Otro</option></select></div>
       </div>
       <div class="doubts-area">
@@ -1131,7 +1086,7 @@ footer{
     <div>
       <div class="info-block"><p class="info-block-lbl">Tiempos de respuesta y entrega</p><div class="del-row"><span class="del-svc">Respuesta a mensajes</span><span class="del-time">&lt; 24H</span></div><div class="del-row"><span class="del-svc">Masterización</span><span class="del-time">1–2 DÍAS</span></div><div class="del-row"><span class="del-svc">Mezcla profesional</span><span class="del-time">3–5 DÍAS</span></div><div class="del-row"><span class="del-svc">Mezcla + Master</span><span class="del-time">5–7 DÍAS</span></div><div class="del-row"><span class="del-svc">Producción musical</span><span class="del-time">5–10 DÍAS</span></div><div class="del-row"><span class="del-svc">EP / Álbum completo</span><span class="del-time">A TRATAR</span></div></div>
       <div class="info-block"><p class="info-block-lbl">Antes de escribir, ten en cuenta</p><div class="info-item"><span class="info-arr">→</span><span>Los stems van después del pago — link de Drive en tu email</span></div><div class="info-item"><span class="info-arr">→</span><span>Para EP o álbum primero va la cotización, sin compromiso</span></div><div class="info-item"><span class="info-arr">→</span><span>Trabajamos con clientes de Colombia y cualquier parte del mundo</span></div><div class="info-item"><span class="info-arr">→</span><span>Pagos vía ePayco (tarjeta, PSE, Nequi, Daviplata, efectivo) o PayPal para clientes internacionales</span></div><div class="info-item"><span class="info-arr">→</span><span>Cada proyecto incluye al menos una revisión gratuita</span></div></div>
-      <div class="info-block"><p class="info-block-lbl">Contacto directo</p><div class="info-item"><span class="info-arr">✉</span><span>nikkourza@gmail.com</span></div><div class="info-item"><span class="info-arr">📱</span><span>+57 3046455070 (WhatsApp)</span></div><p class="info-block-lbl" style="margin-top:1rem">Redes</p><div class="social-links"><a class="slink" href="https://instagram.com/nikkourza" target="_blank">Instagram</a><a class="slink" href="https://tiktok.com/@nikkourza" target="_blank">TikTok</a><a class="slink" href="https://youtube.com/@nikkourza" target="_blank">YouTube</a><a class="slink" href="https://soundcloud.com/nikkourza" target="_blank">SoundCloud</a></div></div>
+      <div class="info-block"><p class="info-block-lbl">Contacto directo</p><div class="info-item"><span class="info-arr">✉</span><span>nikkourza@email.com</span></div><div class="info-item"><span class="info-arr">📱</span><span>+57 300 000 0000 (WhatsApp)</span></div><p class="info-block-lbl" style="margin-top:1rem">Redes</p><div class="social-links"><a class="slink" href="#">Instagram</a><a class="slink" href="#">TikTok</a><a class="slink" href="#">YouTube</a><a class="slink" href="#">SoundCloud</a></div></div>
     </div>
   </div>
 </section>
@@ -1172,36 +1127,79 @@ footer{
    Dashboard ePayco → Mi cuenta → Llaves → Public Key
 ═══════════════════════════════════════════════════ */
 var EPAYCO_KEY = '0eed8117a045f7001b7747c0434b56f1';
-var EPAYCO_TEST = false; // ← cambia a false cuando estés en producción
+var EPAYCO_TEST = false;
 
 // TRM aproximada COP/USD — actualiza según el día
 var TRM = 4150;
 
-/* Abre el checkout de ePayco para beats */
+/* Selector de pago para beats — ePayco o PayPal */
 function pagarEpayco(nombre, montoCOP, referencia) {
-  var handler = ePayco.checkout.configure({
-    key: EPAYCO_KEY,
-    test: EPAYCO_TEST
-  });
-  handler.open({
-    name: nombre,
-    description: nombre + ' — nikkourza.com',
-    invoice: referencia + '-' + Date.now(),
-    currency: 'cop',
-    amount: montoCOP,
-    tax_base: '0',
-    tax: '0',
-    country: 'co',
-    lang: 'es',
-    external: 'false',
-    response: 'https://nikkourza.com/descarga.html',
-    confirmation: 'https://nikkourza.com/descarga.html',
-    name_billing: '',
-    email_billing: '',
-    type_doc_billing: 'cc',
-    mobilephone_billing: '',
-    methodsDisable: []
-  });
+  // Calcular monto USD aproximado
+  var montoUSD = Math.round(montoCOP / TRM);
+  // Extraer nombre corto del beat para PayPal
+  var nombreCorto = nombre.split(' — ')[0];
+  var licencia = nombre.split('Lic. ')[1] || 'Basic';
+  var paypalUrl = 'https://www.paypal.me/nikkourza/' + montoUSD + 'USD';
+
+  // Crear o reubicar el selector
+  var prev = document.getElementById('beat-pay-selector');
+  if (prev) prev.remove();
+
+  var sel = document.createElement('div');
+  sel.id = 'beat-pay-selector';
+  sel.style.cssText = 'position:fixed;inset:0;background:rgba(6,8,8,0.88);z-index:999;display:flex;align-items:center;justify-content:center;padding:1.5rem';
+  sel.innerHTML =
+    '<div style="border:1px solid rgba(45,212,204,0.35);background:#061E1C;padding:2rem;max-width:480px;width:100%;position:relative">' +
+      '<button onclick="document.getElementById('beat-pay-selector').remove()" style="position:absolute;top:0.8rem;right:0.8rem;background:transparent;border:none;color:rgba(244,244,240,0.35);font-size:1.2rem;cursor:pointer;line-height:1">×</button>' +
+      '<p style="font-size:0.54rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:0.4rem">Método de pago</p>' +
+      '<p style="font-family:Bebas Neue,cursive;font-size:1.4rem;letter-spacing:2px;color:#F4F4F0;margin-bottom:0.3rem">' + nombreCorto + '</p>' +
+      '<p style="font-size:0.65rem;color:rgba(244,244,240,0.4);margin-bottom:1.5rem">Licencia ' + licencia + ' · USD $' + montoUSD + '</p>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem">' +
+        '<button onclick="pagarConEpayco('' + nombre + '','' + montoCOP + '','' + referencia + '')" ' +
+          'style="border:1px solid rgba(45,212,204,0.3);background:rgba(45,212,204,0.08);color:#2DD4CC;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;transition:all 0.18s;text-align:center">' +
+          '<div style="font-size:1.2rem;margin-bottom:0.4rem">🇨🇴</div>' +
+          '<strong>ePayco</strong>' +
+          '<div style="font-size:0.52rem;opacity:0.65;margin-top:0.3rem;line-height:1.5">Tarjeta · PSE<br>Nequi · Daviplata<br>Efectivo</div>' +
+        '</button>' +
+        '<a href="' + paypalUrl + '" target="_blank" ' +
+          'onclick="setTimeout(function(){var s=document.getElementById('beat-pay-selector');if(s)s.remove();},500)" ' +
+          'style="border:1px solid rgba(0,112,243,0.4);background:rgba(0,48,135,0.25);color:#60a5fa;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;text-decoration:none;display:block;text-align:center;transition:all 0.18s">' +
+          '<div style="font-size:1.2rem;margin-bottom:0.4rem">🌐</div>' +
+          '<strong>PayPal</strong>' +
+          '<div style="font-size:0.52rem;opacity:0.65;margin-top:0.3rem;line-height:1.5">Internacional<br>USD $' + montoUSD + '<br>paypal.me/nikkourza</div>' +
+        '</a>' +
+      '</div>' +
+      '<p style="font-size:0.56rem;color:rgba(244,244,240,0.25);line-height:1.6;text-align:center">Después del pago recibirás tu beat y contrato por email automáticamente.</p>' +
+    '</div>';
+
+  document.body.appendChild(sel);
+  // Cerrar con ESC
+  sel.addEventListener('click', function(e){ if(e.target===sel) sel.remove(); });
+  document.addEventListener('keydown', function esc(e){ if(e.key==='Escape'){ sel.remove(); document.removeEventListener('keydown',esc); } });
+}
+
+function pagarConEpayco(nombre, montoCOP, referencia) {
+  document.getElementById('beat-pay-selector') && document.getElementById('beat-pay-selector').remove();
+  try {
+    var handler = ePayco.checkout.configure({ key: EPAYCO_KEY, test: EPAYCO_TEST });
+    handler.open({
+      name: nombre,
+      description: nombre + ' — nikkourza.com',
+      invoice: referencia + '-' + Date.now(),
+      currency: 'cop',
+      amount: String(montoCOP),
+      tax_base: '0', tax: '0',
+      country: 'co', lang: 'es',
+      external: 'false',
+      response: 'https://nikkourza.com/descarga.html',
+      confirmation: 'https://nikkourza.com/descarga.html',
+      name_billing: '', email_billing: '',
+      type_doc_billing: 'cc', mobilephone_billing: '',
+      methodsDisable: []
+    });
+  } catch(e) {
+    alert('Error al abrir ePayco. Intenta con PayPal o escríbele a Nikko por WhatsApp: +57 3046455070');
+  }
 }
 
 /* Abre el checkout de ePayco para servicios */
@@ -1240,16 +1238,16 @@ function closeNav(){document.getElementById('navLinks').classList.remove('open')
 function filterPort(t,el){
   document.querySelectorAll('.ptab').forEach(function(b){b.classList.remove('active')});
   el.classList.add('active');
-  document.querySelectorAll('.pc').forEach(function(c){c.style.display=(t==='todos'||c.dataset.t===t)?'block':'none'});
-  var meta = document.getElementById('portMeta');
-  var metaTxt = document.getElementById('portMetaTxt');
-  if(meta && metaTxt) {
-    if(t==='mezcla'||t==='master') {
-      meta.style.display='block';
-      metaTxt.innerHTML = t==='mezcla'
-        ? 'Trabajos de mezcla — haz clic en cada proyecto para escucharlo en las plataformas del artista'
-        : 'Trabajos de masterización — haz clic en cada proyecto para escucharlo en las plataformas del artista';
-    } else { meta.style.display='none'; }
+  var items = document.querySelectorAll('.pc');
+  var found = 0;
+  items.forEach(function(c){
+    var show = (t==='todos'||c.dataset.t===t);
+    c.style.display = show ? 'block' : 'none';
+    if(show) found++;
+  });
+  // Si no hay items con data-t, mostrar todos (fallback)
+  if(found === 0 && t !== 'todos'){
+    items.forEach(function(c){ c.style.display='block'; });
   }
 }
 
@@ -1266,7 +1264,7 @@ function dc(id,txt){var t=document.getElementById(id);if(t)t.value=(t.value?t.va
 /* SERVICE FLOWS — montos en USD, se convierten a COP con TRM */
 var servicioMontos = {
   mezcla: 80, master: 40, mixmaster: 110,
-  ep: 0, consul: 50, prod: 150, custom: 0, show: 0
+  ep: 0, consul: 50, prod: 150
 };
 var servicioNombres = {
   mezcla: 'Mezcla Profesional',
@@ -1274,9 +1272,7 @@ var servicioNombres = {
   mixmaster: 'Mezcla + Master',
   ep: 'Cotización EP/Álbum',
   consul: 'Consultoría Creativa',
-  prod: 'Producción Musical',
-  custom: 'Beat Custom',
-  show: 'Show en Vivo'
+  prod: 'Producción Musical'
 };
 var activeFlow=null;
 function openFlow(id){
@@ -1295,79 +1291,155 @@ function openFlow(id){
   setTimeout(function(){panel.scrollIntoView({behavior:'smooth',block:'start'});},120);
   if(id==='consul')renderCal();
 }
-/* ── SELECTOR DE MÉTODO DE PAGO ─────────────────────────── */
-function submitFlow(id) {
-  // 1. Envía datos a Formspree
+/* ── VALIDAR Y ENVIAR FORMULARIO + MOSTRAR SELECTOR DE PAGO ── */
+function submitConPago(id, montoUSD, nombre, camposReq) {
+  // Validar campos obligatorios
+  var valido = true;
+  camposReq.forEach(function(cid) {
+    var el = document.getElementById(cid);
+    if (!el) return;
+    if (!el.value || !el.value.trim()) {
+      el.style.borderColor = '#f87171';
+      el.focus();
+      valido = false;
+    } else {
+      el.style.borderColor = '';
+    }
+  });
+  if (!valido) {
+    alert('Por favor completa los campos obligatorios marcados con *');
+    return;
+  }
+
+  // Enviar datos a Formspree
   var endpoint = 'https://formspree.io/f/xzdwvjqr';
   var panel = document.getElementById('flow-' + id);
   if (panel) {
     var data = new FormData();
-    data.append('_servicio', servicioNombres[id] || id);
+    data.append('_servicio', nombre);
     panel.querySelectorAll('input, select, textarea').forEach(function(el) {
-      var key = el.placeholder || el.name || 'campo';
+      var key = el.id || el.placeholder || 'campo';
       if (el.value && el.value.trim()) data.append(key.substring(0,40), el.value);
     });
     fetch(endpoint, { method:'POST', body:data, headers:{'Accept':'application/json'} }).catch(function(){});
   }
-  // 2. EP/shows/cotizaciones — sin pago inmediato
-  if (id === 'ep' || id === 'show' || id === 'custom') {
-    var ok = document.getElementById('ok-' + id);
-    if (ok) { ok.style.display='block'; ok.scrollIntoView({behavior:'smooth',block:'center'}); }
-    return;
-  }
-  // 3. Servicios con precio: mostrar selector de pago
-  var monto = servicioMontos[id];
-  if (monto && monto > 0) {
-    mostrarSelectorPago(id, servicioNombres[id], monto);
-  }
+
+  // Mostrar selector de pago
+  mostrarSelectorServicio(id, nombre, montoUSD);
 }
 
-function mostrarSelectorPago(id, nombre, montoUSD) {
-  // Elimina selector previo si existe
-  var prev = document.getElementById('pay-selector');
+/* ── COTIZACIÓN (sin pago inmediato) ── */
+function submitCotizacion(id) {
+  var camposMap = {
+    ep: ['ep-nombre','ep-email'],
+    custom: ['custom-nombre','custom-email'],
+    show: ['show-nombre','show-email']
+  };
+  var reqs = camposMap[id] || [];
+  var valido = true;
+  reqs.forEach(function(cid) {
+    var el = document.getElementById(cid);
+    if (!el || !el.value.trim()) {
+      if(el) el.style.borderColor='#f87171';
+      valido = false;
+    } else if(el) { el.style.borderColor=''; }
+  });
+  if (!valido) { alert('Por favor completa nombre y email.'); return; }
+
+  var endpoint = 'https://formspree.io/f/xzdwvjqr';
+  var panel = document.getElementById('flow-' + id);
+  if (panel) {
+    var data = new FormData();
+    data.append('_tipo', 'cotizacion');
+    data.append('_servicio', servicioNombres[id] || id);
+    panel.querySelectorAll('input, select, textarea').forEach(function(el) {
+      var key = el.id || el.placeholder || 'campo';
+      if (el.value && el.value.trim()) data.append(key.substring(0,40), el.value);
+    });
+    fetch(endpoint, { method:'POST', body:data, headers:{'Accept':'application/json'} }).catch(function(){});
+  }
+  var ok = document.getElementById('ok-' + id);
+  if (ok) { ok.style.display='block'; ok.scrollIntoView({behavior:'smooth',block:'center'}); }
+}
+
+/* ── SELECTOR DE PAGO PARA SERVICIOS ── */
+function mostrarSelectorServicio(id, nombre, montoUSD) {
+  var prev = document.getElementById('svc-pay-selector');
   if (prev) prev.remove();
 
-  var panel = document.getElementById('flow-' + id);
-  if (!panel) return;
-
-  var montoCOP = Math.round(montoUSD * TRM).toLocaleString('es-CO');
   var paypalUrl = 'https://www.paypal.me/nikkourza/' + montoUSD + 'USD';
+  var montoCOP = (montoUSD * TRM).toLocaleString('es-CO');
 
   var sel = document.createElement('div');
-  sel.id = 'pay-selector';
-  sel.style.cssText = 'border:1px solid rgba(45,212,204,0.3);background:rgba(6,30,28,0.8);padding:1.5rem;margin-top:1rem';
-  sel.innerHTML = '<p style="font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:rgba(45,212,204,0.7);margin-bottom:1rem">Elige cómo pagar — ' + nombre + ' · USD $' + montoUSD + '</p>' +
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem">' +
-      '<button onclick="pagarConEpayco('' + id + '','' + nombre + '',' + montoUSD + ')" style="background:rgba(45,212,204,0.1);border:1px solid rgba(45,212,204,0.3);color:var(--teal);font-family:Space Mono,monospace;font-size:0.62rem;letter-spacing:2px;padding:1rem;cursor:pointer;text-transform:uppercase;transition:all 0.2s" onmouseover="this.style.background='rgba(45,212,204,0.2)'" onmouseout="this.style.background='rgba(45,212,204,0.1)'">' +
-        '<div style="font-size:1rem;margin-bottom:0.3rem">🇨🇴</div>ePayco<div style="font-size:0.52rem;opacity:0.6;margin-top:0.2rem">Tarjeta · PSE · Nequi · Daviplata<br>COP $' + montoCOP + '</div>' +
-      '</button>' +
-      '<a href="' + paypalUrl + '" target="_blank" onclick="registrarPagoPaypal('' + id + '','' + nombre + '',' + montoUSD + ')" style="background:rgba(0,48,135,0.3);border:1px solid rgba(0,112,243,0.4);color:#60a5fa;font-family:Space Mono,monospace;font-size:0.62rem;letter-spacing:2px;padding:1rem;cursor:pointer;text-transform:uppercase;text-decoration:none;display:block;text-align:center;transition:all 0.2s" onmouseover="this.style.background='rgba(0,48,135,0.5)'" onmouseout="this.style.background='rgba(0,48,135,0.3)'">' +
-        '<div style="font-size:1rem;margin-bottom:0.3rem">🌐</div>PayPal<div style="font-size:0.52rem;opacity:0.6;margin-top:0.2rem">Internacional · USD $' + montoUSD + '<br>paypal.me/nikkourza</div>' +
-      '</a>' +
-    '</div>' +
-    '<p style="font-size:0.56rem;color:rgba(244,244,240,0.25);margin-top:0.8rem;line-height:1.6">Al confirmar el pago recibirás un email con el link de tu carpeta de Drive para subir los archivos.</p>';
+  sel.id = 'svc-pay-selector';
+  sel.style.cssText = 'position:fixed;inset:0;background:rgba(6,8,8,0.9);z-index:999;display:flex;align-items:center;justify-content:center;padding:1.5rem';
+  sel.innerHTML =
+    '<div style="border:1px solid rgba(45,212,204,0.35);background:#061E1C;padding:2rem;max-width:480px;width:100%;position:relative">' +
+      '<button onclick="document.getElementById('svc-pay-selector').remove()" style="position:absolute;top:0.8rem;right:0.8rem;background:transparent;border:none;color:rgba(244,244,240,0.4);font-size:1.3rem;cursor:pointer;line-height:1">×</button>' +
+      '<p style="font-size:0.54rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:0.4rem">Elige cómo pagar</p>' +
+      '<p style="font-family:Bebas Neue,cursive;font-size:1.4rem;letter-spacing:2px;color:#F4F4F0;margin-bottom:0.2rem">' + nombre + '</p>' +
+      '<p style="font-size:0.65rem;color:rgba(244,244,240,0.4);margin-bottom:1.5rem">USD $' + montoUSD + ' · COP ~$' + montoCOP + '</p>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem">' +
+        '<button onclick="pagarServicioEpayco('' + nombre + '',' + montoUSD + ','svc-' + id + '')" ' +
+          'style="border:1px solid rgba(45,212,204,0.3);background:rgba(45,212,204,0.08);color:#2DD4CC;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;text-align:center">' +
+          '<div style="font-size:1.2rem;margin-bottom:0.4rem">🇨🇴</div><strong>ePayco</strong>' +
+          '<div style="font-size:0.52rem;opacity:0.65;margin-top:0.3rem;line-height:1.5">Tarjeta · PSE<br>Nequi · Daviplata<br>Efectivo</div>' +
+        '</button>' +
+        '<a href="' + paypalUrl + '" target="_blank" ' +
+          'onclick="confirmarPagoPaypal('' + id + '');setTimeout(function(){var s=document.getElementById('svc-pay-selector');if(s)s.remove();},600)" ' +
+          'style="border:1px solid rgba(0,112,243,0.4);background:rgba(0,48,135,0.25);color:#60a5fa;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;text-decoration:none;display:block;text-align:center">' +
+          '<div style="font-size:1.2rem;margin-bottom:0.4rem">🌐</div><strong>PayPal</strong>' +
+          '<div style="font-size:0.52rem;opacity:0.65;margin-top:0.3rem;line-height:1.5">Internacional<br>USD $' + montoUSD + '</div>' +
+        '</a>' +
+      '</div>' +
+      '<p style="font-size:0.56rem;color:rgba(244,244,240,0.25);line-height:1.6;text-align:center">Después del pago recibirás confirmación por email con los próximos pasos.</p>' +
+    '</div>';
 
-  panel.appendChild(sel);
-  sel.scrollIntoView({behavior:'smooth', block:'center'});
+  document.body.appendChild(sel);
+  sel.addEventListener('click', function(e){ if(e.target===sel) sel.remove(); });
+  document.addEventListener('keydown', function esc(e){ if(e.key==='Escape'){ sel.remove(); document.removeEventListener('keydown',esc); } });
 }
 
-function pagarConEpayco(id, nombre, montoUSD) {
+function pagarServicioEpayco(nombre, montoUSD, referencia) {
+  document.getElementById('svc-pay-selector') && document.getElementById('svc-pay-selector').remove();
+  var montoCOP = String(Math.round(montoUSD * TRM));
   try {
-    pagarServicio(nombre, montoUSD, 'svc-' + id);
-    var ok = document.getElementById('ok-' + id);
-    if (ok) { setTimeout(function(){ ok.style.display='block'; ok.scrollIntoView({behavior:'smooth',block:'center'}); }, 500); }
+    var handler = ePayco.checkout.configure({ key: EPAYCO_KEY, test: EPAYCO_TEST });
+    handler.open({
+      name: nombre, description: nombre + ' — nikkourza.com',
+      invoice: referencia + '-' + Date.now(),
+      currency: 'cop', amount: montoCOP,
+      tax_base: '0', tax: '0', country: 'co', lang: 'es',
+      external: 'false',
+      response: 'https://nikkourza.com/descarga.html',
+      confirmation: 'https://nikkourza.com/descarga.html',
+      name_billing: '', email_billing: '',
+      type_doc_billing: 'cc', mobilephone_billing: '', methodsDisable: []
+    });
   } catch(e) {
-    console.warn('ePayco error:', e);
+    alert('Error al abrir ePayco. Intenta con PayPal o escríbele a Nikko: +57 3046455070');
   }
 }
 
-function registrarPagoPaypal(id, nombre, montoUSD) {
-  // Registra el intento para seguimiento
+function confirmarPagoPaypal(id) {
   var ok = document.getElementById('ok-' + id);
   if (ok) {
-    ok.innerHTML = '✓ Redirigiendo a PayPal — USD $' + montoUSD + '<br><span style="font-size:0.58rem;opacity:0.55">Después de pagar recibirás el link de Drive en tu email. Si no llega en 10 min escríbele a Nikko.</span>';
-    setTimeout(function(){ ok.style.display='block'; }, 300);
+    ok.innerHTML = '✓ Redirigiendo a PayPal para completar el pago.<br>' +
+      '<span style="font-size:0.6rem;opacity:0.6">Después de pagar recibirás un email de confirmación. Si no llega en 10 min escríbele a Nikko.</span>';
+    ok.style.display = 'block';
   }
+}
+
+/* ── MANTENER COMPATIBILIDAD ── */
+function submitFlow(id) {
+  var monto = servicioMontos[id];
+  if (!monto || monto === 0) { submitCotizacion(id); return; }
+  submitConPago(id, monto, servicioNombres[id], []);
+}
+
+/* Abre el checkout de ePayco para servicios (legacy) */
+function pagarServicio(nombre, montoUSD, referencia) {
+  pagarServicioEpayco(nombre, montoUSD, referencia);
 }
 
 /* CALENDAR */
@@ -1417,48 +1489,18 @@ function nextM(){if(cM<11)cM++;else{cM=0;cY++;}renderCal();}
 
 /* CONTACTO */
 function enviarContacto(){
-  var n=document.getElementById('cn').value.trim();
-  var e=document.getElementById('ce').value.trim();
-  var t=document.getElementById('ct').value.trim();
-  var a=document.getElementById('ca').value;
-  var m=document.getElementById('cm').value.trim();
-  var ok=document.getElementById('ok-contacto');
-  var btn=document.querySelector('[onclick="enviarContacto()"]');
+  var n=document.getElementById('cn').value;var e=document.getElementById('ce').value;
   if(!n||!e){alert('Por favor ingresa tu nombre y email.');return;}
-  if(btn){btn.textContent='Enviando...';btn.disabled=true;btn.style.opacity='0.6';}
-  var data=new FormData();
-  data.append('nombre',n);data.append('email',e);
-  data.append('whatsapp',t);data.append('asunto',a);
-  data.append('mensaje',m||'(sin mensaje)');
-  data.append('_subject','Nuevo contacto — '+(a||'Web Nikko Urza'));
-  fetch('https://formspree.io/f/xzdwvjqr',{method:'POST',body:data,headers:{'Accept':'application/json'}})
-  .then(function(r){
-    if(btn){btn.textContent='Enviar Mensaje →';btn.disabled=false;btn.style.opacity='1';}
-    if(r.ok){ok.style.display='block';ok.scrollIntoView({behavior:'smooth',block:'center'});}
-    else{alert('Hubo un problema. Escríbele por WhatsApp: +57 3046455070');}
-  }).catch(function(){
-    if(btn){btn.textContent='Enviar Mensaje →';btn.disabled=false;btn.style.opacity='1';}
-    alert('Sin conexión. WhatsApp: +57 3046455070');
-  });
+  var ok=document.getElementById('ok-contacto');
+  ok.style.display='block';ok.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 /* NEWSLETTER */
 function subNL(){
-  var e=document.getElementById('nle').value.trim();
-  var r=document.getElementById('nlr');
+  var e=document.getElementById('nle').value;var r=document.getElementById('nlr');
   if(!e||!e.includes('@')){r.style.display='block';r.style.color='#e87';r.textContent='Ingresa un email válido.';return;}
-  var data=new FormData();
-  data.append('email',e);data.append('_subject','Nuevo suscriptor newsletter');
-  fetch('https://formspree.io/f/xzdwvjqr',{method:'POST',body:data,headers:{'Accept':'application/json'}})
-  .then(function(){
-    r.style.display='block';r.style.color='var(--teal)';
-    r.textContent='✓ '+e+' añadido. ¡Gracias!';
-    document.getElementById('nle').value='';
-  }).catch(function(){
-    r.style.display='block';r.style.color='var(--teal)';
-    r.textContent='✓ '+e+' añadido.';
-    document.getElementById('nle').value='';
-  });
+  r.style.display='block';r.style.color='var(--teal)';r.textContent='✓ '+e+' añadido a la lista.';
+  document.getElementById('nle').value='';
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1559,36 +1601,6 @@ function tickPlayer(id){
   if(fill) fill.style.width=pct+'%';
   if(timer) timer.textContent=fmtTime(audio.currentTime)+(audio.duration?' / '+fmtTime(audio.duration):'');
   raf=requestAnimationFrame(function(){ tickPlayer(id); });
-}
-
-/* ── FILTROS DE BEATS ──────────────────────────────────── */
-function filtrarBeats() {
-  var genero = document.getElementById('filtroGenero').value.toLowerCase();
-  var bpmR = document.getElementById('filtroBPM').value;
-  var key = document.getElementById('filtroKey').value;
-  var rows = document.querySelectorAll('#beatsTable .beat-row.has-player');
-  var visible = 0;
-  rows.forEach(function(row) {
-    var rg = (row.dataset.genero||'').toLowerCase();
-    var bpm = parseInt(row.dataset.bpm||'0');
-    var rk = row.dataset.key||'';
-    var pw = document.getElementById(row.id.replace('br-','bpw-'));
-    var gOk = !genero || rg.includes(genero);
-    var bOk = !bpmR || (bpmR==='slow'&&bpm<90) || (bpmR==='mid'&&bpm>=90&&bpm<=120) || (bpmR==='fast'&&bpm>120);
-    var kOk = !key || rk===key;
-    var show = gOk && bOk && kOk;
-    row.style.display = show ? '' : 'none';
-    if (pw) pw.style.display = show ? '' : 'none';
-    if (show) visible++;
-  });
-  var cnt = document.getElementById('filtroCount');
-  if (cnt) cnt.textContent = (genero||bpmR||key) ? visible + ' beat' + (visible!==1?'s':'') + ' encontrado' + (visible!==1?'s':'') : '';
-}
-function limpiarFiltros() {
-  document.getElementById('filtroGenero').value='';
-  document.getElementById('filtroBPM').value='';
-  document.getElementById('filtroKey').value='';
-  filtrarBeats();
 }
 
 function seekBeat(id, e){
