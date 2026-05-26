@@ -608,6 +608,9 @@ footer{
 <!-- ===== HERO ===== -->
 <section id="hero">
   <div class="hero-bg"></div>
+  <div style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none">
+    <img src="Images/HomePortada.png" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.18;filter:grayscale(20%)">
+  </div>
   <p class="hero-label">Cantante · Productor · Colombia</p>
   <h1 class="hero-title">NIKKO<span>URZA</span></h1>
   <p class="hero-sub">Artista independiente<br>Música como acto filosófico.</p>
@@ -634,9 +637,15 @@ footer{
         <span class="tag">Colombia</span><span class="tag">Independiente</span>
       </div>
       <button class="press-dl">↓ Descargar Presskit Completo</button>
+      <div style="margin-top:2rem">
+        <p style="font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.55);margin-bottom:0.8rem">Mi música en SoundCloud</p>
+        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
+          style="border:1px solid rgba(45,212,204,0.15)"></iframe>
+      </div>
     </div>
     <div>
-      <div class="press-img"><div class="press-img-txt">NIKKO<br>URZA</div></div>
+      <div class="press-img"><img src="Images/PressKit.png" alt="Nikko Urza" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1"></div>
       <div class="press-stats">
         <div class="stat-card"><span class="stat-num">12+</span><span class="stat-lbl">Años activo</span></div>
         <div class="stat-card"><span class="stat-num">∞</span><span class="stat-lbl">Géneros</span></div>
@@ -812,9 +821,9 @@ footer{
   <p class="sec-label">04 — Licencias</p>
   <h2 class="sec-title">ELIGE TU<br><span>LICENCIA</span></h2>
   <div class="lic-grid">
-    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">BASIC</p><p class="lic-price">$35 <span>USD</span></p><ul class="lic-feats"><li>MP3 alta calidad 320kbps</li><li>Hasta 100,000 streams</li><li>Plataformas digitales</li><li>Crédito obligatorio</li><li>No TV / cine / pub.</li><li>No exclusiva</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Adquirir</button></div>
-    <div class="lic-card feat"><div class="lic-badge">Más Popular</div><p class="lic-type">Licencia</p><p class="lic-name">PREMIUM</p><p class="lic-price">$75 <span>USD</span></p><ul class="lic-feats"><li>WAV + MP3 + stems</li><li>Streams ilimitados</li><li>TV, YouTube, publicidad</li><li>Hasta 1,000 copias físicas</li><li>Crédito obligatorio</li><li>No exclusiva</li></ul><button class="btn-p" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Adquirir</button></div>
-    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">EXCLUSIVA</p><p class="lic-price">$350+ <span>USD</span></p><ul class="lic-feats"><li>Stems completos multitrack</li><li>Derechos exclusivos totales</li><li>Beat se retira de venta</li><li>Uso comercial ilimitado</li><li>Sin crédito obligatorio</li><li>Negociable</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Consultar</button></div>
+    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">BASIC</p><p class="lic-price">$35 <span>USD</span></p><ul class="lic-feats"><li>MP3 alta calidad 320kbps</li><li>Hasta 100,000 streams</li><li>Plataformas digitales</li><li>Crédito obligatorio</li><li>No TV / cine / pub.</li><li>No exclusiva</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
+    <div class="lic-card feat"><div class="lic-badge">Más Popular</div><p class="lic-type">Licencia</p><p class="lic-name">PREMIUM</p><p class="lic-price">$75 <span>USD</span></p><ul class="lic-feats"><li>WAV + MP3 + stems</li><li>Streams ilimitados</li><li>TV, YouTube, publicidad</li><li>Hasta 1,000 copias físicas</li><li>Crédito obligatorio</li><li>No exclusiva</li></ul><button class="btn-p" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
+    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">EXCLUSIVA</p><p class="lic-price">$350+ <span>USD</span></p><ul class="lic-feats"><li>Stems completos multitrack</li><li>Derechos exclusivos totales</li><li>Beat se retira de venta</li><li>Uso comercial ilimitado</li><li>Sin crédito obligatorio</li><li>Negociable</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Consultar precio</button></div>
     <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">CUSTOM</p><p class="lic-price" style="font-size:1.8rem">HABLEMOS</p><ul class="lic-feats"><li>Sellos discográficos</li><li>Proyectos audiovisuales</li><li>Sincronización (sync)</li><li>Publicidad y campañas</li><li>Términos personalizados</li><li>Contacto directo</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar</button></div>
   </div>
 </section>
@@ -850,7 +859,7 @@ footer{
       <div>
         <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="m-nombre" type="text" placeholder="Como quieres el crédito"></div>
         <div class="fg"><label class="fl">Email *</label><input class="fi" id="m-email" type="email" placeholder="tu@email.com"></div>
-        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="m-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="m-wsp" type="tel" placeholder="+57 3046455070"></div>
         <div class="fg"><label class="fl">Género / Referente</label><input class="fi" id="m-genero" type="text" placeholder="Ej: Afrobeat, ref: Burna Boy"></div>
         <div class="fg"><label class="fl">Deadline</label><input class="fi" id="m-deadline" type="date"></div>
       </div>
@@ -886,7 +895,7 @@ footer{
       <div>
         <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="ma-nombre" type="text" placeholder="Para el crédito"></div>
         <div class="fg"><label class="fl">Email *</label><input class="fi" id="ma-email" type="email" placeholder="tu@email.com"></div>
-        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="ma-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="ma-wsp" type="tel" placeholder="+57 3046455070"></div>
         <div class="fg"><label class="fl">Plataforma de destino</label>
           <select class="fi" id="ma-plataforma"><option>Spotify / Apple Music</option><option>YouTube</option><option>SoundCloud</option><option>Distribución física</option><option>Todas</option></select>
         </div>
@@ -924,7 +933,7 @@ footer{
       <div>
         <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="mm-nombre" type="text" placeholder="Para el crédito"></div>
         <div class="fg"><label class="fl">Email *</label><input class="fi" id="mm-email" type="email" placeholder="tu@email.com"></div>
-        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="mm-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="mm-wsp" type="tel" placeholder="+57 3046455070"></div>
         <div class="fg"><label class="fl">Género / Referente</label><input class="fi" id="mm-genero" type="text" placeholder="Ej: Trap melódico, ref: Travis Scott"></div>
       </div>
       <div>
@@ -959,7 +968,7 @@ footer{
       <div>
         <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="ep-nombre" type="text" placeholder="Tu nombre o el del artista"></div>
         <div class="fg"><label class="fl">Email *</label><input class="fi" id="ep-email" type="email" placeholder="tu@email.com"></div>
-        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="ep-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="ep-wsp" type="tel" placeholder="+57 3046455070"></div>
         <div class="fg"><label class="fl">¿Qué necesitas?</label>
           <select class="fi" id="ep-servicio"><option>Mezcla completa</option><option>Masterización</option><option>Mezcla + Master</option><option>Producción + Mezcla + Master</option><option>Aún no lo sé</option></select>
         </div>
@@ -1025,7 +1034,7 @@ footer{
       <div>
         <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="pr-nombre" type="text" placeholder="Para el crédito"></div>
         <div class="fg"><label class="fl">Email *</label><input class="fi" id="pr-email" type="email" placeholder="tu@email.com"></div>
-        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="pr-wsp" type="tel" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="pr-wsp" type="tel" placeholder="+57 3046455070"></div>
         <div class="fg"><label class="fl">Género deseado</label><input class="fi" id="pr-genero" type="text" placeholder="Ej: Afrobeat con elementos de trap"></div>
         <div class="fg"><label class="fl">Artistas de referencia</label><input class="fi" id="pr-ref" type="text" placeholder="Ej: Burna Boy, Bad Bunny"></div>
         <div class="fg"><label class="fl">¿Desde cero o sobre algo?</label>
@@ -1061,7 +1070,7 @@ footer{
         <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="ce" placeholder="tu@email.com"></div>
       </div>
       <div class="g2">
-        <div class="fg"><label class="fl">WhatsApp / Teléfono</label><input class="fi" type="tel" id="ct" placeholder="+57 300 000 0000"></div>
+        <div class="fg"><label class="fl">WhatsApp / Teléfono</label><input class="fi" type="tel" id="ct" placeholder="+57 3046455070"></div>
         <div class="fg"><label class="fl">¿Sobre qué me escribes?</label><select class="fi" id="ca"><option value="">Selecciona...</option><option>Contratar un servicio</option><option>Dudas sobre mezcla o master</option><option>Comprar un beat</option><option>Proyecto EP o álbum</option><option>Colaboración artística</option><option>Otro</option></select></div>
       </div>
       <div class="doubts-area">
@@ -1086,7 +1095,7 @@ footer{
     <div>
       <div class="info-block"><p class="info-block-lbl">Tiempos de respuesta y entrega</p><div class="del-row"><span class="del-svc">Respuesta a mensajes</span><span class="del-time">&lt; 24H</span></div><div class="del-row"><span class="del-svc">Masterización</span><span class="del-time">1–2 DÍAS</span></div><div class="del-row"><span class="del-svc">Mezcla profesional</span><span class="del-time">3–5 DÍAS</span></div><div class="del-row"><span class="del-svc">Mezcla + Master</span><span class="del-time">5–7 DÍAS</span></div><div class="del-row"><span class="del-svc">Producción musical</span><span class="del-time">5–10 DÍAS</span></div><div class="del-row"><span class="del-svc">EP / Álbum completo</span><span class="del-time">A TRATAR</span></div></div>
       <div class="info-block"><p class="info-block-lbl">Antes de escribir, ten en cuenta</p><div class="info-item"><span class="info-arr">→</span><span>Los stems van después del pago — link de Drive en tu email</span></div><div class="info-item"><span class="info-arr">→</span><span>Para EP o álbum primero va la cotización, sin compromiso</span></div><div class="info-item"><span class="info-arr">→</span><span>Trabajamos con clientes de Colombia y cualquier parte del mundo</span></div><div class="info-item"><span class="info-arr">→</span><span>Pagos vía ePayco (tarjeta, PSE, Nequi, Daviplata, efectivo) o PayPal para clientes internacionales</span></div><div class="info-item"><span class="info-arr">→</span><span>Cada proyecto incluye al menos una revisión gratuita</span></div></div>
-      <div class="info-block"><p class="info-block-lbl">Contacto directo</p><div class="info-item"><span class="info-arr">✉</span><span>nikkourza@email.com</span></div><div class="info-item"><span class="info-arr">📱</span><span>+57 300 000 0000 (WhatsApp)</span></div><p class="info-block-lbl" style="margin-top:1rem">Redes</p><div class="social-links"><a class="slink" href="#">Instagram</a><a class="slink" href="#">TikTok</a><a class="slink" href="#">YouTube</a><a class="slink" href="#">SoundCloud</a></div></div>
+      <div class="info-block"><p class="info-block-lbl">Contacto directo</p><div class="info-item"><span class="info-arr">✉</span><span>nikkourza@gmail.com</span></div><div class="info-item"><span class="info-arr">📱</span><span>+57 3046455070 (WhatsApp)</span></div><p class="info-block-lbl" style="margin-top:1rem">Redes</p><div class="social-links"><a class="slink" href="https://instagram.com/nikkourza" target="_blank">Instagram</a><a class="slink" href="https://tiktok.com/@nikkourza" target="_blank">TikTok</a><a class="slink" href="https://youtube.com/@nikkourza" target="_blank">YouTube</a><a class="slink" href="https://soundcloud.com/nikkourza" target="_blank">SoundCloud</a></div></div>
     </div>
   </div>
 </section>
