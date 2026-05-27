@@ -153,6 +153,7 @@ tr:hover td{background:rgba(45,212,204,0.03)}
     <div class="nav-item" onclick="showPage('servicios')"><span class="nav-icon">◈</span>Servicios</div>
     <div class="nav-item" onclick="showPage('portafolio')"><span class="nav-icon">◎</span>Portafolio</div>
     <div class="nav-item" onclick="showPage('presskit')"><span class="nav-icon">✦</span>Presskit</div>
+    <div class="nav-item" onclick="showPage('linkinbio')"><span class="nav-icon">⚡</span>Link in Bio</div>
     <div class="sidebar-footer">
       <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
     </div>
@@ -226,6 +227,46 @@ tr:hover td{background:rgba(45,212,204,0.03)}
       <div class="beats-grid" id="portafolioGrid">
         <div class="loading-row" style="grid-column:1/-1">Cargando portafolio...</div>
       </div>
+    </div>
+
+    <!-- LINK IN BIO -->
+    <div class="page" id="page-linkinbio">
+      <h1 class="page-title">LINK <span>IN BIO</span></h1>
+      <p class="page-sub">Administra de manera independiente tu página de enlaces y lanzamientos</p>
+
+      <div class="form-section">
+        <p class="form-title">Imagen de Perfil (Avatar)</p>
+        <div class="fg">
+          <label class="fl">URL de la foto de perfil</label>
+          <input class="fi" id="libAvatar" placeholder="URL o ruta de la imagen (ej: Images/logo.png)">
+        </div>
+        <div style="margin-top:0.5rem">
+          <img id="libAvatarPreview" src="Images/logo.png" style="max-width:96px;border-radius:50%;border:2px solid var(--cyan);display:block;box-shadow:0 0 10px rgba(45,212,204,0.3)" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Lanzamiento Destacado (SoundCloud)</p>
+        <div class="fg">
+          <label class="fl">URL de la Pista en SoundCloud</label>
+          <input class="fi" id="libLanzamiento" placeholder="https://soundcloud.com/usuario/nombre-pista">
+        </div>
+        <p style="font-size:0.52rem;color:rgba(244,244,240,0.3);margin-top:-0.4rem;margin-bottom:0.8rem">Ejemplo: https://soundcloud.com/nikkourza/sin-permiso</p>
+      </div>
+
+      <div class="form-section">
+        <p class="form-title">Proveedor Principal de Música (SoundCloud Perfil)</p>
+        <div class="fg">
+          <label class="fl">URL del Perfil o Playlist de SoundCloud</label>
+          <input class="fi" id="libProveedor" placeholder="https://soundcloud.com/usuario">
+        </div>
+        <p style="font-size:0.52rem;color:rgba(244,244,240,0.3);margin-top:-0.4rem;margin-bottom:0.8rem">Este widget se mostrará en la sección inferior de "Mi Música" para reproducir tu catálogo completo.</p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-primary" onclick="guardarLinkinbio()">Guardar Cambios →</button>
+      </div>
+      <div id="libOk" style="display:none;margin-top:1rem;border:1px solid var(--teal);padding:0.8rem 1rem;font-size:0.68rem;color:var(--teal)">✓ Configuración de Link in Bio actualizada con éxito.</div>
     </div>
 
     <!-- PRESSKIT -->
@@ -812,12 +853,67 @@ async function guardarPresskit() {
   } catch(e) { toast(e.message || 'Error de conexión', true); }
 }
 
-// Extender showPage para portafolio y presskit
+// ── LINK IN BIO ─────────────────────────────────────────────────────────────
+async function cargarLinkinbioAdmin() {
+  try {
+    var data = await apiFetch('/api/linkinbio');
+    var saved = data.config;
+    if (saved) {
+      document.getElementById('libAvatar').value = saved.foto || 'Images/logo.png';
+      document.getElementById('libLanzamiento').value = saved.hero || '';
+      document.getElementById('libProveedor').value = saved.download || 'https://soundcloud.com/nikkourza';
+      
+      // Actualizar preview
+      var previewImg = document.getElementById('libAvatarPreview');
+      if (previewImg) {
+        previewImg.src = saved.foto || 'Images/logo.png';
+        previewImg.style.display = 'block';
+      }
+    }
+  } catch(e) {
+    console.error('Error cargando linkinbio config:', e);
+    toast('Error al cargar configuración de Link in Bio', true);
+  }
+}
+
+async function guardarLinkinbio() {
+  var foto = document.getElementById('libAvatar').value.trim();
+  var hero = document.getElementById('libLanzamiento').value.trim();
+  var download = document.getElementById('libProveedor').value.trim();
+  
+  var payload = { foto, hero, download };
+  
+  try {
+    var data = await apiFetch('/api/linkinbio', {
+      method: 'PUT',
+      body: JSON.stringify(payload)
+    });
+    if (data.ok) {
+      toast('Configuración de Link in Bio guardada ✓');
+      var okBanner = document.getElementById('libOk');
+      if (okBanner) {
+        okBanner.style.display = 'block';
+        setTimeout(function(){ okBanner.style.display = 'none'; }, 4000);
+      }
+      
+      // Actualizar preview
+      var previewImg = document.getElementById('libAvatarPreview');
+      if (previewImg) previewImg.src = foto;
+    } else {
+      toast(data.error || 'Error al guardar', true);
+    }
+  } catch(e) {
+    toast(e.message || 'Error de conexión', true);
+  }
+}
+
+// Extender showPage para portafolio, presskit y linkinbio
 var _origShowPage = showPage;
 showPage = function(id) {
   _origShowPage && _origShowPage.call(this, id);
   if (id==='portafolio') cargarPortafolio();
   if (id==='presskit') cargarPresskitAdmin();
+  if (id==='linkinbio') cargarLinkinbioAdmin();
 };
 </script>
 </body>

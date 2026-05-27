@@ -504,7 +504,7 @@ body::before{
   <!-- HEADER -->
   <div class="header">
     <div class="avatar">
-      <img src="Images/logo.png" alt="Nikko Urza Logo" class="avatar-img">
+      <img src="Images/logo.png" alt="Nikko Urza Logo" class="avatar-img" id="libAvatarImg">
     </div>
     <h1 class="artist-name">NIKKO <span>URZA</span></h1>
     <div class="artist-tags">
@@ -516,43 +516,17 @@ body::before{
   </div>
 
   <!-- LANZAMIENTOS -->
-  <div class="section-label" style="animation-delay:0.1s"><span class="live-dot"></span>Últimos lanzamientos</div>
+  <div class="section-label" style="animation-delay:0.1s"><span class="live-dot"></span>Lanzamiento destacado</div>
 
   <div class="releases" id="soundcloudReleases">
-    <!-- Sencillo 1 -->
+    <!-- Lanzamiento Destacado -->
     <div class="sc-release-placeholder" style="animation-delay: 0.1s">
       <div class="sc-placeholder-glow"></div>
       <div class="sc-placeholder-left">
         <div class="sc-placeholder-disc"><div class="sc-disc-center"></div></div>
         <div class="sc-placeholder-info">
           <span class="sc-placeholder-tag">SoundCloud · Disponible</span>
-          <span class="sc-placeholder-title">Lanzamiento #1</span>
-          <span class="sc-placeholder-subtitle">Pendiente de configurar en el panel de administración</span>
-        </div>
-      </div>
-      <div class="sc-placeholder-action"><span class="sc-action-icon">⚡</span></div>
-    </div>
-    <!-- Sencillo 2 -->
-    <div class="sc-release-placeholder" style="animation-delay: 0.2s">
-      <div class="sc-placeholder-glow"></div>
-      <div class="sc-placeholder-left">
-        <div class="sc-placeholder-disc"><div class="sc-disc-center"></div></div>
-        <div class="sc-placeholder-info">
-          <span class="sc-placeholder-tag">SoundCloud · Disponible</span>
-          <span class="sc-placeholder-title">Lanzamiento #2</span>
-          <span class="sc-placeholder-subtitle">Pendiente de configurar en el panel de administración</span>
-        </div>
-      </div>
-      <div class="sc-placeholder-action"><span class="sc-action-icon">⚡</span></div>
-    </div>
-    <!-- Sencillo 3 -->
-    <div class="sc-release-placeholder" style="animation-delay: 0.3s">
-      <div class="sc-placeholder-glow"></div>
-      <div class="sc-placeholder-left">
-        <div class="sc-placeholder-disc"><div class="sc-disc-center"></div></div>
-        <div class="sc-placeholder-info">
-          <span class="sc-placeholder-tag">SoundCloud · Disponible</span>
-          <span class="sc-placeholder-title">Lanzamiento #3</span>
+          <span class="sc-placeholder-title">Lanzamiento Destacado</span>
           <span class="sc-placeholder-subtitle">Pendiente de configurar en el panel de administración</span>
         </div>
       </div>
@@ -573,10 +547,10 @@ body::before{
         scrolling="no"
         frameborder="0">
       </iframe>
-      <a class="sc-open-link" href="https://soundcloud.com/nikkourza" target="_blank" rel="noopener">
+      <a class="sc-open-link" id="sc-profile-link" href="https://soundcloud.com/nikkourza" target="_blank" rel="noopener">
         <div class="sc-open-left">
           <div class="sc-dot"></div>
-          <span class="sc-open-txt">Escuchar en SoundCloud · @nikkourza</span>
+          <span class="sc-open-txt" id="sc-profile-handle">Escuchar en SoundCloud · @nikkourza</span>
         </div>
         <span class="sc-open-arr">↗</span>
       </a>
@@ -671,76 +645,98 @@ function togglePlatforms(id) {
   open = isOpen ? null : id;
 }
 
-// Cargar Lanzamientos dinámicos desde Supabase (reproductores SoundCloud)
-async function cargarLanzamientosSoundCloud() {
-  var container = document.getElementById('soundcloudReleases');
-  if (!container) return;
-  
+// Cargar Configuración de Link in Bio desde Supabase (id = 2)
+async function cargarLinkinbioConfig() {
   try {
-    var res = await fetch('/api/portafolio');
+    var res = await fetch('/api/linkinbio');
     var data = await res.json();
-    if (!data.ok || !data.portafolio) {
-      cargarFallbackSoundCloud(container);
+    if (!data.ok || !data.config) {
+      cargarConfiguracionPorDefecto();
       return;
     }
     
-    // Filtrar los que son de tipo 'lanzamiento' y que tengan URL de SoundCloud
-    var lanzamientos = data.portafolio.filter(function(p) {
-      return p.tipo === 'lanzamiento' && p.soundcloud_url;
-    });
-    
-    var top3 = lanzamientos.slice(0, 3);
-    var html = '';
-    
-    // Renderizar de forma responsiva y dinámica
-    for (var i = 0; i < 3; i++) {
-      if (i < top3.length) {
-        var p = top3[i];
-        var trackUrl = p.soundcloud_url.trim();
-        var embedUrl = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(trackUrl) + 
-                       '&color=%232dd4cc&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false';
-                       
-        html += '<div class="sc-release-player" style="animation-delay: ' + (0.1 * (i + 1)) + 's">' +
-          '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="' + embedUrl + '"></iframe>' +
-        '</div>';
-      } else {
-        // Rellenar el slot restante con el placeholder premium cyberpunk
-        html += generarPlaceholderHTML(i + 1);
-      }
-    }
-    
-    container.innerHTML = html;
+    var config = data.config;
+    aplicarConfiguracion(config);
   } catch(err) {
-    console.error('Error cargando lanzamientos SoundCloud:', err);
-    cargarFallbackSoundCloud(container);
+    console.error('Error cargando configuración de Link in Bio:', err);
+    cargarConfiguracionPorDefecto();
   }
 }
 
-function cargarFallbackSoundCloud(container) {
-  // Como fallback total, renderizamos las 3 hermosas tarjetas de placeholder
-  var html = '';
-  for (var i = 1; i <= 3; i++) {
-    html += generarPlaceholderHTML(i);
+function aplicarConfiguracion(config) {
+  // 1. Aplicar Imagen de Perfil (Avatar)
+  var avatarImg = document.getElementById('libAvatarImg');
+  if (avatarImg && config.foto) {
+    avatarImg.src = config.foto;
   }
-  container.innerHTML = html;
+  
+  // 2. Aplicar Lanzamiento Destacado
+  var releasesContainer = document.getElementById('soundcloudReleases');
+  if (releasesContainer) {
+    var trackUrl = config.hero ? config.hero.trim() : '';
+    if (trackUrl) {
+      var embedUrl = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(trackUrl) + 
+                     '&color=%232dd4cc&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false';
+                     
+      releasesContainer.innerHTML = '<div class="sc-release-player" style="animation-delay: 0.1s">' +
+        '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="' + embedUrl + '"></iframe>' +
+      '</div>';
+    } else {
+      // Si no está configurado, mostrar el hermoso placeholder ciberpunk
+      releasesContainer.innerHTML = generarPlaceholderHTML();
+    }
+  }
+  
+  // 3. Aplicar Proveedor de Música
+  var musicUrl = config.download ? config.download.trim() : 'https://soundcloud.com/nikkourza';
+  var scPlayer = document.getElementById('sc-player');
+  var scProfileLink = document.getElementById('sc-profile-link');
+  var scProfileHandle = document.getElementById('sc-profile-handle');
+  
+  if (scPlayer) {
+    scPlayer.src = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(musicUrl) + 
+                   '&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true';
+  }
+  if (scProfileLink) {
+    scProfileLink.href = musicUrl;
+  }
+  if (scProfileHandle) {
+    var handle = extraerUsuarioSoundCloud(musicUrl);
+    scProfileHandle.textContent = 'Escuchar en SoundCloud · @' + handle;
+  }
 }
 
-function generarPlaceholderHTML(num) {
-  return '<div class="sc-release-placeholder" style="animation-delay: ' + (0.1 * num) + 's">' +
+function cargarConfiguracionPorDefecto() {
+  aplicarConfiguracion({
+    foto: 'Images/logo.png',
+    hero: '', // Mostrar placeholder
+    download: 'https://soundcloud.com/nikkourza'
+  });
+}
+
+function extraerUsuarioSoundCloud(url) {
+  if (!url) return 'nikkourza';
+  var clean = url.trim().replace(/\/$/, '');
+  var parts = clean.split('/');
+  return parts[parts.length - 1] || 'nikkourza';
+}
+
+function generarPlaceholderHTML() {
+  return '<div class="sc-release-placeholder" style="animation-delay: 0.1s">' +
     '<div class="sc-placeholder-glow"></div>' +
     '<div class="sc-placeholder-left">' +
       '<div class="sc-placeholder-disc"><div class="sc-disc-center"></div></div>' +
       '<div class="sc-placeholder-info">' +
         '<span class="sc-placeholder-tag">SoundCloud · Disponible</span>' +
-        '<span class="sc-placeholder-title">Lanzamiento #' + num + '</span>' +
-        '<span class="sc-placeholder-subtitle">Pendiente de configurar en el panel de administración</span>' +
+        '<span class="sc-placeholder-title">Lanzamiento Destacado</span>' +
+        '<span class="sc-placeholder-subtitle">Pendiente de configurar en tu panel de administración</span>' +
       '</div>' +
     '</div>' +
     '<div class="sc-placeholder-action"><span class="sc-action-icon">⚡</span></div>' +
   '</div>';
 }
 
-document.addEventListener('DOMContentLoaded', cargarLanzamientosSoundCloud);
+document.addEventListener('DOMContentLoaded', cargarLinkinbioConfig);
 </script>
 </body>
 </html>
