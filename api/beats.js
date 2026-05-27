@@ -10,8 +10,13 @@ function obtenerSupabase() {
   if (!supabase) {
     const url = process.env.SUPABASE_URL;
     const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
+    
+    if (key && (key.startsWith('sb_') || key.startsWith('sb_secret'))) {
+      throw new Error('ERROR_CLAVE_DE_GESTION: Has colocado la "Personal Access Token" de Supabase (que empieza con "sb_secret_") en la variable SUPABASE_SERVICE_KEY de Vercel. Esta clave es para herramientas de línea de comandos y no sirve para interactuar con la base de datos desde código. Por favor ve a Supabase -> Project Settings -> API, desplázate hasta "Project API keys", copia la clave llamada "service_role" muy larga (que inicia con "eyJ...") y colócala en Vercel.');
+    }
+    
     if (!url || !key) {
-      throw new Error('Configuración de base de datos incompleta. Asegúrate de configurar SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY en tus variables de entorno en Vercel.');
+      throw new Error('Configuración de base de datos incompleta. Asegúrate de configurar SUPABASE_URL y SUPABASE_SERVICE_KEY en tus variables de entorno en Vercel.');
     }
     supabase = createClient(url, key);
   }
