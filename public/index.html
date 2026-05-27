@@ -1568,6 +1568,40 @@ var cartState = {
 // 🌐 ESTADO DE MONEDA GLOBAL Y CONVERSIÓN DINÁMICA
 var currentCurrency = 'USD';
 
+// 📣 NOTIFICACIONES TOAST (CYBERPUNK GLOW)
+function toast(msg, isError) {
+  var t = document.getElementById('nikko-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'nikko-toast';
+    t.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:rgba(6,30,28,0.92);border:1px solid rgba(45,212,204,0.3);color:#2DD4CC;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:0.9rem 1.8rem;z-index:99999;box-shadow:0 0 15px rgba(45,212,204,0.25);backdrop-filter:blur(8px);transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);opacity:0;pointer-events:none;text-transform:uppercase;';
+    document.body.appendChild(t);
+  }
+  
+  if (isError) {
+    t.style.borderColor = 'rgba(248,113,113,0.5)';
+    t.style.color = '#f87171';
+    t.style.boxShadow = '0 0 15px rgba(248,113,113,0.25)';
+    t.style.background = 'rgba(30,6,6,0.95)';
+  } else {
+    t.style.borderColor = 'rgba(45,212,204,0.3)';
+    t.style.color = '#2DD4CC';
+    t.style.boxShadow = '0 0 15px rgba(45,212,204,0.25)';
+    t.style.background = 'rgba(6,30,28,0.92)';
+  }
+  
+  t.innerHTML = msg;
+  t.style.opacity = '1';
+  t.style.bottom = '3rem';
+  
+  if (window.toastTimer) clearTimeout(window.toastTimer);
+  
+  window.toastTimer = setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.bottom = '2rem';
+  }, 3000);
+}
+
 function formatCurrencyValue(usdValue) {
   if (currentCurrency === 'COP') {
     return '$' + Math.round(usdValue * TRM).toLocaleString('es-CO') + ' COP';
