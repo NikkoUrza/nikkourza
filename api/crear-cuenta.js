@@ -77,7 +77,7 @@ module.exports = async function crearCuentaCliente({ email, nombre, ventaId, bea
     // 6. Si es cuenta nueva, enviar email con beat + activación de cuenta
     if (esCuentaNueva) {
       await resend.emails.send({
-        from: 'Nikko Urza <noreply@nikkourza.com>',
+        from: 'Nikko Urza <info@nikkourza.com>',
         to: email,
         subject: `✓ Tu beat está listo — ${beatNombre} · Activa tu cuenta`,
         html: emailBeatConCuenta({ nombre, beatNombre, licencia, token, linkActivacion, linkDescarga: `${SITE_URL}/descarga.html?token=${token}` })
@@ -85,7 +85,7 @@ module.exports = async function crearCuentaCliente({ email, nombre, ventaId, bea
     } else {
       // 6. Email con beat para cliente con cuenta existente
       await resend.emails.send({
-        from: 'Nikko Urza <noreply@nikkourza.com>',
+        from: 'Nikko Urza <info@nikkourza.com>',
         to: email,
         subject: `✓ Tu beat está listo — ${beatNombre}`,
         html: emailBeatCompradorExistente({ nombre, beatNombre, licencia, token, linkDescarga: `${SITE_URL}/descarga.html?token=${token}` })

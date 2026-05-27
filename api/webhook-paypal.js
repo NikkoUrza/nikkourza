@@ -14,7 +14,7 @@ const supabase = createClient(
 );
 const resend = new Resend(process.env.RESEND_API_KEY);
 const SITE_URL = process.env.SITE_URL || 'https://nikkourza.vercel.app';
-const PAYPAL_EMAIL = 'nikkourza@gmail.com'; // tu email de PayPal
+const PAYPAL_EMAIL = 'nikkourzamusic@gmail.com'; // tu email de PayPal
 
 function generarToken() {
   return crypto.randomBytes(32).toString('hex');
@@ -201,7 +201,7 @@ async function procesarServicioPayPal({ referencia, email, nombre, monto, itemNo
   }).on('conflict', () => {});
 
   await resend.emails.send({
-    from: 'Nikko Urza <noreply@nikkourza.com>',
+    from: 'Nikko Urza <info@nikkourza.com>',
     to: email,
     subject: '✓ Pago recibido — Tu proyecto está en camino',
     html: `<div style="background:#080C0C;color:#F4F4F0;font-family:monospace;padding:2rem;max-width:560px;margin:0 auto">
@@ -216,8 +216,8 @@ async function procesarServicioPayPal({ referencia, email, nombre, monto, itemNo
   });
 
   await resend.emails.send({
-    from: 'Web Nikko Urza <noreply@nikkourza.com>',
-    to: 'nikkourza@gmail.com',
+    from: 'Web Nikko Urza <info@nikkourza.com>',
+    to: 'nikkourzamusic@gmail.com',
     subject: `💰 Nuevo servicio PayPal — $${monto} USD`,
     html: `<p>Servicio: <strong>${itemNombre}</strong><br>Cliente: ${nombre} (${email})<br>Monto: $${monto} USD</p>`
   });
@@ -225,7 +225,7 @@ async function procesarServicioPayPal({ referencia, email, nombre, monto, itemNo
 
 async function enviarEmailDescarga({ email, nombre, beatNombre, licencia, monto, token, linkDescarga }) {
   await resend.emails.send({
-    from: 'Nikko Urza <noreply@nikkourza.com>',
+    from: 'Nikko Urza <info@nikkourza.com>',
     to: email,
     subject: `✓ Tu beat está listo — ${beatNombre}`,
     html: `<!DOCTYPE html><html><head><meta charset="UTF-8">
@@ -264,8 +264,8 @@ async function enviarEmailDescarga({ email, nombre, beatNombre, licencia, monto,
   });
 
   await resend.emails.send({
-    from: 'Web Nikko Urza <noreply@nikkourza.com>',
-    to: 'nikkourza@gmail.com',
+    from: 'Web Nikko Urza <info@nikkourza.com>',
+    to: 'nikkourzamusic@gmail.com',
     subject: `💰 Beat vendido PayPal — ${beatNombre} $${monto} USD`,
     html: `<p>Beat: <strong>${beatNombre}</strong> (${licencia})<br>Cliente: ${nombre} (${email})<br>Monto: $${monto} USD</p>`
   });
@@ -374,7 +374,7 @@ async function enviarEmailCarritoDescargaPayPal({ email, nombre, ventas, montoTo
   }).join('');
 
   await resend.emails.send({
-    from: 'Nikko Urza <noreply@nikkourza.com>',
+    from: 'Nikko Urza <info@nikkourza.com>',
     to: email,
     subject: `✓ ¡Tus beats están listos! — ${ventas.length} Beats Adquiridos (PayPal)`,
     html: emailCarritoTemplatePayPal({ nombre, itemsHTML, montoTotal, referencia, linkActivacion, esCuentaNueva })
@@ -383,8 +383,8 @@ async function enviarEmailCarritoDescargaPayPal({ email, nombre, ventas, montoTo
   // Copia de notificación para Nikko
   const listaNombres = ventas.map(v => `${v.beats?.nombre || v.beat_nombre} (${v.licencia})`).join(', ');
   await resend.emails.send({
-    from: 'Web Nikko Urza <noreply@nikkourza.com>',
-    to: 'nikkourza@gmail.com',
+    from: 'Web Nikko Urza <info@nikkourza.com>',
+    to: 'nikkourzamusic@gmail.com',
     subject: `💰 Nueva venta de Carrito PayPal — $${montoTotal} USD`,
     html: `<p>Venta de Carrito por <strong>${nombre}</strong> (${email}).<br>Beats: <strong>${listaNombres}</strong><br>Monto Total: $${montoTotal} USD<br>Referencia: ${referencia}</p>`
   });

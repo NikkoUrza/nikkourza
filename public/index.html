@@ -2710,24 +2710,34 @@ function enviarContacto(){
   if(!n||!e){alert('Por favor ingresa tu nombre y email.');return;}
   if(!e.includes('@')){alert('El email no parece válido.');return;}
   if(btn){btn.textContent='Enviando...';btn.disabled=true;btn.style.opacity='0.6';}
-  var data=new FormData();
-  data.append('nombre',n);
-  data.append('email',e);
-  data.append('whatsapp',t);
-  data.append('asunto',a);
-  data.append('mensaje',m||'(sin mensaje)');
-  data.append('_subject','Nuevo contacto web — Nikko Urza');
-  data.append('_replyto',e);
-  fetch('https://formspree.io/f/xzdwvjqr',{
-    method:'POST',body:data,headers:{'Accept':'application/json'}
+  var payload = {
+    nombre: n,
+    email: e,
+    whatsapp: t,
+    asunto: a,
+    mensaje: m || '(sin mensaje)',
+    cn_hp: hp
+  };
+  fetch('/api/contacto',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
   }).then(function(r){
-    if(btn){btn.textContent='Enviar Mensaje →';btn.disabled=false;btn.style.opacity='1';}
-    if(r.ok){
-      ok.style.display='block';
-      ok.scrollIntoView({behavior:'smooth',block:'center'});
-    } else {
-      alert('Hubo un problema enviando el mensaje. Escríbele directamente por WhatsApp: +57 3046455070');
-    }
+    return r.json().then(function(resData) {
+      if(btn){btn.textContent='Enviar Mensaje →';btn.disabled=false;btn.style.opacity='1';}
+      if(r.ok){
+        ok.style.display='block';
+        ok.scrollIntoView({behavior:'smooth',block:'center'});
+        // Limpiar campos tras éxito
+        document.getElementById('cn').value = '';
+        document.getElementById('ce').value = '';
+        if(document.getElementById('ct')) document.getElementById('ct').value = '';
+        if(document.getElementById('ca')) document.getElementById('ca').value = '';
+        if(document.getElementById('cm')) document.getElementById('cm').value = '';
+      } else {
+        alert(resData.error || 'Hubo un problema enviando el mensaje. Escríbele directamente por WhatsApp: +57 3046455070');
+      }
+    });
   }).catch(function(){
     if(btn){btn.textContent='Enviar Mensaje →';btn.disabled=false;btn.style.opacity='1';}
     alert('Sin conexión. Escríbele por WhatsApp: +57 3046455070');

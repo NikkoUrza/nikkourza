@@ -230,7 +230,7 @@ async function procesarServicio({ referencia, email, nombre, monto, metodoPago, 
 
   // Email de confirmación al cliente
   await resend.emails.send({
-    from: 'Nikko Urza <noreply@nikkourza.com>',
+    from: 'Nikko Urza <info@nikkourza.com>',
     to: email,
     subject: '✓ Pago recibido — Tu proyecto está en camino',
     html: emailServicioTemplate({ nombre, monto, referencia })
@@ -238,8 +238,8 @@ async function procesarServicio({ referencia, email, nombre, monto, metodoPago, 
 
   // Notificación a Nikko
   await resend.emails.send({
-    from: 'Web Nikko Urza <noreply@nikkourza.com>',
-    to: 'nikkourza@gmail.com',
+    from: 'Web Nikko Urza <info@nikkourza.com>',
+    to: 'nikkourzamusic@gmail.com',
     subject: `💰 Nuevo servicio contratado — $${monto} USD`,
     html: `<p>Nuevo servicio pagado por <strong>${nombre}</strong> (${email}).<br>Monto: $${monto} USD<br>Referencia: ${referencia}</p>`
   });
@@ -249,7 +249,7 @@ async function enviarEmailDescarga({ email, nombre, beatNombre, licencia, monto,
   const linkDescarga = `${SITE_URL}/descarga?token=${token}`;
 
   await resend.emails.send({
-    from: 'Nikko Urza <noreply@nikkourza.com>',
+    from: 'Nikko Urza <info@nikkourza.com>',
     to: email,
     subject: `✓ Tu beat está listo — ${beatNombre}`,
     html: emailDescargaTemplate({ nombre, beatNombre, licencia, monto, linkDescarga, token })
@@ -257,8 +257,8 @@ async function enviarEmailDescarga({ email, nombre, beatNombre, licencia, monto,
 
   // Copia a Nikko
   await resend.emails.send({
-    from: 'Web Nikko Urza <noreply@nikkourza.com>',
-    to: 'nikkourza@gmail.com',
+    from: 'Web Nikko Urza <info@nikkourza.com>',
+    to: 'nikkourzamusic@gmail.com',
     subject: `💰 Beat vendido — ${beatNombre} (${licencia}) $${monto} USD`,
     html: `<p>Beat vendido: <strong>${beatNombre}</strong><br>Licencia: ${licencia}<br>Comprador: ${nombre} (${email})<br>Monto: $${monto} USD</p>`
   });
@@ -442,7 +442,7 @@ async function enviarEmailCarritoDescarga({ email, nombre, ventas, montoTotal, r
   }).join('');
 
   await resend.emails.send({
-    from: 'Nikko Urza <noreply@nikkourza.com>',
+    from: 'Nikko Urza <info@nikkourza.com>',
     to: email,
     subject: `✓ ¡Tus beats están listos! — ${ventas.length} Beats Adquiridos`,
     html: emailCarritoTemplate({ nombre, itemsHTML, montoTotal, referencia, linkActivacion, esCuentaNueva })
@@ -451,8 +451,8 @@ async function enviarEmailCarritoDescarga({ email, nombre, ventas, montoTotal, r
   // Copia de notificación para Nikko
   const listaNombres = ventas.map(v => `${v.beats?.nombre || v.beat_nombre} (${v.licencia})`).join(', ');
   await resend.emails.send({
-    from: 'Web Nikko Urza <noreply@nikkourza.com>',
-    to: 'nikkourza@gmail.com',
+    from: 'Web Nikko Urza <info@nikkourza.com>',
+    to: 'nikkourzamusic@gmail.com',
     subject: `💰 Nueva venta de Carrito — $${montoTotal} USD`,
     html: `<p>Venta de Carrito por <strong>${nombre}</strong> (${email}).<br>Beats: <strong>${listaNombres}</strong><br>Monto Total: $${montoTotal} USD<br>Referencia: ${referencia}</p>`
   });
