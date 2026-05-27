@@ -1,4 +1,4 @@
-// api/presskit.js
+// api/presskit.js - v1.0.1
 // GET /api/presskit — obtiene los datos del presskit del artista
 // PUT /api/presskit — actualiza los datos del presskit (solo admin)
 
