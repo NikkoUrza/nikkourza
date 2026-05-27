@@ -577,13 +577,23 @@ async function cargarLanzamientosSoundCloud() {
 }
 
 function cargarFallbackSoundCloud(container) {
-  // Como fallback, cargamos el reproductor de perfil oficial de Nikko Urza
-  container.innerHTML = '<div class="sc-release-player">' +
-    '<iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay" ' +
-      'src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true" ' +
-      'style="border:1px solid rgba(45,212,204,0.2);display:block">' +
-    '</iframe>' +
-  '</div>';
+  // Como fallback de sencillos independientes, cargamos 3 reproductores de SoundCloud separados
+  var fallbacks = [
+    'https://soundcloud.com/nikkourza/sin-permiso',
+    'https://soundcloud.com/nikkourza/oceano',
+    'https://soundcloud.com/nikkourza/noche-libre'
+  ];
+  
+  var html = fallbacks.map(function(trackUrl, index) {
+    var embedUrl = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(trackUrl) + 
+                   '&color=%232dd4cc&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false';
+                   
+    return '<div class="sc-release-player" style="animation-delay: ' + (0.1 * (index + 1)) + 's">' +
+      '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="' + embedUrl + '"></iframe>' +
+    '</div>';
+  }).join('');
+  
+  container.innerHTML = html;
 }
 
 document.addEventListener('DOMContentLoaded', cargarLanzamientosSoundCloud);
