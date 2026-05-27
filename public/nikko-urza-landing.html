@@ -113,6 +113,24 @@ body::before{
 /* RELEASE CARDS */
 .releases{display:flex;flex-direction:column;gap:0.9rem;margin-bottom:2.5rem}
 
+.sc-release-player {
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(45, 212, 204, 0.15);
+  background: rgba(6, 30, 28, 0.3);
+  padding: 2px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 15px rgba(45, 212, 204, 0.08);
+}
+.sc-release-player:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px rgba(45, 212, 204, 0.25);
+  transform: translateY(-2px);
+}
+.sc-release-player iframe {
+  display: block;
+  border: none;
+}
+
 .release-card{
   border:1px solid var(--border);
   background:rgba(6,30,28,0.4);
@@ -395,90 +413,13 @@ body::before{
   <!-- LANZAMIENTOS -->
   <div class="section-label" style="animation-delay:0.1s"><span class="live-dot"></span>Últimos lanzamientos</div>
 
-  <div class="releases">
-
-    <!-- Release 1 -->
-    <div>
-      <div class="release-card" onclick="togglePlatforms('r1')">
-        <div class="release-cover">
-          <div class="release-new">Nuevo</div>
-          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
-            <path d="M0 15 Q7 5 15 15 Q22 25 30 15 Q37 5 45 15 Q52 25 60 15" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="release-info">
-          <p class="release-type">Sencillo · 2026</p>
-          <p class="release-title">Sin Permiso</p>
-          <p class="release-meta">Afrobeat / Trap · 3:42</p>
-        </div>
-        <span class="release-arrow" id="arr-r1">▾</span>
-      </div>
-      <div class="platforms-wrap" id="r1">
-        <div class="platforms-inner">
-          <a class="platform-link" href="https://open.spotify.com/artist/7rQ23F4nUp8XyqYtVEXk4d" target="_blank" rel="noopener"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
-          <a class="platform-link" href="https://music.apple.com/artist/nikko-urza/1739098322" target="_blank" rel="noopener"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
-          <a class="platform-link" href="https://music.youtube.com/channel/UCf5wUu73C1fC8gY9n6ZzNrw" target="_blank" rel="noopener"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
-          <a class="platform-link" href="https://soundcloud.com/nikkourza" target="_blank" rel="noopener"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
-          <a class="platform-link" href="https://tidal.com" target="_blank" rel="noopener"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
-          <a class="platform-link" href="https://deezer.com" target="_blank" rel="noopener"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
-        </div>
-      </div>
+  <div class="releases" id="soundcloudReleases">
+    <div class="sc-release-player">
+      <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        style="border:1px solid rgba(45,212,204,0.2);display:block">
+      </iframe>
     </div>
-
-    <!-- Release 2 -->
-    <div>
-      <div class="release-card" onclick="togglePlatforms('r2')">
-        <div class="release-cover" style="background:linear-gradient(135deg,#0D9990,#061E1C)">
-          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
-            <path d="M0 20 Q5 8 12 18 Q18 28 25 14 Q32 4 40 18 Q47 28 55 12 Q58 8 60 10" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="release-info">
-          <p class="release-type">EP · 2025</p>
-          <p class="release-title">Océano — EP</p>
-          <p class="release-meta">Reggae / Lo-fi · 5 tracks</p>
-        </div>
-        <span class="release-arrow" id="arr-r2">▾</span>
-      </div>
-      <div class="platforms-wrap" id="r2">
-        <div class="platforms-inner">
-          <a class="platform-link" href="https://open.spotify.com/artist/7rQ23F4nUp8XyqYtVEXk4d" target="_blank" rel="noopener"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
-          <a class="platform-link" href="https://music.apple.com/artist/nikko-urza/1739098322" target="_blank" rel="noopener"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
-          <a class="platform-link" href="https://music.youtube.com/channel/UCf5wUu73C1fC8gY9n6ZzNrw" target="_blank" rel="noopener"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
-          <a class="platform-link" href="https://soundcloud.com/nikkourza" target="_blank" rel="noopener"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
-          <a class="platform-link" href="https://tidal.com" target="_blank" rel="noopener"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
-          <a class="platform-link" href="https://deezer.com" target="_blank" rel="noopener"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Release 3 -->
-    <div>
-      <div class="release-card" onclick="togglePlatforms('r3')">
-        <div class="release-cover" style="background:linear-gradient(135deg,#1BB8B0,#065E5A)">
-          <svg class="release-wave" viewBox="0 0 60 30" fill="none">
-            <path d="M0 10 Q8 22 15 12 Q22 4 30 16 Q38 26 45 10 Q52 2 60 14" stroke="#2DD4CC" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        <div class="release-info">
-          <p class="release-type">Sencillo · 2025</p>
-          <p class="release-title">Noche Libre</p>
-          <p class="release-meta">Rap / Boom Bap · 2:58</p>
-        </div>
-        <span class="release-arrow" id="arr-r3">▾</span>
-      </div>
-      <div class="platforms-wrap" id="r3">
-        <div class="platforms-inner">
-          <a class="platform-link" href="https://open.spotify.com/artist/7rQ23F4nUp8XyqYtVEXk4d" target="_blank" rel="noopener"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>
-          <a class="platform-link" href="https://music.apple.com/artist/nikko-urza/1739098322" target="_blank" rel="noopener"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>
-          <a class="platform-link" href="https://music.youtube.com/channel/UCf5wUu73C1fC8gY9n6ZzNrw" target="_blank" rel="noopener"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>
-          <a class="platform-link" href="https://soundcloud.com/nikkourza" target="_blank" rel="noopener"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>
-          <a class="platform-link" href="https://tidal.com" target="_blank" rel="noopener"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>
-          <a class="platform-link" href="https://deezer.com" target="_blank" rel="noopener"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <!-- MI MÚSICA — SoundCloud -->
@@ -592,86 +533,60 @@ function togglePlatforms(id) {
   open = isOpen ? null : id;
 }
 
-// Cargar Lanzamientos dinámicos desde Supabase (vía API de portafolio)
-async function cargarLanzamientosDinamicos() {
+// Cargar Lanzamientos dinámicos desde Supabase (reproductores SoundCloud)
+async function cargarLanzamientosSoundCloud() {
+  var container = document.getElementById('soundcloudReleases');
+  if (!container) return;
+  
   try {
     var res = await fetch('/api/portafolio');
     var data = await res.json();
-    if (!data.ok || !data.portafolio) return;
+    if (!data.ok || !data.portafolio) {
+      cargarFallbackSoundCloud(container);
+      return;
+    }
     
-    // Filtrar los que son de tipo 'lanzamiento'
+    // Filtrar los que son de tipo 'lanzamiento' y que tengan URL de SoundCloud
     var lanzamientos = data.portafolio.filter(function(p) {
-      return p.tipo === 'lanzamiento';
+      return p.tipo === 'lanzamiento' && p.soundcloud_url;
     });
     
-    if (lanzamientos.length === 0) return; // Fallback estético si está vacío
+    if (lanzamientos.length === 0) {
+      cargarFallbackSoundCloud(container);
+      return;
+    }
     
-    // Tomar los últimos 3 ordenados por fecha
+    // Tomar los últimos 3
     var top3 = lanzamientos.slice(0, 3);
     
-    var container = document.querySelector('.releases');
-    if (!container) return;
-    
     var html = top3.map(function(p, index) {
-      var id = 'r-dyn-' + p.id;
-      var newBadgeHTML = (index === 0) ? '<div class="release-new">Nuevo</div>' : '';
-      
-      var bgStyle = '';
-      if (p.caratula_url) {
-        bgStyle = 'background:url(' + p.caratula_url + ') center/cover no-repeat;';
-      } else {
-        if (index === 0) bgStyle = 'background:var(--deep);';
-        else if (index === 1) bgStyle = 'background:linear-gradient(135deg,#0D9990,#061E1C);';
-        else bgStyle = 'background:linear-gradient(135deg,#1BB8B0,#065E5A);';
-      }
-      
-      var waves = [
-        'M0 15 Q7 5 15 15 Q22 25 30 15 Q37 5 45 15 Q52 25 60 15',
-        'M0 20 Q5 8 12 18 Q18 28 25 14 Q32 4 40 18 Q47 28 55 12 Q58 8 60 10',
-        'M0 10 Q8 22 15 12 Q22 4 30 16 Q38 26 45 10 Q52 2 60 14'
-      ];
-      var wavePath = waves[index % waves.length];
-      
-      var links = [];
-      if (p.spotify_url) links.push('<a class="platform-link" href="' + p.spotify_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>');
-      if (p.apple_url) links.push('<a class="platform-link" href="' + p.apple_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>');
-      if (p.youtube_url) links.push('<a class="platform-link" href="' + p.youtube_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>');
-      if (p.soundcloud_url) links.push('<a class="platform-link" href="' + p.soundcloud_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>');
-      if (p.tidal_url) links.push('<a class="platform-link" href="' + p.tidal_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>');
-      if (p.deezer_url) links.push('<a class="platform-link" href="' + p.deezer_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>');
-      
-      if (links.length === 0) {
-        links.push('<a class="platform-link" href="index.html"><div class="platform-dot dot-spotify"></div><span class="platform-name">Sitio Oficial</span></a>');
-      }
-      
-      return '<div>' +
-        '<div class="release-card" onclick="togglePlatforms(\'' + id + '\')">' +
-          '<div class="release-cover" style="' + bgStyle + '">' +
-            newBadgeHTML +
-            (p.caratula_url ? '' : '<svg class="release-wave" viewBox="0 0 60 30" fill="none"><path d="' + wavePath + '" stroke="#2DD4CC" stroke-width="1.5" fill="none"/></svg>') +
-          '</div>' +
-          '<div class="release-info">' +
-            '<p class="release-type">Lanzamiento · ' + (p.anio || '2026') + '</p>' +
-            '<p class="release-title">' + p.titulo + '</p>' +
-            '<p class="release-meta">' + (p.genero || 'Multi-género') + ' · ' + (p.artista || 'Nikko Urza') + '</p>' +
-          '</div>' +
-          '<span class="release-arrow" id="arr-' + id + '">▾</span>' +
-        '</div>' +
-        '<div class="platforms-wrap" id="' + id + '">' +
-          '<div class="platforms-inner">' +
-            links.join('') +
-          '</div>' +
-        '</div>' +
+      var trackUrl = p.soundcloud_url.trim();
+      var embedUrl = 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(trackUrl) + 
+                     '&color=%232dd4cc&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false';
+                     
+      return '<div class="sc-release-player" style="animation-delay: ' + (0.1 * (index + 1)) + 's">' +
+        '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="' + embedUrl + '"></iframe>' +
       '</div>';
     }).join('');
     
     container.innerHTML = html;
   } catch(err) {
-    console.error('Error cargando lanzamientos dinámicos:', err);
+    console.error('Error cargando lanzamientos SoundCloud:', err);
+    cargarFallbackSoundCloud(container);
   }
 }
 
-document.addEventListener('DOMContentLoaded', cargarLanzamientosDinamicos);
+function cargarFallbackSoundCloud(container) {
+  // Como fallback, cargamos el reproductor de perfil oficial de Nikko Urza
+  container.innerHTML = '<div class="sc-release-player">' +
+    '<iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay" ' +
+      'src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true" ' +
+      'style="border:1px solid rgba(45,212,204,0.2);display:block">' +
+    '</iframe>' +
+  '</div>';
+}
+
+document.addEventListener('DOMContentLoaded', cargarLanzamientosSoundCloud);
 </script>
 </body>
 </html>
