@@ -411,9 +411,28 @@ function showPage(id) {
 
 // ─── API HELPERS ─────────────────────────────────────────
 async function apiFetch(path, opts) {
-  var res = await fetch(API_URL + path, Object.assign({
+  var url = API_URL + path;
+  var res = await fetch(url, Object.assign({
     headers: { 'Content-Type': 'application/json', 'x-admin-secret': ADMIN_SECRET }
   }, opts));
+  
+  if (!res.ok) {
+    var rawText = '';
+    try { rawText = await res.text(); } catch(e) {}
+    console.error('API Error Details:', { status: res.status, statusText: res.statusText, response: rawText });
+    var errMsg = 'Error ' + res.status;
+    try {
+      var errJson = JSON.parse(rawText);
+      if (errJson.error) errMsg += ': ' + errJson.error;
+      if (errJson.detail) errMsg += ' (' + errJson.detail + ')';
+    } catch(e) {
+      if (rawText) {
+        var cleanText = rawText.replace(/<[^>]*>/g, '').trim(); // Remove HTML tags
+        errMsg += ': ' + (cleanText.substring(0, 100) || 'Error del Servidor');
+      }
+    }
+    throw new Error(errMsg);
+  }
   return res.json();
 }
 
@@ -534,7 +553,7 @@ async function guardarBeat() {
       cerrarModal('modalBeat');
       cargarBeats();
     } else { toast(data.error || 'Error', true); }
-  } catch(e) { toast('Error de conexión', true); }
+  } catch(e) { toast(e.message || 'Error de conexión', true); }
 }
 
 async function eliminarBeat(id) {
@@ -722,7 +741,7 @@ async function guardarPortafolio() {
       toast(editId ? 'Trabajo actualizado ✓' : 'Trabajo agregado ✓');
       cerrarModal('modalPortafolio'); cargarPortafolio();
     } else { toast(data.error || 'Error al guardar', true); }
-  } catch(e) { toast('Error de conexión', true); }
+  } catch(e) { toast(e.message || 'Error de conexión', true); }
 }
 
 async function eliminarPortafolio(id) {
@@ -733,7 +752,7 @@ async function eliminarPortafolio(id) {
       toast('Trabajo eliminado ✓');
       cargarPortafolio();
     } else { toast('Error al eliminar', true); }
-  } catch(e) { toast('Error de conexión', true); }
+  } catch(e) { toast(e.message || 'Error de conexión', true); }
 }
 
 // ── PRESSKIT ────────────────────────────────────────────────────────────────
@@ -784,7 +803,7 @@ async function guardarPresskit() {
       document.getElementById('pkOk').style.display='block';
       toast('Presskit guardado en base de datos ✓');
     } else { toast('Error al guardar', true); }
-  } catch(e) { toast('Error de conexión', true); }
+  } catch(e) { toast(e.message || 'Error de conexión', true); }
 }
 
 // Extender showPage para portafolio y presskit
