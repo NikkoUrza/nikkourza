@@ -109,12 +109,46 @@ async function procesarVentaBeat({ referencia, email, nombre, monto, metodoPago,
   if (!venta) {
     // Crear venta si no existe (pago llegó antes del registro frontend)
     const partes = referencia.split('-');
-    beatData = { nombre: partes[1] || 'Beat', id: null };
+    let beatId = null;
+    let beatNombre = 'Beat';
     licencia = partes[2] || 'basic';
+
+    if (partes[1]) {
+      // Intentar buscar por UUID si cumple el formato UUID
+      const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(partes[1]);
+      if (isUUID) {
+        try {
+          const { data: b } = await supabase.from('beats').select('*').eq('id', partes[1]).maybeSingle();
+          if (b) {
+            beatId = b.id;
+            beatNombre = b.nombre;
+          }
+        } catch (e) {
+          console.error('Error buscando beat por UUID:', e);
+        }
+      } else {
+        // Buscar por nombre
+        try {
+          const cleanNombre = partes[1].replace(/_/g, ' ');
+          const { data: b } = await supabase.from('beats').select('*').eq('nombre', cleanNombre).limit(1).maybeSingle();
+          if (b) {
+            beatId = b.id;
+            beatNombre = b.nombre;
+          } else {
+            beatNombre = cleanNombre;
+          }
+        } catch (e) {
+          console.error('Error buscando beat por nombre:', e);
+        }
+      }
+    }
+
+    beatData = { nombre: beatNombre, id: beatId };
 
     const token = generarToken();
     const { data: nueva } = await supabase.from('ventas').insert({
-      beat_nombre: beatData.nombre,
+      beat_id: beatId,
+      beat_nombre: beatNombre,
       licencia,
       monto_usd: monto,
       comprador_email: email,
@@ -125,7 +159,6 @@ async function procesarVentaBeat({ referencia, email, nombre, monto, metodoPago,
       token_descarga: token
     }).select().single();
     ventaId = nueva?.id;
-    beatData = { nombre: licencia };
   } else {
     licencia = venta.licencia;
     beatData = venta.beats || { nombre: venta.beat_nombre };

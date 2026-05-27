@@ -117,8 +117,22 @@ async function procesarVentaBeatPayPal({ referencia, email, nombre, monto, itemN
     const licencia = itemNombre?.toLowerCase().includes('premium') ? 'premium'
       : itemNombre?.toLowerCase().includes('excl') ? 'exclusiva' : 'basic';
 
+    const cleanNombre = itemNombre ? itemNombre.split(' — ')[0] : 'Beat';
+    let beatId = null;
+    let beatNombre = cleanNombre;
+    try {
+      const { data: b } = await supabase.from('beats').select('*').eq('nombre', cleanNombre).limit(1).maybeSingle();
+      if (b) {
+        beatId = b.id;
+        beatNombre = b.nombre;
+      }
+    } catch (e) {
+      console.error('Error buscando beat por nombre en PayPal webhook:', e);
+    }
+
     const { data: nueva } = await supabase.from('ventas').insert({
-      beat_nombre: itemNombre || 'Beat',
+      beat_id: beatId,
+      beat_nombre: beatNombre,
       licencia,
       monto_usd: monto,
       comprador_email: email,

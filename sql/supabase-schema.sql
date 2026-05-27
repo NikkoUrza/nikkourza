@@ -92,14 +92,21 @@ ALTER TABLE servicios_contratados ENABLE ROW LEVEL SECURITY;
 ALTER TABLE suscriptores ENABLE ROW LEVEL SECURITY;
 
 -- Lectura pública de beats (para mostrarlos en la web)
+DROP POLICY IF EXISTS "beats_publicos" ON beats;
 CREATE POLICY "beats_publicos" ON beats FOR SELECT USING (activo = true);
 
 -- Lectura de ventas por token (para página de descarga)
+DROP POLICY IF EXISTS "ventas_por_token" ON ventas;
 CREATE POLICY "ventas_por_token" ON ventas FOR SELECT USING (true);
 
 -- Inserción pública (el cliente crea la venta al pagar)
+DROP POLICY IF EXISTS "insertar_ventas" ON ventas;
 CREATE POLICY "insertar_ventas" ON ventas FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "insertar_servicios" ON servicios_contratados;
 CREATE POLICY "insertar_servicios" ON servicios_contratados FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "insertar_suscriptores" ON suscriptores;
 CREATE POLICY "insertar_suscriptores" ON suscriptores FOR INSERT WITH CHECK (true);
 
 -- Datos de ejemplo para los 4 beats (actualiza los URLs de Drive después)
@@ -108,4 +115,70 @@ INSERT INTO beats (nombre, genero, tempo, key, precio_basic, precio_premium, pre
   ('Abismo Teal',     'Afrobeat',     98, 'Gm', 45, 90, 500, 2),
   ('Sin Permiso',     'Rap / Boom Bap', 88, 'Dm', 30, 65, 300, 3),
   ('Océano Profundo', 'Reggaeton',    95, 'Fm', 40, 85, 450, 4)
+ON CONFLICT DO NOTHING;
+
+-- TABLA: portafolio
+CREATE TABLE IF NOT EXISTS portafolio (
+  id            UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  titulo        TEXT NOT NULL,
+  tipo          TEXT NOT NULL, -- 'mezcla' | 'master' | 'beat' etc.
+  artista       TEXT,
+  genero        TEXT,
+  anio          INTEGER,
+  spotify_url   TEXT,
+  apple_url     TEXT,
+  youtube_url   TEXT,
+  soundcloud_url TEXT,
+  deezer_url    TEXT,
+  tidal_url     TEXT,
+  drive_url     TEXT,
+  caratula_url  TEXT,
+  created_at    TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- TABLA: presskit (almacena biografía y multimedia de forma global)
+CREATE TABLE IF NOT EXISTS presskit (
+  id            INTEGER PRIMARY KEY DEFAULT 1,
+  hero          TEXT,
+  foto          TEXT,
+  quote         TEXT,
+  bio           TEXT,
+  tags          TEXT,
+  anios         TEXT,
+  generos       TEXT,
+  video1        TEXT,
+  video2        TEXT,
+  download      TEXT,
+  updated_at    TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Habilitar RLS
+ALTER TABLE portafolio ENABLE ROW LEVEL SECURITY;
+ALTER TABLE presskit ENABLE ROW LEVEL SECURITY;
+
+-- Políticas de lectura pública
+DROP POLICY IF EXISTS "portafolio_publico" ON portafolio;
+CREATE POLICY "portafolio_publico" ON portafolio FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "presskit_publico" ON presskit;
+CREATE POLICY "presskit_publico" ON presskit FOR SELECT USING (true);
+
+-- Semilla de Portafolio
+INSERT INTO portafolio (titulo, tipo, artista, genero, anio, caratula_url) VALUES
+  ('Proyecto Alfa', 'mezcla', 'Artista X', 'Afrobeat', 2026, ''),
+  ('Sin Permiso', 'master', 'Artista Y', 'Trap', 2025, ''),
+  ('EP Océano', 'mezcla', 'Artista Z', 'Reggae', 2025, ''),
+  ('Álbum Libre', 'master', 'Varios', 'Multi-género', 2024, '')
+ON CONFLICT DO NOTHING;
+
+-- Semilla de Presskit (registro único con id=1)
+INSERT INTO presskit (id, hero, foto, quote, bio, tags, anios, generos) VALUES
+  (1, 
+   'Images/HomePortada.png', 
+   'Images/PressKit.png', 
+   'Soy ese artista que quiere ser dueño de su arte y de su tiempo, que quiere crear con libertad, que no se encasilla en un género porque la música es infinita.', 
+   'Cantante, productor musical y audiovisual originario de Colombia. Con más de 12 años construyendo un sonido con alma propia, Nikko Urza opera desde la convicción de que la música libre es la única música honesta.', 
+   'Afrobeat, Rap, Reggae, Trap, Lo-fi, Colombia, Independiente', 
+   '12+', 
+   '∞')
 ON CONFLICT DO NOTHING;

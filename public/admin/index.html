@@ -632,17 +632,13 @@ document.getElementById('modalPortafolio').addEventListener('click', function(e)
 
 // ── PORTAFOLIO ──────────────────────────────────────────────────────────────
 var portData = [];
-var SUPA_URL = 'https://euaxqqdsxxzuwzauygtz.supabase.co';
-var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV1YXhxcWRzeHh6dXd6YXV5Z3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk1ODc2NzAsImV4cCI6MjA5NTE2MzY3MH0.BxZ4tRX1atxy-dE5UZ_wzTQcxw251P5MIKQya8jV0JQ';
 
 async function cargarPortafolio() {
   var grid = document.getElementById('portafolioGrid');
   grid.innerHTML = '<div class="loading-row" style="grid-column:1/-1">Cargando...</div>';
   try {
-    var r = await fetch(SUPA_URL + '/rest/v1/portafolio?select=*&order=created_at.desc', {
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
-    });
-    portData = await r.json();
+    var data = await apiFetch('/api/portafolio');
+    portData = data.portafolio || [];
     if (!Array.isArray(portData) || !portData.length) {
       grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">◎</div>No hay trabajos. Agrega el primero.</div>';
       return;
@@ -665,7 +661,7 @@ async function cargarPortafolio() {
         '</div></div>';
     }).join('');
   } catch(e) {
-    grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Error: la tabla portafolio no existe aún. Créala en Supabase primero.</div>';
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Error cargando portafolio</div>';
   }
 }
 
@@ -675,7 +671,7 @@ function abrirModalPortafolio() {
    'portYoutube','portSoundcloud','portDeezer','portTidal','portDrive','portCaratula']
     .forEach(function(id){ document.getElementById(id).value = ''; });
   document.getElementById('portTipo').value = 'mezcla';
-  document.getElementById('modalPortafolioTitle') && (document.getElementById('modalPortTitle').innerHTML = 'NUEVO <span>TRABAJO</span>');
+  document.getElementById('modalPortTitle').innerHTML = 'NUEVO <span>TRABAJO</span>';
   document.getElementById('modalPortafolio').classList.add('open');
 }
 
@@ -719,30 +715,53 @@ async function guardarPortafolio() {
     caratula_url: document.getElementById('portCaratula').value
   };
   try {
-    var url = SUPA_URL + '/rest/v1/portafolio' + (editId ? '?id=eq.'+editId : '');
-    var method = editId ? 'PATCH' : 'POST';
-    var r = await fetch(url, {
-      method, body: JSON.stringify(editId ? payload : [payload]),
-      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer '+SUPA_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }
-    });
-    if (r.ok || r.status === 201) {
+    var method = editId ? 'PUT' : 'POST';
+    if (editId) payload.id = editId;
+    var data = await apiFetch('/api/portafolio', { method, body: JSON.stringify(payload) });
+    if (data.ok) {
       toast(editId ? 'Trabajo actualizado ✓' : 'Trabajo agregado ✓');
       cerrarModal('modalPortafolio'); cargarPortafolio();
-    } else { toast('Error al guardar', true); }
+    } else { toast(data.error || 'Error al guardar', true); }
   } catch(e) { toast('Error de conexión', true); }
 }
 
 async function eliminarPortafolio(id) {
   if (!confirm('¿Eliminar este trabajo del portafolio?')) return;
-  await fetch(SUPA_URL+'/rest/v1/portafolio?id=eq.'+id, {
-    method: 'DELETE',
-    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer '+SUPA_KEY }
-  });
-  toast('Trabajo eliminado'); cargarPortafolio();
+  try {
+    var data = await apiFetch('/api/portafolio', { method: 'DELETE', body: JSON.stringify({ id }) });
+    if (data.ok) {
+      toast('Trabajo eliminado ✓');
+      cargarPortafolio();
+    } else { toast('Error al eliminar', true); }
+  } catch(e) { toast('Error de conexión', true); }
 }
 
 // ── PRESSKIT ────────────────────────────────────────────────────────────────
-function guardarPresskit() {
+async function cargarPresskitAdmin() {
+  try {
+    var data = await apiFetch('/api/presskit');
+    var saved = data.presskit;
+    if (saved) {
+      if(saved.hero) document.getElementById('pkHero').value=saved.hero;
+      if(saved.foto) document.getElementById('pkFoto').value=saved.foto;
+      if(saved.quote) document.getElementById('pkQuote').value=saved.quote;
+      if(saved.bio) document.getElementById('pkBio').value=saved.bio;
+      if(saved.tags) document.getElementById('pkTags').value=saved.tags;
+      if(saved.anios) document.getElementById('pkAnios').value=saved.anios;
+      if(saved.generos) document.getElementById('pkGeneros').value=saved.generos;
+      if(saved.video1) document.getElementById('pkVideo1').value=saved.video1;
+      if(saved.video2) document.getElementById('pkVideo2').value=saved.video2;
+      if(saved.download) document.getElementById('pkDownload').value=saved.download;
+
+      var heroImg = document.getElementById('pkHeroPreview');
+      var fotoImg = document.getElementById('pkFotoPreview');
+      if (heroImg && saved.hero) { heroImg.src = saved.hero; heroImg.style.display='block'; }
+      if (fotoImg && saved.foto) { fotoImg.src = saved.foto; fotoImg.style.display='block'; }
+    }
+  } catch(e){ console.error(e); }
+}
+
+async function guardarPresskit() {
   var datos = {
     hero: document.getElementById('pkHero').value,
     foto: document.getElementById('pkFoto').value,
@@ -755,40 +774,25 @@ function guardarPresskit() {
     video2: document.getElementById('pkVideo2').value,
     download: document.getElementById('pkDownload').value
   };
-  localStorage.setItem('nikkourza_presskit', JSON.stringify(datos));
-  // Preview
-  var heroImg = document.getElementById('pkHeroPreview');
-  var fotoImg = document.getElementById('pkFotoPreview');
-  if (heroImg) { heroImg.src = datos.hero; heroImg.style.display='block'; }
-  if (fotoImg) { fotoImg.src = datos.foto; fotoImg.style.display='block'; }
-  document.getElementById('pkOk').style.display='block';
-  toast('Presskit guardado ✓');
-}
-
-// Cargar datos guardados del presskit
-(function() {
   try {
-    var saved = JSON.parse(localStorage.getItem('nikkourza_presskit')||'null');
-    if (saved) {
-      if(saved.hero) document.getElementById('pkHero').value=saved.hero;
-      if(saved.foto) document.getElementById('pkFoto').value=saved.foto;
-      if(saved.quote) document.getElementById('pkQuote').value=saved.quote;
-      if(saved.bio) document.getElementById('pkBio').value=saved.bio;
-      if(saved.tags) document.getElementById('pkTags').value=saved.tags;
-      if(saved.anios) document.getElementById('pkAnios').value=saved.anios;
-      if(saved.generos) document.getElementById('pkGeneros').value=saved.generos;
-      if(saved.video1) document.getElementById('pkVideo1').value=saved.video1;
-      if(saved.video2) document.getElementById('pkVideo2').value=saved.video2;
-      if(saved.download) document.getElementById('pkDownload').value=saved.download;
-    }
-  } catch(e){}
-})();
+    var data = await apiFetch('/api/presskit', { method: 'PUT', body: JSON.stringify(datos) });
+    if (data.ok) {
+      var heroImg = document.getElementById('pkHeroPreview');
+      var fotoImg = document.getElementById('pkFotoPreview');
+      if (heroImg) { heroImg.src = datos.hero; heroImg.style.display='block'; }
+      if (fotoImg) { fotoImg.src = datos.foto; fotoImg.style.display='block'; }
+      document.getElementById('pkOk').style.display='block';
+      toast('Presskit guardado en base de datos ✓');
+    } else { toast('Error al guardar', true); }
+  } catch(e) { toast('Error de conexión', true); }
+}
 
 // Extender showPage para portafolio y presskit
 var _origShowPage = showPage;
 showPage = function(id) {
   _origShowPage && _origShowPage.call(this, id);
   if (id==='portafolio') cargarPortafolio();
+  if (id==='presskit') cargarPresskitAdmin();
 };
 </script>
 </body>

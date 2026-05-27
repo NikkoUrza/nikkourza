@@ -30,8 +30,22 @@ module.exports = async (req, res) => {
 
     // Obtener URL de descarga según licencia
     let driveUrl = null;
-    if (venta.beats) {
-      const beat = venta.beats;
+    let beat = venta.beats;
+    if (!beat && venta.beat_nombre) {
+      try {
+        const { data: b } = await supabase
+          .from('beats')
+          .select('*')
+          .eq('nombre', venta.beat_nombre)
+          .eq('activo', true)
+          .limit(1)
+          .maybeSingle();
+        if (b) beat = b;
+      } catch (e) {
+        console.error('Error buscando beat en descarga fallback:', e);
+      }
+    }
+    if (beat) {
       driveUrl = venta.licencia === 'premium' ? beat.drive_premium_url
         : venta.licencia === 'exclusiva' ? beat.drive_excl_url
         : beat.drive_basic_url;

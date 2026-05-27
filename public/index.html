@@ -560,6 +560,14 @@ footer{
 }
 .foot-landing:hover{background:rgba(45,212,204,0.07)}
 
+.nav-btn-cuenta{
+  border:1px solid rgba(45,212,204,0.32);color:var(--cyan) !important;
+  padding:0.4rem 0.85rem;transition:all 0.2s;text-align:center;
+}
+.nav-btn-cuenta:hover{
+  background:rgba(45,212,204,0.08);border-color:var(--cyan);
+}
+
 /* ============================================================
    RESPONSIVE
 ============================================================ */
@@ -599,6 +607,7 @@ footer{
     <li><a href="#servicios" onclick="closeNav()">Servicios</a></li>
     <li><a href="#contacto" onclick="closeNav()">Contacto</a></li>
     <li><a href="nikko-urza-landing.html" style="color:var(--cyan)">Link in Bio ↗</a></li>
+    <li><a href="login.html" class="nav-btn-cuenta" onclick="closeNav()">Mi Cuenta 🔐</a></li>
   </ul>
   <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menú">
     <span></span><span></span><span></span>
@@ -608,7 +617,7 @@ footer{
 <!-- ===== HERO ===== -->
 <section id="hero">
   <div class="hero-bg"></div>
-  <div style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"><img src="Images/HomePortada.png" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.18;filter:grayscale(20%)"></div>
+  <div style="position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none"><img id="homeHeroImg" src="Images/HomePortada.png" alt="" style="width:100%;height:100%;object-fit:cover;opacity:0.18;filter:grayscale(20%)"></div>
   <p class="hero-label">Cantante · Productor · Colombia</p>
   <h1 class="hero-title">NIKKO<span>URZA</span></h1>
   <p class="hero-sub">Artista independiente<br>Música como acto filosófico.</p>
@@ -627,26 +636,27 @@ footer{
   <h2 class="sec-title">QUIÉN ES<br><span>NIKKO URZA</span></h2>
   <div class="press-grid">
     <div>
-      <blockquote class="press-quote">"Soy ese artista que quiere ser dueño de su arte y de su tiempo, que quiere crear con libertad, que no se encasilla en un género porque la música es infinita,"</blockquote>
-      <p class="press-bio">Cantante, productor musical y audiovisual originario de Colombia. Con más de 12 años construyendo un sonido con alma propia, Nikko Urza opera desde la convicción de que la música libre es la única música honesta.<br><br>afrobeat, rap, reggae, trap — o lo que nos de la gana!</p>
-      <div class="press-tags">
+      <blockquote class="press-quote" id="pkQuote">"Soy ese artista que quiere ser dueño de su arte y de su tiempo, que quiere crear con libertad, que no se encasilla en un género porque la música es infinita,"</blockquote>
+      <p class="press-bio" id="pkBio">Cantante, productor musical y audiovisual originario de Colombia. Con más de 12 años construyendo un sonido con alma propia, Nikko Urza opera desde la convicción de que la música libre es la única música honesta.<br><br>afrobeat, rap, reggae, trap — o lo que nos de la gana!</p>
+      <div class="press-tags" id="pkTags">
         <span class="tag">Afrobeat</span><span class="tag">Rap</span><span class="tag">Reggae</span>
         <span class="tag">Trap</span><span class="tag">Lo-fi</span>
         <span class="tag">Colombia</span><span class="tag">Independiente</span>
       </div>
-      <button class="press-dl">↓ Descargar Presskit Completo</button>
+      <button class="press-dl" id="pkDlBtn" onclick="descargarPresskitLegacy()">↓ Descargar Presskit Completo</button>
       <div style="margin-top:2rem">
         <p style="font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.55);margin-bottom:0.8rem">Mi música en SoundCloud</p>
         <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay"
           src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"
           style="border:1px solid rgba(45,212,204,0.15)"></iframe>
       </div>
+      <div id="pkVideosContainer"></div>
     </div>
     <div>
-      <div class="press-img"><img src="Images/PressKit.png" alt="Nikko Urza" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1"></div>
+      <div class="press-img"><img id="pkImg" src="Images/PressKit.png" alt="Nikko Urza" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1"></div>
       <div class="press-stats">
-        <div class="stat-card"><span class="stat-num">12+</span><span class="stat-lbl">Años activo</span></div>
-        <div class="stat-card"><span class="stat-num">∞</span><span class="stat-lbl">Géneros</span></div>
+        <div class="stat-card"><span class="stat-num" id="pkStatAnios">12+</span><span class="stat-lbl">Años activo</span></div>
+        <div class="stat-card"><span class="stat-num" id="pkStatGeneros">∞</span><span class="stat-lbl">Géneros</span></div>
         <div class="stat-card"><span class="stat-num">CO</span><span class="stat-lbl">Colombia</span></div>
         <div class="stat-card"><span class="stat-num">100%</span><span class="stat-lbl">Independiente</span></div>
       </div>
@@ -1125,7 +1135,10 @@ footer{
     <a href="#servicios">Servicios</a>
     <a href="#contacto">Contacto</a>
   </div>
-  <a href="nikko-urza-landing.html" class="foot-landing">Link in Bio ↗</a>
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+    <a href="nikko-urza-landing.html" class="foot-landing">Link in Bio ↗</a>
+    <a href="login.html" class="foot-landing" style="color:var(--cyan);border-color:rgba(45,212,204,0.32)">Mi Cuenta 🔐</a>
+  </div>
   <span class="foot-copy">© 2026 Nikko Urza — Colombia</span>
 </footer>
 
@@ -1607,7 +1620,7 @@ function fmtTime(s){
 }
 
 function stopAllBeats(){
-  for(var i=1;i<=4;i++){
+  for(var i=1;i<=totalBeatsCount;i++){
     var a=document.getElementById('bpaudio-'+i);
     var b=document.getElementById('bpbtn-'+i);
     if(a&&!a.paused){a.pause();}
@@ -1661,7 +1674,7 @@ function startPlay(id){
     // El archivo aún no existe — mostrar mensaje amigable
     var timer=document.getElementById('bpt-'+id);
     if(timer) timer.textContent='— —';
-    console.warn('Audio no encontrado: beats/'+['noche-libre-808-preview','abismo-teal-preview','sin-permiso-preview','oceano-profundo-preview'][id-1]+'.mp3');
+    console.warn('Audio no encontrado:', audio ? audio.src : id);
   });
   audio.onended=function(){ pausePlay(id); resetPlayer(id); };
 }
@@ -1700,6 +1713,231 @@ function seekBeat(id, e){
   var pct=(e.clientX-rect.left)/rect.width;
   audio.currentTime=Math.max(0,Math.min(1,pct))*audio.duration;
 }
+
+/* ═══════════════════════════════════════════════════
+   CMS DINÁMICO — CARGA INMEDIATA DESDE EL BACKEND
+   Carga Beats, Portafolio y Presskit de Supabase
+═══════════════════════════════════════════════════ */
+var totalBeatsCount = 4;
+
+function descargarPresskitLegacy() {
+  window.open('https://www.dropbox.com/sh/...', '_blank');
+}
+
+async function inicializarSitioDinamico() {
+  // 1. CARGAR BEATS
+  try {
+    var res = await fetch('/api/beats');
+    var data = await res.json();
+    if (data.ok && data.beats && data.beats.length > 0) {
+      var beats = data.beats;
+      totalBeatsCount = beats.length;
+      var container = document.getElementById('beatsTable');
+      if (container) {
+        var html = '';
+        beats.forEach(function(beat, idx) {
+          var num = idx + 1;
+          var strNum = num < 10 ? '0' + num : num;
+          
+          var genres = beat.genero ? beat.genero.split(/[\/,·,]/) : [];
+          var chipsHTML = genres.map(function(g) { 
+            return '<span class="bc">' + g.trim() + '</span>'; 
+          }).join('');
+          
+          var priceBasicCOP = Math.round(beat.precio_basic * TRM);
+          var pricePremiumCOP = Math.round(beat.precio_premium * TRM);
+          var priceExclCOP = Math.round(beat.precio_excl * TRM);
+          
+          html += 
+            '<div class="beat-row has-player" id="br-' + num + '" onclick="toggleBeatPlayer(' + num + ',event)">' +
+              '<div><span class="beat-num">' + strNum + '</span><div class="beat-pb"></div></div>' +
+              '<div><p class="beat-name">' + beat.nombre.toUpperCase() + '</p><div class="beat-chips">' + chipsHTML + '</div></div>' +
+              '<span class="beat-bpm">' + beat.tempo + ' BPM</span>' +
+              '<span class="beat-key">' + (beat.key || '') + '</span>' +
+              '<div class="beat-lics" onclick="event.stopPropagation()">' +
+                '<button class="lb" onclick="pagarEpayco(\'' + beat.nombre.replace(/'/g, "\\'") + ' — Lic. Basic\',\'' + priceBasicCOP + '\',\'beat-' + beat.id + '-basic\')">Basic<span>$' + beat.precio_basic + ' USD</span></button>' +
+                '<button class="lb" onclick="pagarEpayco(\'' + beat.nombre.replace(/'/g, "\\'") + ' — Lic. Premium\',\'' + pricePremiumCOP + '\',\'beat-' + beat.id + '-premium\')">Premium<span>$' + beat.precio_premium + ' USD</span></button>' +
+                '<button class="lb" onclick="pagarEpayco(\'' + beat.nombre.replace(/'/g, "\\'") + ' — Lic. Exclusiva\',\'' + priceExclCOP + '\',\'beat-' + beat.id + '-exclusiva\')">Excl.<span>$' + beat.precio_excl + ' USD</span></button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="beat-player-wrap" id="bpw-' + num + '">' +
+              '<div class="beat-player-inner">' +
+                '<div class="beat-wm">' +
+                  '<span class="beat-wm-tag">▶ Preview · NIKKO URZA</span>' +
+                  '<span class="beat-timer" id="bpt-' + num + '">0:00</span>' +
+                '</div>' +
+                '<div class="beat-prog-track" id="bptrack-' + num + '" onclick="seekBeat(' + num + ',event)">' +
+                  '<div class="beat-prog-fill" id="bpfill-' + num + '"></div>' +
+                '</div>' +
+                '<div class="beat-ctrl">' +
+                  '<button class="beat-play-btn" id="bpbtn-' + num + '" onclick="togglePlay(' + num + ',event)">' +
+                    '<div class="play-icon"></div>' +
+                    '<div class="pause-icon"><span></span><span></span></div>' +
+                  '</button>' +
+                  '<span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">' + 
+                    beat.nombre.toUpperCase() + ' · ' + (beat.genero || '') + ' · ' + beat.tempo + ' BPM · ' + (beat.key || '') + 
+                  '</span>' +
+                '</div>' +
+                '<audio id="bpaudio-' + num + '" preload="none" src="' + (beat.preview_url || '') + '"></audio>' +
+              '</div>' +
+            '</div>';
+        });
+        container.innerHTML = html;
+      }
+    }
+  } catch(e) {
+    console.error('Error cargando beats dinámicos:', e);
+  }
+
+  // 2. CARGAR PORTAFOLIO
+  try {
+    var resPort = await fetch('/api/portafolio');
+    var dataPort = await resPort.json();
+    if (dataPort.ok && dataPort.portafolio && dataPort.portafolio.length > 0) {
+      var ports = dataPort.portafolio;
+      var containerPort = document.getElementById('portGrid');
+      if (containerPort) {
+        var htmlPort = '';
+        var gradients = [
+          'linear-gradient(135deg,#065E5A,#061E1C)',
+          'linear-gradient(135deg,#0D9990,#065E5A)',
+          'linear-gradient(135deg,#1BB8B0,#0D9990)',
+          'linear-gradient(135deg,#04342C,#061E1C)'
+        ];
+        var waves = [
+          '<path d="M0 30 Q25 10 50 30 Q75 50 100 30 Q125 10 150 30 Q175 50 200 30" stroke="#2DD4CC" stroke-width="2" fill="none" opacity="0.5"/>',
+          '<path d="M0 30 Q20 5 40 30 Q60 55 80 30 Q100 5 120 30 Q140 55 160 30 Q180 5 200 30" stroke="#2DD4CC" stroke-width="2" fill="none" opacity="0.5"/>',
+          '<path d="M0 20 Q10 8 20 28 Q30 48 40 18 Q50 4 60 28 Q70 52 80 22 Q90 8 100 32 Q110 52 120 18 Q130 4 140 28 Q150 50 160 18 Q170 4 180 28 Q190 50 200 22" stroke="#2DD4CC" stroke-width="2" fill="none" opacity="0.5"/>'
+        ];
+        
+        ports.forEach(function(p, idx) {
+          var tipoClean = p.tipo.charAt(0).toUpperCase() + p.tipo.slice(1);
+          var coverHTML = '';
+          if (p.caratula_url) {
+            coverHTML = '<div class="pc-cover"><img src="' + p.caratula_url + '" style="width:100%;height:100%;object-fit:cover"><div class="pc-play"></div></div>';
+          } else {
+            var gradient = gradients[idx % gradients.length];
+            var wave = waves[idx % waves.length];
+            coverHTML = 
+              '<div class="pc-cover" style="background:' + gradient + '">' +
+                '<svg width="70%" viewBox="0 0 200 60" fill="none">' + wave + '</svg>' +
+                '<div class="pc-play"></div>' +
+              '</div>';
+          }
+          
+          var priceText = '';
+          if (p.tipo === 'beat') {
+            priceText = '<p class="pc-price">USD $35</p>';
+          }
+          
+          htmlPort += 
+            '<div class="pc" data-t="' + p.tipo + '">' +
+              coverHTML +
+              '<div class="pc-info">' +
+                '<p class="pc-type">' + tipoClean + '</p>' +
+                '<p class="pc-title">' + p.titulo + '</p>' +
+                '<p class="pc-meta">' + (p.genero || '') + ' · ' + (p.artista || '') + ' · ' + (p.anio || '') + '</p>' +
+                priceText +
+              '</div>' +
+            '</div>';
+        });
+        containerPort.innerHTML = htmlPort;
+      }
+    }
+  } catch(e) {
+    console.error('Error cargando portafolio dinámico:', e);
+  }
+
+  // 3. CARGAR PRESSKIT
+  try {
+    var resPk = await fetch('/api/presskit');
+    var dataPk = await resPk.json();
+    if (dataPk.ok && dataPk.presskit) {
+      var pk = dataPk.presskit;
+      if (pk.hero) {
+        var hImg = document.getElementById('homeHeroImg');
+        if (hImg) hImg.src = pk.hero;
+      }
+      if (pk.foto) {
+        var pImg = document.getElementById('pkImg');
+        if (pImg) pImg.src = pk.foto;
+      }
+      if (pk.quote) {
+        var pQuote = document.getElementById('pkQuote');
+        if (pQuote) pQuote.textContent = pk.quote.startsWith('"') ? pk.quote : '"' + pk.quote + '"';
+      }
+      if (pk.bio) {
+        var pBio = document.getElementById('pkBio');
+        if (pBio) pBio.innerHTML = pk.bio.replace(/\n/g, '<br>');
+      }
+      if (pk.tags) {
+        var pTags = document.getElementById('pkTags');
+        if (pTags) {
+          var tagsArr = pk.tags.split(',');
+          pTags.innerHTML = tagsArr.map(function(t) {
+            return '<span class="tag">' + t.trim() + '</span>';
+          }).join('');
+        }
+      }
+      if (pk.anios) {
+        var pAnios = document.getElementById('pkStatAnios');
+        if (pAnios) pAnios.textContent = pk.anios;
+      }
+      if (pk.generos) {
+        var pGeneros = document.getElementById('pkStatGeneros');
+        if (pGeneros) pGeneros.textContent = pk.generos;
+      }
+      if (pk.download) {
+        var pDlBtn = document.getElementById('pkDlBtn');
+        if (pDlBtn) {
+          pDlBtn.onclick = function() {
+            window.open(pk.download, '_blank');
+          };
+        }
+      }
+      
+      // Render videos
+      if (pk.video1 || pk.video2) {
+        var vContainer = document.getElementById('pkVideosContainer');
+        if (vContainer) {
+          var vHtml = '';
+          var getEmbedUrl = function(url) {
+            if (!url) return null;
+            if (url.includes('youtube.com/embed/')) return url;
+            if (url.includes('youtube.com/watch?v=')) {
+              var parts = url.split('v=');
+              if (parts[1]) return 'https://www.youtube.com/embed/' + parts[1].split('&')[0];
+            }
+            if (url.includes('youtu.be/')) {
+              var parts = url.split('youtu.be/');
+              if (parts[1]) return 'https://www.youtube.com/embed/' + parts[1].split('?')[0];
+            }
+            return url;
+          };
+          
+          [pk.video1, pk.video2].forEach(function(vUrl, vIdx) {
+            var embed = getEmbedUrl(vUrl);
+            if (embed) {
+              vHtml += 
+                '<div style="margin-top:1.5rem">' +
+                  '<p style="font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.55);margin-bottom:0.8rem">Video Destacado ' + (vIdx + 1) + '</p>' +
+                  '<div class="video-wrap" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:1px solid rgba(45,212,204,0.15)">' +
+                    '<iframe src="' + embed + '" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>' +
+                  '</div>' +
+                '</div>';
+            }
+          });
+          vContainer.innerHTML = vHtml;
+        }
+      }
+    }
+  } catch(e) {
+    console.error('Error cargando presskit dinámico:', e);
+  }
+}
+
+// Iniciar CMS dinámico al cargar
+inicializarSitioDinamico();
 </script>
 </body>
 </html>
