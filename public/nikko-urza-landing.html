@@ -45,23 +45,23 @@ body::before{
 .header{text-align:center;margin-bottom:3rem}
 
 .avatar{
-  width:88px;height:88px;
+  width:96px;height:96px;
   border-radius:50%;
-  border:2px solid rgba(45,212,204,0.3);
-  background:linear-gradient(135deg,var(--deep),var(--abyss));
+  border:2px solid var(--cyan);
+  background:#000;
   display:flex;align-items:center;justify-content:center;
   margin:0 auto 1.2rem;
   position:relative;
   overflow:hidden;
+  box-shadow:0 0 15px rgba(45,212,204,0.3);
 }
-.avatar::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 35% 35%,rgba(45,212,204,0.25),transparent 60%);
-}
-.avatar-initials{
-  font-family:'Bebas Neue';font-size:1.8rem;
-  color:rgba(45,212,204,0.6);letter-spacing:3px;
-  position:relative;z-index:1;
+.avatar-img{
+  width:80%;
+  height:80%;
+  object-fit:contain;
+  display:block;
+  position:relative;
+  z-index:1;
 }
 
 .artist-name{
@@ -381,7 +381,7 @@ body::before{
   <!-- HEADER -->
   <div class="header">
     <div class="avatar">
-      <span class="avatar-initials">NU</span>
+      <img src="Images/logo.png" alt="Nikko Urza Logo" class="avatar-img">
     </div>
     <h1 class="artist-name">NIKKO <span>URZA</span></h1>
     <div class="artist-tags">
