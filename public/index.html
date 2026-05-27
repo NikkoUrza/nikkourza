@@ -468,6 +468,10 @@ section{padding:5.5rem 3rem}
   grid-template-columns: 1fr 1fr;
   gap: 0.6rem;
 }
+.cart-pay-single {
+  display: block;
+  width: 100%;
+}
 .cart-pay-btn {
   font-family: 'Space Mono', monospace;
   font-size: 0.58rem;
@@ -501,6 +505,29 @@ section{padding:5.5rem 3rem}
   color: #fff;
   border-color: #0070f3;
   box-shadow: 0 0 15px rgba(0,112,243,0.4);
+}
+.cart-pay-btn.single-checkout-btn {
+  width: 100%;
+  border: 1px solid var(--cyan);
+  background: rgba(45,212,204,0.08);
+  color: var(--cyan);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 1.1rem 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(45,212,204,0.1);
+  text-shadow: 0 0 5px rgba(45,212,204,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+.cart-pay-btn.single-checkout-btn:hover {
+  background: var(--cyan);
+  color: var(--abyss);
+  box-shadow: 0 0 25px rgba(45,212,204,0.5);
+  text-shadow: none;
 }
 
 
@@ -1524,12 +1551,9 @@ footer{
       <input type="email" class="cart-input" id="cartClientEmail" placeholder="TU CORREO ELECTRÓNICO" required autocomplete="email">
     </div>
     
-    <div class="cart-pay-grid">
-      <button class="cart-pay-btn epayco" onclick="iniciarCheckoutEpayco()">
-        🇨🇴 ePayco
-      </button>
-      <button class="cart-pay-btn paypal" onclick="iniciarCheckoutPaypal()">
-        🌐 PayPal
+    <div class="cart-pay-single">
+      <button class="cart-pay-btn single-checkout-btn" id="btnCartCheckout" onclick="iniciarCheckoutEpayco()">
+        <span>🔒</span> PROCEDER AL PAGO
       </button>
     </div>
   </div>
@@ -1828,11 +1852,20 @@ function renderizarCarrito() {
 function actualizarTotalesUI(totalUSD) {
   var subtotalUSD = document.getElementById('cartSubtotalUSD');
   var totalCOP = document.getElementById('cartTotalCOP');
+  var checkoutBtn = document.getElementById('btnCartCheckout');
 
   if (subtotalUSD && totalCOP) {
     subtotalUSD.textContent = '$' + totalUSD.toFixed(2) + ' USD';
     var copValue = Math.round(totalUSD * TRM);
     totalCOP.textContent = copValue.toLocaleString('es-CO') + ' COP';
+
+    if (checkoutBtn) {
+      if (currentCurrency === 'COP') {
+        checkoutBtn.innerHTML = '<span>🔒</span> PAGAR AHORA: $' + copValue.toLocaleString('es-CO') + ' COP';
+      } else {
+        checkoutBtn.innerHTML = '<span>🔒</span> PAGAR AHORA: $' + totalUSD.toFixed(0) + ' USD';
+      }
+    }
   }
 }
 
