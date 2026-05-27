@@ -93,6 +93,7 @@ tr:hover td{background:rgba(45,212,204,0.03)}
 .fi::placeholder{color:rgba(244,244,240,0.15)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.8rem}
+.g4{display:grid;grid-template-columns:repeat(4, 1fr);gap:0.8rem}
 .btn-primary{background:var(--cyan);color:var(--abyss);border:none;font-family:'Space Mono';font-size:0.62rem;letter-spacing:2px;padding:0.75rem 1.5rem;cursor:pointer;font-weight:700;text-transform:uppercase;transition:background 0.2s}
 .btn-primary:hover{background:var(--teal)}
 .btn-secondary{background:transparent;color:rgba(244,244,240,0.5);border:1px solid var(--border);font-family:'Space Mono';font-size:0.62rem;letter-spacing:2px;padding:0.75rem 1.5rem;cursor:pointer;text-transform:uppercase;transition:all 0.15s}
@@ -298,10 +299,11 @@ tr:hover td{background:rgba(45,212,204,0.03)}
     <h2 class="modal-title" id="modalBeatTitle">NUEVO <span>BEAT</span></h2>
     <input type="hidden" id="beatEditId">
     <div class="fg"><label class="fl">Nombre del beat *</label><input class="fi" id="bNombre" placeholder="Ej: Noche Libre 808"></div>
-    <div class="g3">
+    <div class="g4">
       <div class="fg"><label class="fl">Género</label><input class="fi" id="bGenero" placeholder="Ej: Afrobeat"></div>
       <div class="fg"><label class="fl">Tempo (BPM)</label><input class="fi" id="bTempo" type="number" placeholder="140"></div>
       <div class="fg"><label class="fl">Key (tonalidad)</label><input class="fi" id="bKey" placeholder="Am"></div>
+      <div class="fg"><label class="fl">Type Beat (Artista)</label><input class="fi" id="bTypeBeat" placeholder="Ej: Drake"></div>
     </div>
     <div class="g3">
       <div class="fg"><label class="fl">Precio Basic (USD)</label><input class="fi" id="bPBasic" type="number" placeholder="35"></div>
@@ -481,7 +483,7 @@ async function cargarBeats() {
         '</div>' +
         '<div class="bca-body">' +
           '<div class="bca-nombre">' + b.nombre + '</div>' +
-          '<div class="bca-meta">' + (b.genero||'') + ' · ' + (b.tempo||'—') + ' BPM · ' + (b.key||'—') + '</div>' +
+          '<div class="bca-meta">' + (b.genero||'') + ' · ' + (b.tempo||'—') + ' BPM · ' + (b.key||'—') + (b.type_beat ? ' · ' + b.type_beat : '') + '</div>' +
           '<div class="bca-precios">' +
             '<span class="bca-precio">B <span>$' + b.precio_basic + '</span></span>' +
             '<span class="bca-precio">P <span>$' + b.precio_premium + '</span></span>' +
@@ -499,7 +501,7 @@ async function cargarBeats() {
 function abrirModalBeat(id) {
   document.getElementById('beatEditId').value = '';
   document.getElementById('modalBeatTitle').innerHTML = 'NUEVO <span>BEAT</span>';
-  ['bNombre','bGenero','bTempo','bKey','bPBasic','bPPremium','bPExcl',
+  ['bNombre','bGenero','bTempo','bKey','bTypeBeat','bPBasic','bPPremium','bPExcl',
    'bDriveBasic','bDrivePremium','bDriveExcl','bPreview','bCaratula','bOrden']
     .forEach(function(id){ document.getElementById(id).value = ''; });
   document.getElementById('modalBeat').classList.add('open');
@@ -514,6 +516,7 @@ function editarBeat(id) {
   document.getElementById('bGenero').value = b.genero || '';
   document.getElementById('bTempo').value = b.tempo || '';
   document.getElementById('bKey').value = b.key || '';
+  document.getElementById('bTypeBeat').value = b.type_beat || '';
   document.getElementById('bPBasic').value = b.precio_basic || '';
   document.getElementById('bPPremium').value = b.precio_premium || '';
   document.getElementById('bPExcl').value = b.precio_excl || '';
@@ -534,6 +537,7 @@ async function guardarBeat() {
     nombre, genero: document.getElementById('bGenero').value,
     tempo: parseInt(document.getElementById('bTempo').value) || null,
     key: document.getElementById('bKey').value,
+    type_beat: document.getElementById('bTypeBeat').value.trim() || null,
     precio_basic: parseInt(document.getElementById('bPBasic').value) || 35,
     precio_premium: parseInt(document.getElementById('bPPremium').value) || 75,
     precio_excl: parseInt(document.getElementById('bPExcl').value) || 350,

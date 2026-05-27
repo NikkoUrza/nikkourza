@@ -932,6 +932,127 @@ footer{
 }
 
 /* ============================================================
+   BEATS FILTER BAR
+============================================================ */
+.beats-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.2rem;
+  background: rgba(6, 30, 28, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(45, 212, 204, 0.12);
+  border-bottom: none;
+  align-items: center;
+  justify-content: space-between;
+}
+.filter-search-wrap {
+  position: relative;
+  flex: 1 1 280px;
+  min-width: 240px;
+}
+.filter-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--cyan);
+  font-size: 0.78rem;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.filter-search-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(45, 212, 204, 0.16);
+  color: var(--warm);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.65rem 1rem 0.65rem 2.2rem;
+  outline: none;
+  border-radius: 4px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.filter-search-input:focus {
+  border-color: var(--cyan);
+  background: rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 10px rgba(45, 212, 204, 0.2);
+}
+.filter-search-input::placeholder {
+  color: rgba(244, 244, 240, 0.25);
+}
+.filter-selects-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  flex: 2 1 480px;
+}
+.filter-select-wrap {
+  position: relative;
+  flex: 1 1 140px;
+  min-width: 130px;
+}
+.filter-select-element {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(45, 212, 204, 0.16);
+  color: rgba(244, 244, 240, 0.75);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  padding: 0.65rem 2rem 0.65rem 0.9rem;
+  outline: none;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.filter-select-element:hover, .filter-select-element:focus {
+  border-color: var(--cyan);
+  color: var(--warm);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(45, 212, 204, 0.15);
+}
+.filter-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--cyan);
+  pointer-events: none;
+  transition: transform 0.25s ease;
+  opacity: 0.8;
+}
+.filter-select-element:focus + .filter-select-wrap::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+.beats-no-results {
+  display: none;
+  padding: 3.5rem 2rem;
+  text-align: center;
+  border: 1px solid rgba(45, 212, 204, 0.1);
+  background: rgba(6, 30, 28, 0.15);
+}
+.beats-no-results-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  margin-bottom: 0.5rem;
+}
+.beats-no-results-desc {
+  font-size: 0.7rem;
+  color: rgba(244, 244, 240, 0.4);
+  font-family: 'Space Mono', monospace;
+}
+
+/* ============================================================
    RESPONSIVE
 ============================================================ */
 @media(max-width:768px){
@@ -954,6 +1075,19 @@ footer{
   .beat-row{grid-template-columns:1.8rem 1fr auto}
   .beat-bpm,.beat-key{display:none}
   .hero-scroll{display:none}
+  
+  /* Responsive Filters */
+  .beats-filter-bar {
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+  .filter-search-wrap, .filter-selects-group {
+    flex: 1 1 100%;
+  }
+  .filter-select-wrap {
+    flex: 1 1 calc(50% - 0.4rem);
+    min-width: calc(50% - 0.4rem);
+  }
 }
 </style>
 </head>
@@ -1059,8 +1193,44 @@ footer{
 <section id="beats">
   <p class="sec-label">03 — Tienda de Beats</p>
   <h2 class="sec-title">COMPRAR<br><span>BEATS</span></h2>
-  <!-- ═══ NOTA: Reemplaza TU_LLAVE_EPAYCO por tu Public Key de ePayco ═══
-       Dashboard ePayco → Configuración → Llaves → Public Key              -->
+  <!-- BARRA DE BÚSQUEDA Y FILTROS DINÁMICOS -->
+  <div class="beats-filter-bar">
+    <div class="filter-search-wrap">
+      <span class="filter-search-icon">🔍</span>
+      <input type="text" class="filter-search-input" id="filterSearch" placeholder="Buscar beat o artista..." oninput="filtrarBeatsInterno()" aria-label="Buscar beats o artistas por texto">
+    </div>
+    <div class="filter-selects-group">
+      <div class="filter-select-wrap">
+        <select class="filter-select-element" id="filterGenre" onchange="filtrarBeatsInterno()" aria-label="Filtrar beats por género musical">
+          <option value="">Géneros</option>
+        </select>
+      </div>
+      <div class="filter-select-wrap">
+        <select class="filter-select-element" id="filterTypeBeat" onchange="filtrarBeatsInterno()" aria-label="Filtrar beats por artista de referencia (Type Beat)">
+          <option value="">Type Beats</option>
+        </select>
+      </div>
+      <div class="filter-select-wrap">
+        <select class="filter-select-element" id="filterKey" onchange="filtrarBeatsInterno()" aria-label="Filtrar beats por tonalidad o escala">
+          <option value="">Key (Escala)</option>
+        </select>
+      </div>
+      <div class="filter-select-wrap">
+        <select class="filter-select-element" id="filterTempo" onchange="filtrarBeatsInterno()" aria-label="Filtrar beats por rango de velocidad o tempo en BPM">
+          <option value="">Tempo (BPM)</option>
+          <option value="lento">Lento (< 95 BPM)</option>
+          <option value="medio">Medio (95-120 BPM)</option>
+          <option value="rapido">Rápido (> 120 BPM)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="beats-no-results" id="beatsNoResults">
+    <p class="beats-no-results-title">SIN RESULTADOS</p>
+    <p class="beats-no-results-desc">No se encontraron beats con los filtros seleccionados. Intenta remover algunos criterios.</p>
+  </div>
+
   <div class="beats-table" id="beatsTable">
 
     <!-- BEAT 1 —— Noche Libre 808 -->
@@ -2627,7 +2797,12 @@ async function inicializarSitioDinamico() {
     var data = await res.json();
     if (data.ok && data.beats && data.beats.length > 0) {
       var beats = data.beats;
+      window.allBeats = beats; // Guardar globalmente para filtrado
       totalBeatsCount = beats.length;
+      
+      // Llenar selectores de búsqueda y filtros dinámicos
+      populateFilterOptions(beats);
+      
       var container = document.getElementById('beatsTable');
       if (container) {
         var html = '';
@@ -2649,8 +2824,14 @@ async function inicializarSitioDinamico() {
             precio_excl: beat.precio_excl
           };
           
+          // Escapar comillas para evitar bugs en atributos HTML
+          var safeTypeBeat = (beat.type_beat || '').replace(/"/g, '&quot;');
+          var safeGenre = (beat.genero || '').replace(/"/g, '&quot;');
+          var safeKey = (beat.key || '').replace(/"/g, '&quot;');
+          var safeName = (beat.nombre || '').replace(/"/g, '&quot;');
+          
           html += 
-            '<div class="beat-row has-player" id="br-' + num + '" onclick="toggleBeatPlayer(' + num + ',event)">' +
+            '<div class="beat-row has-player" id="br-' + num + '" data-idx="' + num + '" data-nombre="' + safeName.toLowerCase() + '" data-genero="' + safeGenre.toLowerCase() + '" data-bpm="' + (beat.tempo || 0) + '" data-key="' + safeKey.toLowerCase() + '" data-type-beat="' + safeTypeBeat.toLowerCase() + '" onclick="toggleBeatPlayer(' + num + ',event)">' +
               '<div><span class="beat-num">' + strNum + '</span><div class="beat-pb"></div></div>' +
               '<div><p class="beat-name">' + beat.nombre.toUpperCase() + '</p><div class="beat-chips">' + chipsHTML + '</div></div>' +
               '<span class="beat-bpm">' + beat.tempo + ' BPM</span>' +
@@ -2838,6 +3019,122 @@ async function inicializarSitioDinamico() {
     }
   } catch(e) {
     console.error('Error cargando presskit dinámico:', e);
+  }
+}
+
+// ============================================================
+// SISTEMA DE FILTRADO Y BÚSQUEDA DINÁMICA DE BEATS
+// ============================================================
+function populateFilterOptions(beats) {
+  var genres = new Set();
+  var keys = new Set();
+  var typeBeats = new Set();
+
+  beats.forEach(function(b) {
+    if (b.genero) {
+      var parts = b.genero.split(/[\/,·,]/);
+      parts.forEach(function(p) {
+        var clean = p.trim();
+        if (clean) genres.add(clean);
+      });
+    }
+    if (b.key) {
+      var cleanKey = b.key.trim();
+      if (cleanKey) keys.add(cleanKey);
+    }
+    if (b.type_beat) {
+      var cleanType = b.type_beat.trim();
+      if (cleanType) typeBeats.add(cleanType);
+    }
+  });
+
+  // Ordenar alfabéticamente
+  var sortedGenres = Array.from(genres).sort();
+  var sortedKeys = Array.from(keys).sort();
+  var sortedTypeBeats = Array.from(typeBeats).sort();
+
+  // Rellenar selectores
+  var genreSelect = document.getElementById('filterGenre');
+  if (genreSelect) {
+    genreSelect.innerHTML = '<option value="">Géneros</option>' + 
+      sortedGenres.map(function(g) {
+        return '<option value="' + g.toLowerCase() + '">' + g + '</option>';
+      }).join('');
+  }
+
+  var typeSelect = document.getElementById('filterTypeBeat');
+  if (typeSelect) {
+    typeSelect.innerHTML = '<option value="">Type Beats</option>' + 
+      sortedTypeBeats.map(function(t) {
+        return '<option value="' + t.toLowerCase() + '">' + t + ' Type</option>';
+      }).join('');
+  }
+
+  var keySelect = document.getElementById('filterKey');
+  if (keySelect) {
+    keySelect.innerHTML = '<option value="">Key (Escala)</option>' + 
+      sortedKeys.map(function(k) {
+        return '<option value="' + k.toLowerCase() + '">' + k + '</option>';
+      }).join('');
+  }
+}
+
+function filtrarBeatsInterno() {
+  var q = document.getElementById('filterSearch').value.trim().toLowerCase();
+  var genre = document.getElementById('filterGenre').value.toLowerCase();
+  var typeBeat = document.getElementById('filterTypeBeat').value.toLowerCase();
+  var key = document.getElementById('filterKey').value.toLowerCase();
+  var tempo = document.getElementById('filterTempo').value; // 'lento', 'medio', 'rapido', ''
+  
+  var rows = document.querySelectorAll('#beatsTable .beat-row');
+  var visibleCount = 0;
+  
+  rows.forEach(function(row) {
+    var num = row.getAttribute('data-idx');
+    var bName = row.getAttribute('data-nombre') || '';
+    var bGenre = row.getAttribute('data-genero') || '';
+    var bBpm = parseInt(row.getAttribute('data-bpm')) || 0;
+    var bKey = row.getAttribute('data-key') || '';
+    var bTypeBeat = row.getAttribute('data-type-beat') || '';
+    
+    // Criterios de coincidencia
+    var matchesSearch = !q || bName.includes(q) || bTypeBeat.includes(q);
+    var matchesGenre = !genre || bGenre.includes(genre);
+    var matchesTypeBeat = !typeBeat || bTypeBeat === typeBeat;
+    var matchesKey = !key || bKey === key;
+    
+    var matchesTempo = true;
+    if (tempo === 'lento') {
+      matchesTempo = bBpm < 95;
+    } else if (tempo === 'medio') {
+      matchesTempo = bBpm >= 95 && bBpm <= 120;
+    } else if (tempo === 'rapido') {
+      matchesTempo = bBpm > 120;
+    }
+    
+    var playerWrap = document.getElementById('bpw-' + num);
+    
+    if (matchesSearch && matchesGenre && matchesTypeBeat && matchesKey && matchesTempo) {
+      row.style.display = 'grid';
+      visibleCount++;
+    } else {
+      row.style.display = 'none';
+      if (playerWrap) {
+        playerWrap.classList.remove('open');
+      }
+      
+      // Auto-pausar pista musical si estaba sonando y es oculta
+      var audio = document.getElementById('bpaudio-' + num);
+      if (audio && !audio.paused) {
+        pausePlay(num);
+      }
+    }
+  });
+  
+  // Mostrar u ocultar mensaje "Sin Resultados" con suavidad
+  var noResults = document.getElementById('beatsNoResults');
+  if (noResults) {
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
   }
 }
 

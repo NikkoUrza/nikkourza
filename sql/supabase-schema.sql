@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS beats (
   genero       TEXT,
   tempo        INTEGER,
   key          TEXT,
+  type_beat    TEXT,
   precio_basic INTEGER NOT NULL DEFAULT 35,
   precio_premium INTEGER NOT NULL DEFAULT 75,
   precio_excl  INTEGER NOT NULL DEFAULT 350,
