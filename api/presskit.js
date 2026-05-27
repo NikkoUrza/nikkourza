@@ -8,9 +8,9 @@ let supabase;
 function obtenerSupabase() {
   if (!supabase) {
     const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
     if (!url || !key) {
-      throw new Error('Configuración de base de datos incompleta. Asegúrate de configurar SUPABASE_URL y SUPABASE_SERVICE_KEY en tus variables de entorno en Vercel.');
+      throw new Error('Configuración de base de datos incompleta. Asegúrate de configurar SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY en tus variables de entorno en Vercel.');
     }
     supabase = createClient(url, key);
   }

@@ -3,13 +3,20 @@
 // POST /api/beats — crea un beat (solo admin)
 // PUT /api/beats/:id — actualiza un beat (solo admin)
 // DELETE /api/beats/:id — desactiva un beat (solo admin)
-
 const { createClient } = require('@supabase/supabase-js');
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY
-);
+let supabase;
+function obtenerSupabase() {
+  if (!supabase) {
+    const url = process.env.SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY;
+    if (!url || !key) {
+      throw new Error('Configuración de base de datos incompleta. Asegúrate de configurar SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY en tus variables de entorno en Vercel.');
+    }
+    supabase = createClient(url, key);
+  }
+  return supabase;
+}
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'nikko-admin-2026';
 
@@ -26,6 +33,8 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
+    const supabase = obtenerSupabase();
+
     if (req.method === 'GET') {
       const { data, error } = await supabase
         .from('beats')
