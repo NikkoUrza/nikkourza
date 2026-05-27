@@ -1,0 +1,19 @@
+{
+  "name": "Admin — Nikko Urza",
+  "short_name": "Nikko Admin",
+  "description": "Panel administrativo para la gestión de Beats, ventas y portafolio de Nikko Urza.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080C0C",
+  "theme_color": "#2DD4CC",
+  "categories": ["business", "music"],
+  "icons": [
+    {
+      "src": "../Images/perfil.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
