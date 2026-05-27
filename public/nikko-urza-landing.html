@@ -648,7 +648,7 @@ function togglePlatforms(id) {
 // Cargar Configuración de Link in Bio desde Supabase (id = 2)
 async function cargarLinkinbioConfig() {
   try {
-    var res = await fetch('/api/linkinbio');
+    var res = await fetch('/api/presskit?tipo=linkinbio');
     var data = await res.json();
     if (!data.ok || !data.config) {
       cargarConfiguracionPorDefecto();

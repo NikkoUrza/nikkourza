@@ -38,12 +38,16 @@ module.exports = async (req, res) => {
 
   try {
     const supabase = obtenerSupabase();
+    
+    // Distinguir si es Presskit (id = 1) o Link in Bio (id = 2)
+    const esLinkInBio = req.query.tipo === 'linkinbio';
+    const targetId = esLinkInBio ? 2 : 1;
 
     if (req.method === 'GET') {
       let { data, error } = await supabase
         .from('presskit')
         .select('*')
-        .eq('id', 1)
+        .eq('id', targetId)
         .single();
 
       if (error && error.code !== 'PGRST116') {
@@ -52,21 +56,38 @@ module.exports = async (req, res) => {
 
       // Si no existe, crear el registro por defecto
       if (!data) {
-        const seed = {
-          id: 1,
-          hero: 'Images/HomePortada.png',
-          foto: 'Images/PressKit.png',
-          quote: 'Soy ese artista que quiere ser dueño de su arte y de su tiempo, que quiere crear con libertad, que no se encasilla en un género porque la música es infinita.',
-          bio: 'Cantante, productor musical y audiovisual originario de Colombia. Con más de 12 años construyendo un sonido con alma propia, Nikko Urza opera desde la convicción de que la música libre es la única música honesta.',
-          tags: 'Afrobeat, Rap, Reggae, Trap, Lo-fi, Colombia, Independiente',
-          anios: '12+',
-          generos: '∞'
-        };
-        const { data: inserted } = await supabase.from('presskit').insert(seed).select().single();
-        data = inserted;
+        if (esLinkInBio) {
+          const seed = {
+            id: 2,
+            foto: 'Images/logo.png', // Imagen de perfil (avatar)
+            hero: '', // Lanzamiento único (URL de pista SoundCloud)
+            download: 'https://soundcloud.com/nikkourza' // Proveedor de música (URL de perfil SoundCloud)
+          };
+          const { data: inserted, error: insertError } = await supabase.from('presskit').insert(seed).select().single();
+          if (insertError) throw insertError;
+          data = inserted;
+        } else {
+          const seed = {
+            id: 1,
+            hero: 'Images/HomePortada.png',
+            foto: 'Images/PressKit.png',
+            quote: 'Soy ese artista que quiere ser dueño de su arte y de su tiempo, que quiere crear con libertad, que no se encasilla en un género porque la música es infinita.',
+            bio: 'Cantante, productor musical y audiovisual originario de Colombia. Con más de 12 años construyendo un sonido con alma propia, Nikko Urza opera desde la convicción de que la música libre es la única música honesta.',
+            tags: 'Afrobeat, Rap, Reggae, Trap, Lo-fi, Colombia, Independiente',
+            anios: '12+',
+            generos: '∞'
+          };
+          const { data: inserted, error: insertError } = await supabase.from('presskit').insert(seed).select().single();
+          if (insertError) throw insertError;
+          data = inserted;
+        }
       }
 
-      return res.status(200).json({ ok: true, presskit: data });
+      if (esLinkInBio) {
+        return res.status(200).json({ ok: true, config: data });
+      } else {
+        return res.status(200).json({ ok: true, presskit: data });
+      }
     }
 
     // Proteger métodos de escritura
@@ -79,12 +100,17 @@ module.exports = async (req, res) => {
       const { data, error } = await supabase
         .from('presskit')
         .update(updates)
-        .eq('id', 1)
+        .eq('id', targetId)
         .select()
         .single();
 
       if (error) throw error;
-      return res.status(200).json({ ok: true, presskit: data });
+      
+      if (esLinkInBio) {
+        return res.status(200).json({ ok: true, config: data });
+      } else {
+        return res.status(200).json({ ok: true, presskit: data });
+      }
     }
 
     return res.status(405).json({ error: 'Método no permitido' });

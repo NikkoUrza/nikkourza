@@ -856,7 +856,7 @@ async function guardarPresskit() {
 // ── LINK IN BIO ─────────────────────────────────────────────────────────────
 async function cargarLinkinbioAdmin() {
   try {
-    var data = await apiFetch('/api/linkinbio');
+    var data = await apiFetch('/api/presskit?tipo=linkinbio');
     var saved = data.config;
     if (saved) {
       document.getElementById('libAvatar').value = saved.foto || 'Images/logo.png';
@@ -884,7 +884,7 @@ async function guardarLinkinbio() {
   var payload = { foto, hero, download };
   
   try {
-    var data = await apiFetch('/api/linkinbio', {
+    var data = await apiFetch('/api/presskit?tipo=linkinbio', {
       method: 'PUT',
       body: JSON.stringify(payload)
     });
