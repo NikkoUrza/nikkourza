@@ -591,6 +591,87 @@ function togglePlatforms(id) {
   if (arr) arr.style.transform = isOpen ? '' : 'rotate(180deg)';
   open = isOpen ? null : id;
 }
+
+// Cargar Lanzamientos dinámicos desde Supabase (vía API de portafolio)
+async function cargarLanzamientosDinamicos() {
+  try {
+    var res = await fetch('/api/portafolio');
+    var data = await res.json();
+    if (!data.ok || !data.portafolio) return;
+    
+    // Filtrar los que son de tipo 'lanzamiento'
+    var lanzamientos = data.portafolio.filter(function(p) {
+      return p.tipo === 'lanzamiento';
+    });
+    
+    if (lanzamientos.length === 0) return; // Fallback estético si está vacío
+    
+    // Tomar los últimos 3 ordenados por fecha
+    var top3 = lanzamientos.slice(0, 3);
+    
+    var container = document.querySelector('.releases');
+    if (!container) return;
+    
+    var html = top3.map(function(p, index) {
+      var id = 'r-dyn-' + p.id;
+      var newBadgeHTML = (index === 0) ? '<div class="release-new">Nuevo</div>' : '';
+      
+      var bgStyle = '';
+      if (p.caratula_url) {
+        bgStyle = 'background:url(' + p.caratula_url + ') center/cover no-repeat;';
+      } else {
+        if (index === 0) bgStyle = 'background:var(--deep);';
+        else if (index === 1) bgStyle = 'background:linear-gradient(135deg,#0D9990,#061E1C);';
+        else bgStyle = 'background:linear-gradient(135deg,#1BB8B0,#065E5A);';
+      }
+      
+      var waves = [
+        'M0 15 Q7 5 15 15 Q22 25 30 15 Q37 5 45 15 Q52 25 60 15',
+        'M0 20 Q5 8 12 18 Q18 28 25 14 Q32 4 40 18 Q47 28 55 12 Q58 8 60 10',
+        'M0 10 Q8 22 15 12 Q22 4 30 16 Q38 26 45 10 Q52 2 60 14'
+      ];
+      var wavePath = waves[index % waves.length];
+      
+      var links = [];
+      if (p.spotify_url) links.push('<a class="platform-link" href="' + p.spotify_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-spotify"></div><span class="platform-name">Spotify</span></a>');
+      if (p.apple_url) links.push('<a class="platform-link" href="' + p.apple_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-apple"></div><span class="platform-name">Apple Music</span></a>');
+      if (p.youtube_url) links.push('<a class="platform-link" href="' + p.youtube_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-youtube"></div><span class="platform-name">YouTube Music</span></a>');
+      if (p.soundcloud_url) links.push('<a class="platform-link" href="' + p.soundcloud_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-soundcloud"></div><span class="platform-name">SoundCloud</span></a>');
+      if (p.tidal_url) links.push('<a class="platform-link" href="' + p.tidal_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-tidal"></div><span class="platform-name">Tidal</span></a>');
+      if (p.deezer_url) links.push('<a class="platform-link" href="' + p.deezer_url + '" target="_blank" rel="noopener"><div class="platform-dot dot-deezer"></div><span class="platform-name">Deezer</span></a>');
+      
+      if (links.length === 0) {
+        links.push('<a class="platform-link" href="index.html"><div class="platform-dot dot-spotify"></div><span class="platform-name">Sitio Oficial</span></a>');
+      }
+      
+      return '<div>' +
+        '<div class="release-card" onclick="togglePlatforms(\'' + id + '\')">' +
+          '<div class="release-cover" style="' + bgStyle + '">' +
+            newBadgeHTML +
+            (p.caratula_url ? '' : '<svg class="release-wave" viewBox="0 0 60 30" fill="none"><path d="' + wavePath + '" stroke="#2DD4CC" stroke-width="1.5" fill="none"/></svg>') +
+          '</div>' +
+          '<div class="release-info">' +
+            '<p class="release-type">Lanzamiento · ' + (p.anio || '2026') + '</p>' +
+            '<p class="release-title">' + p.titulo + '</p>' +
+            '<p class="release-meta">' + (p.genero || 'Multi-género') + ' · ' + (p.artista || 'Nikko Urza') + '</p>' +
+          '</div>' +
+          '<span class="release-arrow" id="arr-' + id + '">▾</span>' +
+        '</div>' +
+        '<div class="platforms-wrap" id="' + id + '">' +
+          '<div class="platforms-inner">' +
+            links.join('') +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    
+    container.innerHTML = html;
+  } catch(err) {
+    console.error('Error cargando lanzamientos dinámicos:', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', cargarLanzamientosDinamicos);
 </script>
 </body>
 </html>
