@@ -240,31 +240,53 @@ body::before{
 .web-cta{
   display:flex;align-items:center;justify-content:space-between;
   text-decoration:none;
-  border:1px solid rgba(45,212,204,0.35);
-  background:rgba(45,212,204,0.06);
-  padding:1.1rem 1.4rem;
+  border:2px solid var(--cyan);
+  background:linear-gradient(135deg, rgba(45,212,204,0.12), rgba(6,94,90,0.35));
+  padding:1.3rem 1.6rem;
   margin-bottom:2.5rem;
-  transition:all 0.2s;
+  transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position:relative;overflow:hidden;
+  box-shadow:0 0 20px rgba(45,212,204,0.25);
+  border-radius:4px;
 }
 .web-cta::before{
   content:'';position:absolute;left:0;top:0;bottom:0;
-  width:3px;background:var(--cyan);
+  width:4px;background:var(--cyan);
+  box-shadow:0 0 10px var(--cyan);
 }
-.web-cta:hover{background:rgba(45,212,204,0.1);border-color:rgba(45,212,204,0.5);transform:translateY(-2px)}
+.web-cta::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg, transparent, rgba(45,212,204,0.15), transparent);
+  transform:translateX(-100%);
+  transition:transform 0.6s ease;
+}
+.web-cta:hover::after{
+  transform:translateX(100%);
+}
+.web-cta:hover{
+  background:rgba(45,212,204,0.18);
+  border-color:var(--cyan);
+  box-shadow:0 0 30px rgba(45,212,204,0.45);
+  transform:translateY(-3px);
+}
 
-.web-cta-left{display:flex;flex-direction:column;gap:0.2rem}
-.web-cta-label{font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal)}
-.web-cta-title{font-family:'Bebas Neue';font-size:1.1rem;letter-spacing:2px;color:var(--warm)}
-.web-cta-sub{font-size:0.6rem;color:rgba(244,244,240,0.4)}
+.web-cta-left{display:flex;flex-direction:column;gap:0.3rem}
+.web-cta-label{font-size:0.6rem;letter-spacing:4px;text-transform:uppercase;color:var(--cyan);font-weight:700;text-shadow:0 0 8px rgba(45,212,204,0.4)}
+.web-cta-title{font-family:'Bebas Neue';font-size:1.35rem;letter-spacing:2px;color:var(--warm)}
+.web-cta-sub{font-size:0.62rem;color:rgba(244,244,240,0.65);line-height:1.4}
 .web-cta-icon{
-  width:36px;height:36px;background:var(--cyan);
+  width:40px;height:40px;background:var(--cyan);
   display:flex;align-items:center;justify-content:center;
-  font-size:0.8rem;color:var(--abyss);font-weight:700;
+  font-size:1rem;color:var(--abyss);font-weight:700;
   flex-shrink:0;
-  transition:background 0.2s;
+  transition:all 0.25s ease;
+  box-shadow:0 0 10px rgba(45,212,204,0.3);
 }
-.web-cta:hover .web-cta-icon{background:var(--teal)}
+.web-cta:hover .web-cta-icon{
+  background:var(--warm);
+  color:var(--abyss);
+  transform:scale(1.08) rotate(360deg);
+}
 
 /* MANIFESTO QUOTE */
 .quote-block{
@@ -362,41 +384,12 @@ body::before{
       <span class="avatar-initials">NU</span>
     </div>
     <h1 class="artist-name">NIKKO <span>URZA</span></h1>
-    <p class="artist-tagline">Artista libre. Sin género. Sin filtro.</p>
     <div class="artist-tags">
       <span class="artist-tag">Cantante</span>
       <span class="artist-tag">Productor</span>
       <span class="artist-tag">Colombia</span>
       <span class="artist-tag">Independiente</span>
     </div>
-  </div>
-
-  <!-- LANZAMIENTOS — SoundCloud widget por track -->
-  <div class="section-label"><span class="live-dot"></span>Últimos lanzamientos</div>
-
-  <div style="margin-bottom:2rem">
-    <p style="font-size:0.6rem;color:rgba(244,244,240,0.35);margin-bottom:1.2rem;letter-spacing:1px">
-      Escucha directo aquí · haz clic en el título para abrir en SoundCloud
-    </p>
-
-    <!-- Widget SoundCloud — tracks recientes del perfil -->
-    <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay"
-      src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-      style="border:1px solid rgba(45,212,204,0.2);display:block">
-    </iframe>
-
-    <a href="https://soundcloud.com/nikkourza" target="_blank"
-       style="display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(45,212,204,0.15);padding:0.7rem 1rem;margin-top:0.6rem;text-decoration:none;transition:all 0.18s;background:rgba(6,30,28,0.3)"
-       onmouseover="this.style.borderColor='rgba(45,212,204,0.35)'" onmouseout="this.style.borderColor='rgba(45,212,204,0.15)'">
-      <div style="display:flex;align-items:center;gap:0.6rem">
-        <div style="width:28px;height:28px;background:#FF5500;display:flex;align-items:center;justify-content:center;font-size:0.55rem;font-weight:700;color:#fff;flex-shrink:0">SC</div>
-        <div>
-          <div style="font-size:0.58rem;letter-spacing:1px;color:rgba(244,244,240,0.35);text-transform:uppercase">SoundCloud</div>
-          <div style="font-family:'Bebas Neue',cursive;font-size:0.9rem;letter-spacing:2px;color:var(--warm)">@nikkourza</div>
-        </div>
-      </div>
-      <span style="color:rgba(45,212,204,0.5);font-size:0.65rem">Ver todos →</span>
-    </a>
   </div>
 
   <!-- MI MÚSICA — SoundCloud -->
@@ -425,9 +418,9 @@ body::before{
   <!-- WEB CTA -->
   <a href="index.html" class="web-cta">
     <div class="web-cta-left">
-      <span class="web-cta-label">Sitio oficial</span>
-      <span class="web-cta-title">nikkourza.com</span>
-      <span class="web-cta-sub">Beats · Servicios · Presskit · Mezcla & Master</span>
+      <span class="web-cta-label">Sitio oficial · nikkourza.com</span>
+      <span class="web-cta-title">CONTRATA LOS SERVICIOS ⚡</span>
+      <span class="web-cta-sub">Beats · Mezcla · Masterización · Producción profesional</span>
     </div>
     <div class="web-cta-icon">→</div>
   </a>
