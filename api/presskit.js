@@ -85,7 +85,17 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Método no permitido' });
 
   } catch (err) {
+    const url = process.env.SUPABASE_URL || 'NO_URL';
+    const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || 'NO_KEY';
+    const keyMasked = rawKey.substring(0, 8) + '...' + rawKey.substring(rawKey.length - 8);
+    const hasServiceRole = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const hasService = !!process.env.SUPABASE_SERVICE_KEY;
+    const hasAnon = !!process.env.SUPABASE_ANON_KEY;
+
     console.error('Error API presskit:', err);
-    return res.status(500).json({ error: 'Error interno', detail: err.message });
+    return res.status(500).json({ 
+      error: 'Error interno: ' + err.message, 
+      detail: `URL: ${url} | KEY: ${keyMasked} | HasRoleKey: ${hasServiceRole} | HasServiceKey: ${hasService} | HasAnonKey: ${hasAnon}` 
+    });
   }
 };
