@@ -857,6 +857,54 @@ footer{
 }
 
 /* ============================================================
+   CURRENCY SELECTOR (CYBERPUNK NEON)
+============================================================ */
+.currency-selector {
+  display: flex;
+  background: rgba(8, 12, 12, 0.7);
+  border: 1px solid rgba(45, 212, 204, 0.15);
+  border-radius: 30px;
+  padding: 3px;
+  backdrop-filter: blur(12px);
+  gap: 2px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  align-items: center;
+}
+.curr-btn {
+  background: transparent;
+  border: none;
+  color: rgba(244, 244, 240, 0.35);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  outline: none;
+}
+.curr-btn:hover {
+  color: var(--cyan);
+}
+.curr-btn.active {
+  background: rgba(45, 212, 204, 0.12);
+  color: var(--cyan);
+  box-shadow: 0 0 8px rgba(45, 212, 204, 0.2);
+  text-shadow: 0 0 4px rgba(45, 212, 204, 0.4);
+}
+@media(max-width:480px) {
+  .currency-selector {
+    padding: 2px;
+  }
+  .curr-btn {
+    padding: 4px 8px;
+    font-size: 0.48rem;
+  }
+}
+
+/* ============================================================
    RESPONSIVE
 ============================================================ */
 @media(max-width:768px){
@@ -897,9 +945,15 @@ footer{
     <li><a href="nikko-urza-landing.html" style="color:var(--cyan)">Link in Bio ↗</a></li>
     <li><a href="login.html" class="nav-btn-cuenta" onclick="closeNav()">Mi Cuenta 🔐</a></li>
   </ul>
-  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menú">
-    <span></span><span></span><span></span>
-  </button>
+  <div style="display: flex; align-items: center; gap: 0.8rem; z-index: 201;">
+    <div class="currency-selector" id="currencySelector">
+      <button class="curr-btn active" id="curr-USD" onclick="changeCurrency('USD', true)">USD</button>
+      <button class="curr-btn" id="curr-COP" onclick="changeCurrency('COP', true)">COP</button>
+    </div>
+    <button class="nav-hamburger" onclick="toggleNav()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- ===== HERO ===== -->
@@ -1117,9 +1171,9 @@ footer{
   <p class="sec-label">04 — Licencias</p>
   <h2 class="sec-title">ELIGE TU<br><span>LICENCIA</span></h2>
   <div class="lic-grid">
-    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">BASIC</p><p class="lic-price">$35 <span>USD</span></p><ul class="lic-feats"><li>MP3 alta calidad 320kbps</li><li>Hasta 100,000 streams</li><li>Plataformas digitales</li><li>Crédito obligatorio</li><li>No TV / cine / pub.</li><li>No exclusiva</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
-    <div class="lic-card feat"><div class="lic-badge">Más Popular</div><p class="lic-type">Licencia</p><p class="lic-name">PREMIUM</p><p class="lic-price">$75 <span>USD</span></p><ul class="lic-feats"><li>WAV + MP3 + stems</li><li>Streams ilimitados</li><li>TV, YouTube, publicidad</li><li>Hasta 1,000 copias físicas</li><li>Crédito obligatorio</li><li>No exclusiva</li></ul><button class="btn-p" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
-    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">EXCLUSIVA</p><p class="lic-price">$350+ <span>USD</span></p><ul class="lic-feats"><li>Stems completos multitrack</li><li>Derechos exclusivos totales</li><li>Beat se retira de venta</li><li>Uso comercial ilimitado</li><li>Sin crédito obligatorio</li><li>Negociable</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Ver Beats</button></div>
+    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">BASIC</p><p class="lic-price lic-price-display" data-usd="35">$35 <span>USD</span></p><ul class="lic-feats"><li>MP3 alta calidad 320kbps</li><li>Hasta 100,000 streams</li><li>Plataformas digitales</li><li>Crédito obligatorio</li><li>No TV / cine / pub.</li><li>No exclusiva</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
+    <div class="lic-card feat"><div class="lic-badge">Más Popular</div><p class="lic-type">Licencia</p><p class="lic-name">PREMIUM</p><p class="lic-price lic-price-display" data-usd="75">$75 <span>USD</span></p><ul class="lic-feats"><li>WAV + MP3 + stems</li><li>Streams ilimitados</li><li>TV, YouTube, publicidad</li><li>Hasta 1,000 copias físicas</li><li>Crédito obligatorio</li><li>No exclusiva</li></ul><button class="btn-p" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
+    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">EXCLUSIVA</p><p class="lic-price lic-price-display" data-usd="350" data-plus="true">$350+ <span>USD</span></p><ul class="lic-feats"><li>Stems completos multitrack</li><li>Derechos exclusivos totales</li><li>Beat se retira de venta</li><li>Uso comercial ilimitado</li><li>Sin crédito obligatorio</li><li>Negociable</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Ver Beats</button></div>
     <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">CUSTOM</p><p class="lic-price" style="font-size:1.8rem">HABLEMOS</p><ul class="lic-feats"><li>Sellos discográficos</li><li>Proyectos audiovisuales</li><li>Sincronización (sync)</li><li>Publicidad y campañas</li><li>Términos personalizados</li><li>Contacto directo</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar</button></div>
   </div>
 </section>
@@ -1130,12 +1184,12 @@ footer{
   <p class="sec-label">05 — Servicios</p>
   <h2 class="sec-title">LO QUE PUEDO<br><span>HACER POR TI</span></h2>
   <div class="svc-grid">
-    <div class="svc-card" id="c-mezcla"><div class="svc-head"><p class="svc-tag">Post-producción</p><p class="svc-name">Mezcla Profesional</p><p class="svc-desc">Balance, espacialidad, dinámica. Tus stems entran crudos y salen como deben sonar.</p><p class="svc-price">USD $80 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('mezcla')">Contratar →</button></div>
-    <div class="svc-card" id="c-master"><div class="svc-head"><p class="svc-tag">Post-producción</p><p class="svc-name">Masterización</p><p class="svc-desc">Listo para Spotify, Apple Music, YouTube. Volumen, claridad y pegada.</p><p class="svc-price">USD $40 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('master')">Contratar →</button></div>
-    <div class="svc-card" id="c-mixmaster"><div class="svc-head"><p class="svc-tag">Paquete completo</p><p class="svc-name">Mezcla + Master</p><p class="svc-desc">Desde stems crudos hasta archivo listo para distribución. Todo en uno.</p><p class="svc-price">USD $110 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('mixmaster')">Contratar →</button></div>
+    <div class="svc-card" id="c-mezcla"><div class="svc-head"><p class="svc-tag">Post-producción</p><p class="svc-name">Mezcla Profesional</p><p class="svc-desc">Balance, espacialidad, dinámica. Tus stems entran crudos y salen como deben sonar.</p><p class="svc-price svc-price-display" data-usd="80">USD $80 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('mezcla')">Contratar →</button></div>
+    <div class="svc-card" id="c-master"><div class="svc-head"><p class="svc-tag">Post-producción</p><p class="svc-name">Masterización</p><p class="svc-desc">Listo para Spotify, Apple Music, YouTube. Volumen, claridad y pegada.</p><p class="svc-price svc-price-display" data-usd="40">USD $40 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('master')">Contratar →</button></div>
+    <div class="svc-card" id="c-mixmaster"><div class="svc-head"><p class="svc-tag">Paquete completo</p><p class="svc-name">Mezcla + Master</p><p class="svc-desc">Desde stems crudos hasta archivo listo para distribución. Todo en uno.</p><p class="svc-price svc-price-display" data-usd="110">USD $110 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('mixmaster')">Contratar →</button></div>
     <div class="svc-card" id="c-ep"><div class="svc-head"><p class="svc-tag">Proyecto completo</p><p class="svc-name">EP / Álbum</p><p class="svc-desc">4+ canciones. Consistencia sonora en todo el proyecto. Precio especial.</p><p class="svc-price">Cotización <sub>personalizada</sub></p></div><button class="svc-btn" onclick="openFlow('ep')">Solicitar Cotización →</button></div>
-    <div class="svc-card" id="c-consul"><div class="svc-head"><p class="svc-tag">Sesión 1:1</p><p class="svc-name">Consultoría Creativa</p><p class="svc-desc">Dirección de sonido, feedback honesto, revisión de proyecto. Sin filtro.</p><p class="svc-price">USD $50 <sub>/ hora</sub></p></div><button class="svc-btn" onclick="openFlow('consul')">Contratar &amp; Agendar →</button></div>
-    <div class="svc-card" id="c-prod"><div class="svc-head"><p class="svc-tag">Producción</p><p class="svc-name">Producción Musical</p><p class="svc-desc">Beat, arreglos, melodía, estructura. Desde cero o sobre tu idea.</p><p class="svc-price">USD $150 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('prod')">Contratar →</button></div>
+    <div class="svc-card" id="c-consul"><div class="svc-head"><p class="svc-tag">Sesión 1:1</p><p class="svc-name">Consultoría Creativa</p><p class="svc-desc">Dirección de sonido, feedback honesto, revisión de proyecto. Sin filtro.</p><p class="svc-price svc-price-display" data-usd="50">USD $50 <sub>/ hora</sub></p></div><button class="svc-btn" onclick="openFlow('consul')">Contratar &amp; Agendar →</button></div>
+    <div class="svc-card" id="c-prod"><div class="svc-head"><p class="svc-tag">Producción</p><p class="svc-name">Producción Musical</p><p class="svc-desc">Beat, arreglos, melodía, estructura. Desde cero o sobre tu idea.</p><p class="svc-price svc-price-display" data-usd="150">USD $150 <sub>/ canción</sub></p></div><button class="svc-btn" onclick="openFlow('prod')">Contratar →</button></div>
   </div>
 
   <!-- FLOW: MEZCLA -->
@@ -1149,7 +1203,7 @@ footer{
       <div class="fstep"><div class="fsb done">3</div><span class="fsl">Pago</span></div><div class="fsa"></div>
       <div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div>
     </div>
-    <p class="ptitle">Mezcla Profesional — <span>USD $80</span></p>
+    <p class="ptitle">Mezcla Profesional — <span class="beat-price-display" data-usd="80">USD $80</span></p>
     <p class="psub">Completa tus datos y sube los stems. Luego elige cómo pagar.</p>
     <div class="g2">
       <div>
@@ -1185,7 +1239,7 @@ footer{
       <div class="fstep"><div class="fsb done">3</div><span class="fsl">Pago</span></div><div class="fsa"></div>
       <div class="fstep"><div class="fsb">4</div><span class="fsl">Master</span></div>
     </div>
-    <p class="ptitle">Masterización — <span>USD $40</span></p>
+    <p class="ptitle">Masterización — <span class="beat-price-display" data-usd="40">USD $40</span></p>
     <p class="psub">Sube tu mezcla final y cuéntame los detalles. Luego elige cómo pagar.</p>
     <div class="g2">
       <div>
@@ -1223,7 +1277,7 @@ footer{
       <div class="fstep"><div class="fsb">4</div><span class="fsl">Mezcla</span></div><div class="fsa"></div>
       <div class="fstep"><div class="fsb">5</div><span class="fsl">Master</span></div>
     </div>
-    <p class="ptitle">Mezcla + Master — <span>USD $110</span></p>
+    <p class="ptitle">Mezcla + Master — <span class="beat-price-display" data-usd="110">USD $110</span></p>
     <p class="psub">El paquete completo. Desde stems crudos hasta listo para distribución.</p>
     <div class="g2">
       <div>
@@ -1296,7 +1350,7 @@ footer{
       <div class="fstep"><div class="fsb">3</div><span class="fsl">Confirmación</span></div><div class="fsa"></div>
       <div class="fstep"><div class="fsb">4</div><span class="fsl">Sesión</span></div>
     </div>
-    <p class="ptitle">Consultoría Creativa — <span>USD $50 / hora</span></p>
+    <p class="ptitle">Consultoría Creativa — <span class="beat-price-display" data-usd="50">USD $50</span> / hora</p>
     <p class="psub">Agenda tu sesión en Calendly y elige cómo pagar.</p>
     <div style="margin-bottom:1.2rem">
       <p style="font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:0.8rem">Agenda tu sesión</p>
@@ -1309,7 +1363,7 @@ footer{
     <div class="fg"><label class="fl">¿Sobre qué es la sesión? (ayuda a prepararse mejor)</label>
       <textarea class="fi" id="dco" rows="3" placeholder="Dirección de sonido, revisión de mezcla, orientación de carrera, producción..."></textarea>
     </div>
-    <button class="submit-btn" onclick="submitConPago('consul', 50, 'Consultoría Creativa', [])">Pagar USD $50 →</button>
+    <button class="submit-btn svc-pay-btn-display" data-usd="50" onclick="submitConPago('consul', 50, 'Consultoría Creativa', [])">Pagar USD $50 →</button>
     <p class="form-note">Link de Google Meet llega por email al confirmar el pago.</p>
     <div class="ok-msg" id="ok-consul">✓ ¡Listo! Revisa tu email para el link de Google Meet.</div>
   </div>
@@ -1324,7 +1378,7 @@ footer{
       <div class="fstep"><div class="fsb">3</div><span class="fsl">Producción</span></div><div class="fsa"></div>
       <div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div>
     </div>
-    <p class="ptitle">Producción Musical — <span>USD $150</span></p>
+    <p class="ptitle">Producción Musical — <span class="beat-price-display" data-usd="150">USD $150</span></p>
     <p class="psub">Cuéntame la visión completa del proyecto.</p>
     <div class="g2">
       <div>
@@ -1487,9 +1541,130 @@ var cartState = {
   items: []
 };
 
-// Cargar carrito al iniciar la página
+// 🌐 ESTADO DE MONEDA GLOBAL Y CONVERSIÓN DINÁMICA
+var currentCurrency = 'USD';
+
+function formatCurrencyValue(usdValue) {
+  if (currentCurrency === 'COP') {
+    return '$' + Math.round(usdValue * TRM).toLocaleString('es-CO') + ' COP';
+  } else {
+    return '$' + usdValue.toFixed(0) + ' USD';
+  }
+}
+
+function actualizarPreciosUI() {
+  // 1. Botones de Beats en la tabla
+  document.querySelectorAll('.beat-price-display').forEach(function(el) {
+    var usd = parseFloat(el.getAttribute('data-usd'));
+    el.textContent = formatCurrencyValue(usd);
+  });
+  
+  // 2. Tarjetas de licencias estáticas
+  document.querySelectorAll('.lic-price-display').forEach(function(el) {
+    var usd = parseFloat(el.getAttribute('data-usd'));
+    var plus = el.getAttribute('data-plus') === 'true' ? '+' : '';
+    if (currentCurrency === 'COP') {
+      var cop = Math.round(usd * TRM);
+      el.innerHTML = '$' + cop.toLocaleString('es-CO') + plus + ' <span>COP</span>';
+    } else {
+      el.innerHTML = '$' + usd + plus + ' <span>USD</span>';
+    }
+  });
+  
+  // 3. Tarjetas de servicios
+  document.querySelectorAll('.svc-price-display').forEach(function(el) {
+    var usd = parseFloat(el.getAttribute('data-usd'));
+    var sub = el.querySelector('sub') ? el.querySelector('sub').outerHTML : '';
+    if (currentCurrency === 'COP') {
+      var cop = Math.round(usd * TRM);
+      el.innerHTML = '$' + cop.toLocaleString('es-CO') + ' COP ' + sub;
+    } else {
+      el.innerHTML = 'USD $' + usd + ' ' + sub;
+    }
+  });
+  
+  // 4. Botones de pago de servicios
+  document.querySelectorAll('.svc-pay-btn-display').forEach(function(el) {
+    var usd = parseFloat(el.getAttribute('data-usd'));
+    if (currentCurrency === 'COP') {
+      var cop = Math.round(usd * TRM);
+      el.textContent = 'Pagar $' + cop.toLocaleString('es-CO') + ' COP →';
+    } else {
+      el.textContent = 'Pagar $' + usd + ' USD →';
+    }
+  });
+
+  // 5. Portafolio dinámico
+  document.querySelectorAll('.port-price-display').forEach(function(el) {
+    var usd = parseFloat(el.getAttribute('data-usd'));
+    if (currentCurrency === 'COP') {
+      var cop = Math.round(usd * TRM);
+      el.textContent = '$' + cop.toLocaleString('es-CO') + ' COP';
+    } else {
+      el.textContent = 'USD $' + usd;
+    }
+  });
+}
+
+function changeCurrency(currency, isManual) {
+  currentCurrency = currency;
+  if (isManual) {
+    localStorage.setItem('nikko_urza_currency', currency);
+  }
+  
+  var btnUSD = document.getElementById('curr-USD');
+  var btnCOP = document.getElementById('curr-COP');
+  if (btnUSD && btnCOP) {
+    if (currency === 'COP') {
+      btnUSD.classList.remove('active');
+      btnCOP.classList.add('active');
+    } else {
+      btnCOP.classList.remove('active');
+      btnUSD.classList.add('active');
+    }
+  }
+  
+  actualizarPreciosUI();
+  renderizarCarrito();
+}
+
+function inicializarMoneda() {
+  // 1. Preferencia manual en localStorage
+  var saved = localStorage.getItem('nikko_urza_currency');
+  if (saved === 'COP' || saved === 'USD') {
+    changeCurrency(saved, false);
+    return;
+  }
+  
+  // 2. Detección por zona horaria
+  try {
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz && (tz.includes('Bogota') || tz.includes('Colombia') || tz.includes('Bogotá'))) {
+      changeCurrency('COP', false);
+    } else {
+      changeCurrency('USD', false);
+    }
+  } catch (e) {
+    changeCurrency('USD', false);
+  }
+  
+  // 3. Consulta de geolocalización al backend en Vercel
+  fetch('/api/detect-location')
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      if (data.ok && data.country === 'CO' && !localStorage.getItem('nikko_urza_currency')) {
+        changeCurrency('COP', false);
+      }
+    })
+    .catch(function(e) {
+      console.warn('Error detectando ubicación por IP, se conserva fallback:', e);
+    });
+}
+
+// Cargar carrito y moneda al iniciar la página
 document.addEventListener('DOMContentLoaded', function() {
   cargarCarritoDesdeStorage();
+  inicializarMoneda();
 });
 
 function cargarCarritoDesdeStorage() {
@@ -1613,10 +1788,13 @@ function renderizarCarrito() {
     var pricing = window.beatsMap && window.beatsMap[item.beat_id];
     var optionsHTML = '';
     if (pricing) {
+      var basicText = 'Basic (' + formatCurrencyValue(pricing.precio_basic) + ')';
+      var premiumText = 'Premium (' + formatCurrencyValue(pricing.precio_premium) + ')';
+      var exclText = 'Excl. (' + formatCurrencyValue(pricing.precio_excl) + ')';
       optionsHTML = 
-        '<option value="basic"' + (item.licencia === 'basic' ? ' selected' : '') + '>Basic ($' + pricing.precio_basic + ' USD)</option>' +
-        '<option value="premium"' + (item.licencia === 'premium' ? ' selected' : '') + '>Premium ($' + pricing.precio_premium + ' USD)</option>' +
-        '<option value="exclusiva"' + (item.licencia === 'exclusiva' ? ' selected' : '') + '>Excl. ($' + pricing.precio_excl + ' USD)</option>';
+        '<option value="basic"' + (item.licencia === 'basic' ? ' selected' : '') + '>' + basicText + '</option>' +
+        '<option value="premium"' + (item.licencia === 'premium' ? ' selected' : '') + '>' + premiumText + '</option>' +
+        '<option value="exclusiva"' + (item.licencia === 'exclusiva' ? ' selected' : '') + '>' + exclText + '</option>';
     } else {
       // Fallback si no está el mapa cargado
       optionsHTML = '<option value="' + item.licencia + '" selected>' + item.licencia.toUpperCase() + '</option>';
@@ -1632,7 +1810,7 @@ function renderizarCarrito() {
           '<select class="cart-lic-select" onchange="cambiarLicenciaItem(' + idx + ', this.value)">' +
             optionsHTML +
           '</select>' +
-          '<span class="cart-item-price">$' + item.precio_usd + ' USD</span>' +
+          '<span class="cart-item-price">' + formatCurrencyValue(item.precio_usd) + '</span>' +
         '</div>' +
       '</div>';
   });
@@ -1769,11 +1947,10 @@ async function iniciarCheckoutPaypal() {
     guardarCarritoEnStorage();
     actualizarCartUI();
 
-    // 2. Abrir la página de PayPal.me con el valor total unificado en USD
-    // Colocamos un delay corto y abrimos en una nueva pestaña
+    // Redirigir en el mismo tab para evitar bloqueos del navegador de ventanas emergentes
     setTimeout(function() {
-      window.open('https://www.paypal.me/nikkourza/' + totalUSD + 'USD', '_blank');
-    }, 400);
+      window.location.href = 'https://www.paypal.me/nikkourza/' + totalUSD + 'USD';
+    }, 300);
 
   } catch(e) {
     console.error(e);
@@ -2412,9 +2589,9 @@ async function inicializarSitioDinamico() {
               '<span class="beat-bpm">' + beat.tempo + ' BPM</span>' +
               '<span class="beat-key">' + (beat.key || '') + '</span>' +
               '<div class="beat-lics" onclick="event.stopPropagation()">' +
-                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'basic\', ' + beat.precio_basic + ')">Basic<span>$' + beat.precio_basic + ' USD</span></button>' +
-                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'premium\', ' + beat.precio_premium + ')">Premium<span>$' + beat.precio_premium + ' USD</span></button>' +
-                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'exclusiva\', ' + beat.precio_excl + ')">Excl.<span>$' + beat.precio_excl + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'basic\', ' + beat.precio_basic + ')">Basic<span class="beat-price-display" data-usd="' + beat.precio_basic + '">$' + beat.precio_basic + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'premium\', ' + beat.precio_premium + ')">Premium<span class="beat-price-display" data-usd="' + beat.precio_premium + '">$' + beat.precio_premium + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'exclusiva\', ' + beat.precio_excl + ')">Excl.<span class="beat-price-display" data-usd="' + beat.precio_excl + '">$' + beat.precio_excl + ' USD</span></button>' +
               '</div>' +
             '</div>' +
             '<div class="beat-player-wrap" id="bpw-' + num + '">' +
@@ -2440,6 +2617,8 @@ async function inicializarSitioDinamico() {
             '</div>';
         });
         container.innerHTML = html;
+        // Forzar actualización inmediata de precios tras inyectar dinámicamente
+        actualizarPreciosUI();
       }
     }
   } catch(e) {
@@ -2484,7 +2663,7 @@ async function inicializarSitioDinamico() {
           
           var priceText = '';
           if (p.tipo === 'beat') {
-            priceText = '<p class="pc-price">USD $35</p>';
+            priceText = '<p class="pc-price port-price-display" data-usd="35">USD $35</p>';
           }
           
           htmlPort += 
@@ -2499,6 +2678,8 @@ async function inicializarSitioDinamico() {
             '</div>';
         });
         containerPort.innerHTML = htmlPort;
+        // Forzar actualización inmediata de precios tras inyectar dinámicamente
+        actualizarPreciosUI();
       }
     }
   } catch(e) {
