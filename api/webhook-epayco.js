@@ -31,6 +31,12 @@ function verificarFirmaEpayco(data) {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
+  // Validar configuración crítica de Supabase en producción
+  if (!process.env.SUPABASE_SERVICE_KEY) {
+    console.error('CRITICAL CONFIG ERROR: SUPABASE_SERVICE_KEY variable is missing in Vercel environment variables. Webhook confirmations will fail due to RLS policies.');
+    return res.status(500).json({ error: 'Configuración del servidor incompleta (falta SUPABASE_SERVICE_KEY)' });
+  }
+
   try {
     const data = req.body;
     console.log('ePayco webhook recibido:', JSON.stringify(data));

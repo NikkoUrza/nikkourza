@@ -75,6 +75,16 @@ CREATE INDEX IF NOT EXISTS idx_ventas_token ON ventas(token_descarga);
 CREATE INDEX IF NOT EXISTS idx_ventas_estado ON ventas(estado);
 CREATE INDEX IF NOT EXISTS idx_beats_activo ON beats(activo, orden);
 
+-- Función para vincular ventas anteriores al registrarse un nuevo usuario
+CREATE OR REPLACE FUNCTION vincular_ventas_por_email(user_id UUID, user_email TEXT)
+RETURNS VOID AS $$
+BEGIN
+  UPDATE ventas
+  SET cliente_id = user_id
+  WHERE comprador_email = user_email AND cliente_id IS NULL;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
 -- Row Level Security — solo el backend (service role) puede escribir
 ALTER TABLE beats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE ventas ENABLE ROW LEVEL SECURITY;

@@ -1065,6 +1065,7 @@ footer{
     <div>
       <div class="g2">
         <div class="fg"><label class="fl">Tu nombre</label><input class="fi" type="text" id="cn" placeholder="Artístico o real"></div>
+        <div class="fg" style="display:none !important"><label class="fl">Confirmar Nombre</label><input type="text" id="cn_hp" autocomplete="off" tabindex="-1"></div>
         <div class="fg"><label class="fl">Email</label><input class="fi" type="email" id="ce" placeholder="tu@email.com"></div>
       </div>
       <div class="g2">
@@ -1105,6 +1106,7 @@ footer{
   <div>
     <div class="nl-form">
       <input type="email" class="nl-input" id="nle" placeholder="tu@email.com">
+      <div style="display:none !important"><input type="text" id="nle_hp" autocomplete="off" tabindex="-1"></div>
       <button class="nl-btn" onclick="subNL()">Suscribir →</button>
     </div>
     <div class="nl-res" id="nlr"></div>
@@ -1157,19 +1159,19 @@ function pagarEpayco(nombre, montoCOP, referencia) {
   sel.style.cssText = 'position:fixed;inset:0;background:rgba(6,8,8,0.88);z-index:999;display:flex;align-items:center;justify-content:center;padding:1.5rem';
   sel.innerHTML =
     '<div style="border:1px solid rgba(45,212,204,0.35);background:#061E1C;padding:2rem;max-width:480px;width:100%;position:relative">' +
-      '<button onclick="document.getElementById('beat-pay-selector').remove()" style="position:absolute;top:0.8rem;right:0.8rem;background:transparent;border:none;color:rgba(244,244,240,0.35);font-size:1.2rem;cursor:pointer;line-height:1">×</button>' +
+      '<button onclick="document.getElementById(\'beat-pay-selector\').remove()" style="position:absolute;top:0.8rem;right:0.8rem;background:transparent;border:none;color:rgba(244,244,240,0.35);font-size:1.2rem;cursor:pointer;line-height:1">×</button>' +
       '<p style="font-size:0.54rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:0.4rem">Método de pago</p>' +
       '<p style="font-family:Bebas Neue,cursive;font-size:1.4rem;letter-spacing:2px;color:#F4F4F0;margin-bottom:0.3rem">' + nombreCorto + '</p>' +
       '<p style="font-size:0.65rem;color:rgba(244,244,240,0.4);margin-bottom:1.5rem">Licencia ' + licencia + ' · USD $' + montoUSD + '</p>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem">' +
-        '<button onclick="pagarConEpayco('' + nombre + '','' + montoCOP + '','' + referencia + '')" ' +
+        '<button onclick="pagarConEpayco(\'' + nombre + '\',\'' + montoCOP + '\',\'' + referencia + '\')" ' +
           'style="border:1px solid rgba(45,212,204,0.3);background:rgba(45,212,204,0.08);color:#2DD4CC;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;transition:all 0.18s;text-align:center">' +
           '<div style="font-size:1.2rem;margin-bottom:0.4rem">🇨🇴</div>' +
           '<strong>ePayco</strong>' +
           '<div style="font-size:0.52rem;opacity:0.65;margin-top:0.3rem;line-height:1.5">Tarjeta · PSE<br>Nequi · Daviplata<br>Efectivo</div>' +
         '</button>' +
         '<a href="' + paypalUrl + '" target="_blank" ' +
-          'onclick="setTimeout(function(){var s=document.getElementById('beat-pay-selector');if(s)s.remove();},500)" ' +
+          'onclick="setTimeout(function(){var s=document.getElementById(\'beat-pay-selector\');if(s)s.remove();},500)" ' +
           'style="border:1px solid rgba(0,112,243,0.4);background:rgba(0,48,135,0.25);color:#60a5fa;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;text-decoration:none;display:block;text-align:center;transition:all 0.18s">' +
           '<div style="font-size:1.2rem;margin-bottom:0.4rem">🌐</div>' +
           '<strong>PayPal</strong>' +
@@ -1202,8 +1204,8 @@ function pagarConEpayco(nombre, montoCOP, referencia) {
       tax_base: '0', tax: '0',
       country: 'co', lang: 'es',
       external: 'false',
-      response: 'https://nikkourza.com/descarga.html',
-      confirmation: 'https://nikkourza.com/descarga.html',
+      response: window.location.origin + '/descarga',
+      confirmation: window.location.origin + '/descarga',
       name_billing: '', email_billing: '',
       type_doc_billing: 'cc', mobilephone_billing: '',
       methodsDisable: []
@@ -1213,11 +1215,7 @@ function pagarConEpayco(nombre, montoCOP, referencia) {
     // Mostrar opción alternativa
     var montoUSD = Math.round(parseInt(montoCOP) / TRM);
     var nombreCorto = nombre.split(' — ')[0];
-    if(confirm('ePayco no está disponible en este momento.
-
-¿Quieres pagar con PayPal?
-
-' + nombreCorto + ' — USD $' + montoUSD)) {
+    if(confirm('ePayco no está disponible en este momento.\n\n¿Quieres pagar con PayPal?\n\n' + nombreCorto + ' — USD $' + montoUSD)) {
       window.open('https://www.paypal.me/nikkourza/' + montoUSD + 'USD', '_blank');
     }
   }
@@ -1241,8 +1239,8 @@ function pagarServicio(nombre, montoUSD, referencia) {
     country: 'co',
     lang: 'es',
     external: 'false',
-    response: 'https://nikkourza.com/descarga.html',
-    confirmation: 'https://nikkourza.com/descarga.html',
+    response: window.location.origin + '/descarga',
+    confirmation: window.location.origin + '/descarga',
     name_billing: '',
     email_billing: '',
     type_doc_billing: 'cc',
@@ -1396,18 +1394,18 @@ function mostrarSelectorServicio(id, nombre, montoUSD) {
   sel.style.cssText = 'position:fixed;inset:0;background:rgba(6,8,8,0.9);z-index:999;display:flex;align-items:center;justify-content:center;padding:1.5rem';
   sel.innerHTML =
     '<div style="border:1px solid rgba(45,212,204,0.35);background:#061E1C;padding:2rem;max-width:480px;width:100%;position:relative">' +
-      '<button onclick="document.getElementById('svc-pay-selector').remove()" style="position:absolute;top:0.8rem;right:0.8rem;background:transparent;border:none;color:rgba(244,244,240,0.4);font-size:1.3rem;cursor:pointer;line-height:1">×</button>' +
+      '<button onclick="document.getElementById(\'svc-pay-selector\').remove()" style="position:absolute;top:0.8rem;right:0.8rem;background:transparent;border:none;color:rgba(244,244,240,0.4);font-size:1.3rem;cursor:pointer;line-height:1">×</button>' +
       '<p style="font-size:0.54rem;letter-spacing:3px;text-transform:uppercase;color:rgba(45,212,204,0.6);margin-bottom:0.4rem">Elige cómo pagar</p>' +
       '<p style="font-family:Bebas Neue,cursive;font-size:1.4rem;letter-spacing:2px;color:#F4F4F0;margin-bottom:0.2rem">' + nombre + '</p>' +
       '<p style="font-size:0.65rem;color:rgba(244,244,240,0.4);margin-bottom:1.5rem">USD $' + montoUSD + ' · COP ~$' + montoCOP + '</p>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem">' +
-        '<button onclick="pagarServicioEpayco('' + nombre + '',' + montoUSD + ','svc-' + id + '')" ' +
+        '<button onclick="pagarServicioEpayco(\'' + nombre + '\',' + montoUSD + ',\'svc-' + id + '\')" ' +
           'style="border:1px solid rgba(45,212,204,0.3);background:rgba(45,212,204,0.08);color:#2DD4CC;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;text-align:center">' +
           '<div style="font-size:1.2rem;margin-bottom:0.4rem">🇨🇴</div><strong>ePayco</strong>' +
           '<div style="font-size:0.52rem;opacity:0.65;margin-top:0.3rem;line-height:1.5">Tarjeta · PSE<br>Nequi · Daviplata<br>Efectivo</div>' +
         '</button>' +
         '<a href="' + paypalUrl + '" target="_blank" ' +
-          'onclick="confirmarPagoPaypal('' + id + '');setTimeout(function(){var s=document.getElementById('svc-pay-selector');if(s)s.remove();},600)" ' +
+          'onclick="confirmarPagoPaypal(\'' + id + '\');setTimeout(function(){var s=document.getElementById(\'svc-pay-selector\');if(s)s.remove();},600)" ' +
           'style="border:1px solid rgba(0,112,243,0.4);background:rgba(0,48,135,0.25);color:#60a5fa;font-family:Space Mono,monospace;font-size:0.6rem;letter-spacing:1px;padding:1.1rem 0.8rem;cursor:pointer;text-transform:uppercase;text-decoration:none;display:block;text-align:center">' +
           '<div style="font-size:1.2rem;margin-bottom:0.4rem">🌐</div><strong>PayPal</strong>' +
           '<div style="font-size:0.52rem;opacity:0.65;margin-top:0.3rem;line-height:1.5">Internacional<br>USD $' + montoUSD + '</div>' +
@@ -1436,16 +1434,14 @@ function pagarServicioEpayco(nombre, montoUSD, referencia) {
       currency: 'cop', amount: montoCOP,
       tax_base: '0', tax: '0', country: 'co', lang: 'es',
       external: 'false',
-      response: 'https://nikkourza.com/descarga.html',
-      confirmation: 'https://nikkourza.com/descarga.html',
+      response: window.location.origin + '/descarga',
+      confirmation: window.location.origin + '/descarga',
       name_billing: '', email_billing: '',
       type_doc_billing: 'cc', mobilephone_billing: '', methodsDisable: []
     });
   } catch(err) {
     console.error('ePayco error:', err);
-    if(confirm('ePayco no está disponible.
-¿Pagar con PayPal?
-' + nombre + ' — USD $' + montoUSD)) {
+    if(confirm('ePayco no está disponible.\n¿Pagar con PayPal?\n' + nombre + ' — USD $' + montoUSD)) {
       window.open('https://www.paypal.me/nikkourza/' + montoUSD + 'USD', '_blank');
     }
   }
@@ -1519,6 +1515,13 @@ function nextM(){if(cM<11)cM++;else{cM=0;cY++;}renderCal();}
 
 /* CONTACTO */
 function enviarContacto(){
+  var hp=document.getElementById('cn_hp')?document.getElementById('cn_hp').value.trim():'';
+  if(hp){
+    console.log('Bot detected');
+    var ok=document.getElementById('ok-contacto');
+    if(ok) ok.style.display='block';
+    return;
+  }
   var n=document.getElementById('cn').value.trim();
   var e=document.getElementById('ce').value.trim();
   var t=document.getElementById('ct')?document.getElementById('ct').value.trim():'';
@@ -1555,8 +1558,16 @@ function enviarContacto(){
 
 /* NEWSLETTER */
 function subNL(){
+  var hp=document.getElementById('nle_hp')?document.getElementById('nle_hp').value.trim():'';
   var e=document.getElementById('nle').value.trim();
   var r=document.getElementById('nlr');
+  if(hp){
+    r.style.display='block';
+    r.style.color='var(--teal)';
+    r.textContent='✓ '+e+' añadido a la lista. ¡Gracias!';
+    document.getElementById('nle').value='';
+    return;
+  }
   if(!e||!e.includes('@')){
     r.style.display='block';r.style.color='#e87';r.textContent='Ingresa un email válido.';return;
   }
