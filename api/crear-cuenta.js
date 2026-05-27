@@ -14,7 +14,7 @@ const supabaseAdmin = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY);
 const SITE_URL = process.env.SITE_URL || 'https://nikkourza.com';
 
-module.exports = async function crearCuentaCliente({ email, nombre, ventaId, beatNombre, licencia, token }) {
+module.exports = async function crearCuentaCliente({ email, nombre, ventaId, beatNombre, licencia, token, omitirEmail = false }) {
   try {
     // 1. Verificar si ya tiene cuenta
     const { data: usuariosExistentes } = await supabaseAdmin.auth.admin.listUsers();
@@ -54,6 +54,8 @@ module.exports = async function crearCuentaCliente({ email, nombre, ventaId, bea
       user_email: email
     });
 
+    let linkActivacion = null;
+
     // 5. Si es cuenta nueva, generar link de activación
     if (esCuentaNueva) {
       const { data: linkData } = await supabaseAdmin.auth.admin.generateLink({
@@ -64,9 +66,16 @@ module.exports = async function crearCuentaCliente({ email, nombre, ventaId, bea
         }
       });
 
-      const linkActivacion = linkData?.properties?.action_link;
+      linkActivacion = linkData?.properties?.action_link;
+    }
 
-      // 6. Email con beat + activación de cuenta
+    // Si omitirEmail es true, saltamos el envío de correos individuales y retornamos los datos
+    if (omitirEmail) {
+      return { ok: true, userId, esCuentaNueva, linkActivacion };
+    }
+
+    // 6. Si es cuenta nueva, enviar email con beat + activación de cuenta
+    if (esCuentaNueva) {
       await resend.emails.send({
         from: 'Nikko Urza <noreply@nikkourza.com>',
         to: email,
@@ -83,7 +92,7 @@ module.exports = async function crearCuentaCliente({ email, nombre, ventaId, bea
       });
     }
 
-    return { ok: true, userId, esCuentaNueva };
+    return { ok: true, userId, esCuentaNueva, linkActivacion };
 
   } catch (err) {
     console.error('Error en crearCuentaCliente:', err);

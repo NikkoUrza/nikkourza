@@ -64,10 +64,19 @@ module.exports = async (req, res) => {
 
     // Parsear referencia
     const partes = referencia.split('-');
-    const tipo = partes[0]; // 'beat' o 'svc'
+    const tipo = partes[0]; // 'beat', 'svc' o 'cart'
 
     if (tipo === 'beat') {
       await procesarVentaBeat({
+        referencia,
+        email,
+        nombre,
+        monto,
+        metodoPago: 'epayco',
+        referenciaExterna: data.x_transaction_id
+      });
+    } else if (tipo === 'cart') {
+      await procesarVentaCarrito({
         referencia,
         email,
         nombre,
@@ -328,5 +337,189 @@ function emailServicioTemplate({ nombre, monto, referencia }) {
   <p style="font-size:0.6rem;color:rgba(244,244,240,0.25);margin-top:2rem">
     Referencia: ${referencia}<br>© 2026 Nikko Urza — Colombia
   </p>
+</div></body></html>`;
+}
+
+async function procesarVentaCarrito({ referencia, email, nombre, monto, metodoPago, referenciaExterna }) {
+  console.log(`Procesando venta carrito para la referencia: ${referencia}`);
+
+  // 1. Buscar todas las ventas pendientes de este carrito en Supabase
+  const { data: ventas, error } = await supabase
+    .from('ventas')
+    .select('*, beats(*)')
+    .eq('referencia_pago', referencia)
+    .eq('estado', 'pendiente');
+
+  if (error) {
+    console.error('Error recuperando ventas del carrito:', error);
+    throw error;
+  }
+
+  if (!ventas || ventas.length === 0) {
+    console.log('No se encontraron ventas pendientes para el carrito:', referencia);
+    return;
+  }
+
+  const ventasProcesadas = [];
+
+  // 2. Confirmar cada una de las ventas y generar sus tokens de descarga individuales
+  for (const venta of ventas) {
+    const token = generarToken();
+    const { data: ventaConfirmada, error: updateError } = await supabase
+      .from('ventas')
+      .update({
+        estado: 'confirmado',
+        token_descarga: token,
+        metodo_pago: metodoPago,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', venta.id)
+      .select('*, beats(*)')
+      .single();
+
+    if (updateError) {
+      console.error(`Error confirmando venta ${venta.id} del carrito:`, updateError);
+      continue;
+    }
+
+    ventasProcesadas.push(ventaConfirmada);
+  }
+
+  if (ventasProcesadas.length === 0) {
+    console.error('No se pudo procesar ninguna venta del carrito');
+    return;
+  }
+
+  // 3. Crear cuenta de cliente (omitir correo individual y retornar link de activación)
+  const primerItem = ventasProcesadas[0];
+  const resCuenta = await crearCuentaCliente({
+    email,
+    nombre,
+    ventaId: primerItem.id,
+    beatNombre: primerItem.beats?.nombre || primerItem.beat_nombre,
+    licencia: primerItem.licencia,
+    token: primerItem.token_descarga,
+    omitirEmail: true
+  });
+
+  const linkActivacion = resCuenta.ok ? resCuenta.linkActivacion : null;
+  const esCuentaNueva = resCuenta.ok ? resCuenta.esCuentaNueva : false;
+
+  // 4. Enviar un único correo consolidado con todos los beats y descargas
+  await enviarEmailCarritoDescarga({
+    email,
+    nombre,
+    ventas: ventasProcesadas,
+    montoTotal: monto,
+    referencia,
+    linkActivacion,
+    esCuentaNueva
+  });
+
+  // 5. Marcar todos los registros procesados en Supabase como enviados
+  const ids = ventasProcesadas.map(v => v.id);
+  await supabase.from('ventas').update({ email_enviado: true }).in('id', ids);
+}
+
+async function enviarEmailCarritoDescarga({ email, nombre, ventas, montoTotal, referencia, linkActivacion, esCuentaNueva }) {
+  const linkBase = `${SITE_URL}/descarga`;
+  
+  const itemsHTML = ventas.map(v => {
+    const beatNombre = v.beats?.nombre || v.beat_nombre;
+    const linkDescarga = `${linkBase}?token=${v.token_descarga}`;
+    return `
+      <div style="border-bottom:1px solid rgba(45,212,204,0.12);padding:1.1rem 0;margin-bottom:0.4rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.7rem">
+          <div>
+            <strong style="color:#F4F4F0;font-size:0.85rem">${beatNombre.toUpperCase()}</strong>
+            <span style="display:block;font-size:0.58rem;color:rgba(244,244,240,0.4);margin-top:2px;letter-spacing:1px">LICENCIA ${v.licencia.toUpperCase()}</span>
+          </div>
+          <span style="color:#2DD4CC;font-size:0.8rem;font-weight:700">$${v.monto_usd} USD</span>
+        </div>
+        <a href="${linkDescarga}" style="display:inline-block;background:#2DD4CC;color:#061E1C;text-decoration:none;padding:0.5rem 1rem;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;font-weight:700">↓ Descargar Beat</a>
+      </div>
+    `;
+  }).join('');
+
+  await resend.emails.send({
+    from: 'Nikko Urza <noreply@nikkourza.com>',
+    to: email,
+    subject: `✓ ¡Tus beats están listos! — ${ventas.length} Beats Adquiridos`,
+    html: emailCarritoTemplate({ nombre, itemsHTML, montoTotal, referencia, linkActivacion, esCuentaNueva })
+  });
+
+  // Copia de notificación para Nikko
+  const listaNombres = ventas.map(v => `${v.beats?.nombre || v.beat_nombre} (${v.licencia})`).join(', ');
+  await resend.emails.send({
+    from: 'Web Nikko Urza <noreply@nikkourza.com>',
+    to: 'nikkourza@gmail.com',
+    subject: `💰 Nueva venta de Carrito — $${montoTotal} USD`,
+    html: `<p>Venta de Carrito por <strong>${nombre}</strong> (${email}).<br>Beats: <strong>${listaNombres}</strong><br>Monto Total: $${montoTotal} USD<br>Referencia: ${referencia}</p>`
+  });
+}
+
+function emailCarritoTemplate({ nombre, itemsHTML, montoTotal, referencia, linkActivacion, esCuentaNueva }) {
+  let accountBoxHTML = '';
+  
+  if (esCuentaNueva && linkActivacion) {
+    accountBoxHTML = `
+      <div style="border:1px solid rgba(45,212,204,0.3);background:rgba(45,212,204,0.05);padding:1.3rem;margin:1.8rem 0 1.2rem 0">
+        <p style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:#2DD4CC;margin-top:0;margin-bottom:0.5rem;font-weight:700">🔐 Activa tu cuenta Nikko Urza</p>
+        <p style="font-size:0.68rem;color:rgba(244,244,240,0.55);line-height:1.8;margin:0 0 1.2rem 0">
+          Te creamos una cuenta para que puedas acceder a todas tus licencias y contratos en cualquier momento sin depender del email.<br><br>
+          El link expira en 24 horas. Haz clic para elegir tu contraseña y activar tu cuenta:
+        </p>
+        <a href="${linkActivacion}" style="display:block;text-align:center;background:transparent;border:2px solid #2DD4CC;color:#2DD4CC;text-decoration:none;padding:0.85rem 2rem;font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;font-weight:700">Activar mi cuenta →</a>
+      </div>
+    `;
+  } else {
+    accountBoxHTML = `
+      <div style="border:1px solid rgba(45,212,204,0.22);background:rgba(6,30,28,0.3);padding:1.3rem;margin:1.8rem 0 1.2rem 0">
+        <p style="font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:#2DD4CC;margin-top:0;margin-bottom:0.5rem;font-weight:700">🔐 Panel de Cliente Activo</p>
+        <p style="font-size:0.68rem;color:rgba(244,244,240,0.55);line-height:1.8;margin:0 0 1.2rem 0">
+          Tus nuevos beats ya están vinculados a tu cuenta. Ingresa a tu panel para descargar tus archivos de audio y contratos en cualquier momento.
+        </p>
+        <a href="${SITE_URL}/login.html" style="display:block;text-align:center;background:transparent;border:2px solid #2DD4CC;color:#2DD4CC;text-decoration:none;padding:0.85rem 2rem;font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;font-weight:700">Ir a mi Cuenta →</a>
+      </div>
+    `;
+  }
+
+  return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<style>
+  body{background:#080C0C;color:#F4F4F0;font-family:'Space Mono',monospace,sans-serif;margin:0;padding:0}
+  .wrap{max-width:560px;margin:0 auto;padding:2.5rem 2rem}
+  .logo{font-size:1.4rem;letter-spacing:6px;color:#F4F4F0;margin-bottom:2rem}
+  .logo span{color:#2DD4CC}
+  h1{font-size:1.6rem;letter-spacing:3px;color:#F4F4F0;margin-bottom:0.5rem;text-transform:uppercase}
+  .sub{font-size:0.75rem;color:rgba(244,244,240,0.5);margin-bottom:2rem;line-height:1.7}
+  .card{border:1px solid rgba(45,212,204,0.25);background:rgba(6,30,28,0.6);padding:1.5rem;margin-bottom:1.5rem}
+  .footer{font-size:0.6rem;color:rgba(244,244,240,0.25);line-height:1.8;border-top:1px solid rgba(45,212,204,0.1);padding-top:1.2rem;margin-top:2rem}
+  a{color:#2DD4CC}
+</style></head>
+<body><div class="wrap">
+  <div class="logo">NIKKO <span>URZA</span></div>
+  <h1>¡Tus beats están listos!</h1>
+  <p class="sub">Hola ${nombre}, tu compra fue confirmada con éxito. Aquí tienes los accesos para tus descargas.</p>
+
+  <div class="card" style="padding-top:0.5rem;padding-bottom:0.5rem">
+    ${itemsHTML}
+  </div>
+
+  <p style="font-size:0.68rem;color:rgba(244,244,240,0.4);line-height:1.8;margin-top:1rem">
+    Puedes guardar este correo electrónico para acceder a las descargas cuando lo necesites.
+  </p>
+
+  ${accountBoxHTML}
+
+  <p style="font-size:0.68rem;color:rgba(244,244,240,0.4);line-height:1.8;margin-top:1.5rem">
+    ¿Dudas sobre tus licencias? Escríbele a Nikko:<br>
+    📱 <a href="https://wa.me/573046455070" style="color:#2DD4CC">+57 3046455070</a>
+  </p>
+
+  <div class="footer">
+    © 2026 Nikko Urza — Colombia · Música sin etiquetas<br>
+    Transacción: ${referencia}
+  </div>
 </div></body></html>`;
 }

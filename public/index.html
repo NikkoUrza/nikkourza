@@ -216,6 +216,294 @@ section{padding:5.5rem 3rem}
   font-size:0.68rem;color:var(--teal);
 }
 
+/* 🛒 SHOPPING CART SYSTEM STYLES */
+.cart-floating-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: rgba(6,30,28,0.85);
+  border: 1px solid var(--teal);
+  box-shadow: 0 0 15px rgba(45,212,204,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 998;
+  transition: all 0.22s ease-in-out;
+}
+.cart-floating-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(45,212,204,0.7);
+  background: var(--cyan);
+  border-color: var(--cyan);
+}
+.cart-floating-btn svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: var(--teal);
+  transition: fill 0.22s ease-in-out;
+}
+.cart-floating-btn:hover svg {
+  fill: var(--abyss);
+}
+.cart-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #ff0055;
+  color: #fff;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.58rem;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #080c0c;
+  box-shadow: 0 0 8px rgba(255,0,85,0.6);
+}
+
+.cart-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(2px);
+}
+.cart-drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: min(400px, 92vw);
+  height: 100svh;
+  background: rgba(8, 12, 12, 0.95);
+  backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(45, 212, 204, 0.25);
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.95);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Space Mono', monospace;
+}
+.cart-drawer.open {
+  right: 0;
+}
+
+.cart-header {
+  padding: 1.8rem 1.5rem;
+  border-bottom: 1px solid rgba(45, 212, 204, 0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-title {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  color: #f4f4f0;
+  margin: 0;
+}
+.cart-title span {
+  color: var(--teal);
+}
+.cart-close-btn {
+  background: transparent;
+  border: none;
+  color: rgba(244, 244, 240, 0.45);
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.18s;
+}
+.cart-close-btn:hover {
+  color: var(--cyan);
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 1.5rem;
+}
+.cart-empty-text {
+  color: rgba(244, 244, 240, 0.3);
+  font-size: 0.68rem;
+  text-align: center;
+  margin-top: 4rem;
+  line-height: 2;
+}
+
+.cart-item {
+  border-bottom: 1px solid rgba(45, 212, 204, 0.08);
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.cart-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.cart-item-title {
+  font-size: 0.72rem;
+  color: #f4f4f0;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+}
+.cart-item-remove {
+  background: transparent;
+  border: none;
+  color: rgba(255, 0, 85, 0.5);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.18s;
+}
+.cart-item-remove:hover {
+  color: #ff0055;
+}
+.cart-item-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.cart-lic-select {
+  background: rgba(6,30,28,0.7);
+  border: 1px solid rgba(45, 212, 204, 0.25);
+  color: var(--teal);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem;
+  padding: 0.25rem 0.4rem;
+  cursor: pointer;
+  outline: none;
+  transition: border 0.18s;
+}
+.cart-lic-select:focus {
+  border-color: var(--cyan);
+}
+.cart-item-price {
+  font-size: 0.7rem;
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.cart-footer {
+  border-top: 1px solid rgba(45, 212, 204, 0.12);
+  padding: 1.5rem;
+  background: rgba(6, 12, 12, 0.4);
+}
+.cart-totals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.2rem;
+}
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+}
+.cart-total-row.grand-total {
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(244, 244, 240, 0.08);
+  padding-top: 0.5rem;
+  margin-top: 0.2rem;
+}
+.cart-total-lbl {
+  color: rgba(244, 244, 240, 0.4);
+}
+.cart-total-val {
+  color: #f4f4f0;
+  font-weight: 700;
+}
+.cart-total-val.glow {
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(45,212,204,0.4);
+}
+
+.cart-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+.cart-input {
+  width: 100%;
+  background: rgba(6,30,28,0.55);
+  border: 1px solid rgba(45, 212, 204, 0.2);
+  color: #f4f4f0;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  padding: 0.6rem 0.8rem;
+  outline: none;
+  transition: all 0.2s;
+}
+.cart-input:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 10px rgba(45,212,204,0.15);
+}
+.cart-input::placeholder {
+  color: rgba(244, 244, 240, 0.22);
+}
+
+.cart-pay-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.cart-pay-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.9rem 0.5rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  text-align: center;
+}
+.cart-pay-btn.epayco {
+  border: 1px solid rgba(45,212,204,0.3);
+  background: rgba(45,212,204,0.06);
+  color: var(--teal);
+}
+.cart-pay-btn.epayco:hover {
+  background: var(--cyan);
+  color: var(--abyss);
+  border-color: var(--cyan);
+  box-shadow: 0 0 15px rgba(45,212,204,0.4);
+}
+.cart-pay-btn.paypal {
+  border: 1px solid rgba(0,112,243,0.4);
+  background: rgba(0,48,135,0.15);
+  color: #60a5fa;
+  text-decoration: none;
+}
+.cart-pay-btn.paypal:hover {
+  background: #0070f3;
+  color: #fff;
+  border-color: #0070f3;
+  box-shadow: 0 0 15px rgba(0,112,243,0.4);
+}
+
+
 /* ============================================================
    AUDIO PLAYER
 ============================================================ */
@@ -1142,7 +1430,371 @@ footer{
   <span class="foot-copy">© 2026 Nikko Urza — Colombia</span>
 </footer>
 
+<!-- 🛒 SHOPPING CART FRONTEND MARKUP -->
+<!-- Botón flotante -->
+<div class="cart-floating-btn" id="cartFloatingBtn" onclick="toggleCartDrawer(true)" style="display: none;">
+  <svg viewBox="0 0 24 24">
+    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+  </svg>
+  <div class="cart-badge" id="cartBadge">0</div>
+</div>
+
+<!-- Backdrop del drawer -->
+<div class="cart-drawer-backdrop" id="cartDrawerBackdrop" onclick="toggleCartDrawer(false)"></div>
+
+<!-- Drawer lateral del carrito -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3 class="cart-title">CARRITO DE <span>COMPRAS</span></h3>
+    <button class="cart-close-btn" onclick="toggleCartDrawer(false)">×</button>
+  </div>
+  
+  <div class="cart-items" id="cartItemsContainer">
+    <!-- Se llena dinámicamente -->
+  </div>
+  
+  <div class="cart-footer">
+    <div class="cart-totals">
+      <div class="cart-total-row">
+        <span class="cart-total-lbl">Subtotal USD:</span>
+        <span class="cart-total-val" id="cartSubtotalUSD">$0.00</span>
+      </div>
+      <div class="cart-total-row grand-total">
+        <span class="cart-total-lbl">Total COP (TRM):</span>
+        <span class="cart-total-val glow" id="cartTotalCOP">0 COP</span>
+      </div>
+    </div>
+    
+    <div class="cart-form">
+      <input type="text" class="cart-input" id="cartClientName" placeholder="TU NOMBRE Y APELLIDO" required autocomplete="name">
+      <input type="email" class="cart-input" id="cartClientEmail" placeholder="TU CORREO ELECTRÓNICO" required autocomplete="email">
+    </div>
+    
+    <div class="cart-pay-grid">
+      <button class="cart-pay-btn epayco" onclick="iniciarCheckoutEpayco()">
+        🇨🇴 ePayco
+      </button>
+      <button class="cart-pay-btn paypal" onclick="iniciarCheckoutPaypal()">
+        🌐 PayPal
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
+// 🛒 SHOPPING CART FRONTEND CONTROLLER
+var cartState = {
+  items: []
+};
+
+// Cargar carrito al iniciar la página
+document.addEventListener('DOMContentLoaded', function() {
+  cargarCarritoDesdeStorage();
+});
+
+function cargarCarritoDesdeStorage() {
+  try {
+    var stored = localStorage.getItem('nikko_urza_cart');
+    if (stored) {
+      cartState.items = JSON.parse(stored);
+    }
+  } catch(e) {
+    console.error('Error cargando carrito de localStorage:', e);
+  }
+  actualizarCartUI();
+}
+
+function guardarCarritoEnStorage() {
+  try {
+    localStorage.setItem('nikko_urza_cart', JSON.stringify(cartState.items));
+  } catch(e) {
+    console.error('Error guardando carrito en localStorage:', e);
+  }
+}
+
+function toggleCartDrawer(open) {
+  var drawer = document.getElementById('cartDrawer');
+  var backdrop = document.getElementById('cartDrawerBackdrop');
+  if (open) {
+    drawer.classList.add('open');
+    backdrop.classList.add('open');
+    renderizarCarrito();
+  } else {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('open');
+  }
+}
+
+function agregarAlCarrito(beatId, beatNombre, licencia, precioUSD) {
+  // Verificar si ya está en el carrito el mismo beat con la misma licencia
+  var existe = cartState.items.some(function(item) {
+    return item.beat_id === beatId && item.licencia === licencia;
+  });
+
+  if (existe) {
+    toast('Este beat con esta licencia ya está en el carrito', true);
+    toggleCartDrawer(true);
+    return;
+  }
+
+  cartState.items.push({
+    beat_id: beatId,
+    beat_nombre: beatNombre,
+    licencia: licencia,
+    precio_usd: parseFloat(precioUSD)
+  });
+
+  guardarCarritoEnStorage();
+  actualizarCartUI();
+  
+  // Efecto visual y feedback
+  toast('Beat agregado al carrito ✓');
+  toggleCartDrawer(true);
+}
+
+function removerDelCarrito(idx) {
+  cartState.items.splice(idx, 1);
+  guardarCarritoEnStorage();
+  actualizarCartUI();
+  renderizarCarrito();
+}
+
+function cambiarLicenciaItem(idx, nuevaLicencia) {
+  var item = cartState.items[idx];
+  if (!item) return;
+
+  var beatId = item.beat_id;
+  var pricing = window.beatsMap && window.beatsMap[beatId];
+  if (!pricing) return;
+
+  // Obtener precio basado en la nueva licencia
+  var nuevoPrecio = 0;
+  if (nuevaLicencia === 'basic') nuevoPrecio = pricing.precio_basic;
+  else if (nuevaLicencia === 'premium') nuevoPrecio = pricing.precio_premium;
+  else if (nuevaLicencia === 'exclusiva') nuevoPrecio = pricing.precio_excl;
+
+  item.licencia = nuevaLicencia;
+  item.precio_usd = nuevoPrecio;
+
+  guardarCarritoEnStorage();
+  actualizarCartUI();
+  renderizarCarrito();
+}
+
+function actualizarCartUI() {
+  var totalItems = cartState.items.length;
+  var floatingBtn = document.getElementById('cartFloatingBtn');
+  var badge = document.getElementById('cartBadge');
+
+  if (floatingBtn && badge) {
+    if (totalItems > 0) {
+      floatingBtn.style.display = 'flex';
+      badge.textContent = totalItems;
+    } else {
+      floatingBtn.style.display = 'none';
+      badge.textContent = '0';
+    }
+  }
+}
+
+function renderizarCarrito() {
+  var container = document.getElementById('cartItemsContainer');
+  if (!container) return;
+
+  if (cartState.items.length === 0) {
+    container.innerHTML = '<p class="cart-empty-text">El carrito está vacío.<br>Agrega beats de la tienda para comenzar.</p>';
+    actualizarTotalesUI(0);
+    return;
+  }
+
+  var html = '';
+  cartState.items.forEach(function(item, idx) {
+    // Generar las opciones del selector de licencias
+    var pricing = window.beatsMap && window.beatsMap[item.beat_id];
+    var optionsHTML = '';
+    if (pricing) {
+      optionsHTML = 
+        '<option value="basic"' + (item.licencia === 'basic' ? ' selected' : '') + '>Basic ($' + pricing.precio_basic + ' USD)</option>' +
+        '<option value="premium"' + (item.licencia === 'premium' ? ' selected' : '') + '>Premium ($' + pricing.precio_premium + ' USD)</option>' +
+        '<option value="exclusiva"' + (item.licencia === 'exclusiva' ? ' selected' : '') + '>Excl. ($' + pricing.precio_excl + ' USD)</option>';
+    } else {
+      // Fallback si no está el mapa cargado
+      optionsHTML = '<option value="' + item.licencia + '" selected>' + item.licencia.toUpperCase() + '</option>';
+    }
+
+    html += 
+      '<div class="cart-item">' +
+        '<div class="cart-item-header">' +
+          '<h4 class="cart-item-title">' + item.beat_nombre + '</h4>' +
+          '<button class="cart-item-remove" onclick="removerDelCarrito(' + idx + ')">×</button>' +
+        '</div>' +
+        '<div class="cart-item-body">' +
+          '<select class="cart-lic-select" onchange="cambiarLicenciaItem(' + idx + ', this.value)">' +
+            optionsHTML +
+          '</select>' +
+          '<span class="cart-item-price">$' + item.precio_usd + ' USD</span>' +
+        '</div>' +
+      '</div>';
+  });
+
+  container.innerHTML = html;
+
+  // Calcular y actualizar totales
+  var totalUSD = cartState.items.reduce(function(sum, item) {
+    return sum + item.precio_usd;
+  }, 0);
+
+  actualizarTotalesUI(totalUSD);
+}
+
+function actualizarTotalesUI(totalUSD) {
+  var subtotalUSD = document.getElementById('cartSubtotalUSD');
+  var totalCOP = document.getElementById('cartTotalCOP');
+
+  if (subtotalUSD && totalCOP) {
+    subtotalUSD.textContent = '$' + totalUSD.toFixed(2) + ' USD';
+    var copValue = Math.round(totalUSD * TRM);
+    totalCOP.textContent = copValue.toLocaleString('es-CO') + ' COP';
+  }
+}
+
+async function iniciarCheckoutEpayco() {
+  var nombre = document.getElementById('cartClientName').value.trim();
+  var email = document.getElementById('cartClientEmail').value.trim();
+
+  if (!nombre || !email) {
+    toast('Por favor completa tu Nombre y Email para el envío', true);
+    return;
+  }
+
+  // Guardar datos en el formulario para persistencia de conveniencia
+  localStorage.setItem('nikko_client_name', nombre);
+  localStorage.setItem('nikko_client_email', email);
+
+  try {
+    toast('Registrando carrito... ⏳');
+    
+    // 1. Enviar el carrito al backend para registrar las ventas como pendientes
+    var res = await fetch('/api/crear-carrito', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: cartState.items,
+        comprador_email: email,
+        comprador_nombre: nombre
+      })
+    });
+
+    var data = await res.json();
+    if (!data.ok) {
+      throw new Error(data.error || 'No se pudo crear el carrito');
+    }
+
+    var referencia = data.referencia_pago;
+    var totalUSD = data.total_usd;
+    var totalCOP = Math.round(totalUSD * TRM);
+
+    toast('Conectando con ePayco... 🚀');
+    toggleCartDrawer(false);
+
+    // 2. Abrir pasarela de ePayco
+    if (typeof ePayco === 'undefined' || !ePayco.checkout) {
+      throw new Error('ePayco SDK no cargado');
+    }
+
+    var handler = ePayco.checkout.configure({ key: EPAYCO_KEY, test: EPAYCO_TEST });
+    handler.open({
+      name: 'Nikko Urza - Carrito de Beats',
+      description: 'Compra de ' + cartState.items.length + ' Beats en Carrito',
+      invoice: referencia + '-' + Date.now(),
+      currency: 'cop',
+      amount: String(totalCOP),
+      tax_base: '0', tax: '0',
+      country: 'co', lang: 'es',
+      external: 'false',
+      response: window.location.origin + '/descarga',
+      confirmation: window.location.origin + '/descarga',
+      name_billing: nombre, email_billing: email,
+      type_doc_billing: 'cc', mobilephone_billing: '',
+      methodsDisable: []
+    });
+
+    // Vaciar el carrito tras abrir la pasarela
+    cartState.items = [];
+    guardarCarritoEnStorage();
+    actualizarCartUI();
+
+  } catch(e) {
+    console.error(e);
+    toast('Error en checkout: ' + e.message, true);
+  }
+}
+
+async function iniciarCheckoutPaypal() {
+  var nombre = document.getElementById('cartClientName').value.trim();
+  var email = document.getElementById('cartClientEmail').value.trim();
+
+  if (!nombre || !email) {
+    toast('Por favor completa tu Nombre y Email para el envío', true);
+    return;
+  }
+
+  try {
+    toast('Registrando carrito... ⏳');
+    
+    // 1. Enviar el carrito al backend para registrar las ventas en Supabase en estado 'pendiente'
+    var res = await fetch('/api/crear-carrito', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: cartState.items,
+        comprador_email: email,
+        comprador_nombre: nombre
+      })
+    });
+
+    var data = await res.json();
+    if (!data.ok) {
+      throw new Error(data.error || 'No se pudo crear el carrito');
+    }
+
+    var referencia = data.referencia_pago;
+    var totalUSD = data.total_usd;
+
+    toast('Redirigiendo a PayPal... 🌐');
+    toggleCartDrawer(false);
+
+    // Vaciar el carrito
+    cartState.items = [];
+    guardarCarritoEnStorage();
+    actualizarCartUI();
+
+    // 2. Abrir la página de PayPal.me con el valor total unificado en USD
+    // Colocamos un delay corto y abrimos en una nueva pestaña
+    setTimeout(function() {
+      window.open('https://www.paypal.me/nikkourza/' + totalUSD + 'USD', '_blank');
+    }, 400);
+
+  } catch(e) {
+    console.error(e);
+    toast('Error en checkout: ' + e.message, true);
+  }
+}
+
+// Cargar Nombre y Email del localstorage si ya compró antes
+document.addEventListener('DOMContentLoaded', function() {
+  var savedName = localStorage.getItem('nikko_client_name');
+  var savedEmail = localStorage.getItem('nikko_client_email');
+  if (savedName) {
+    var inputName = document.getElementById('cartClientName');
+    if (inputName) inputName.value = savedName;
+  }
+  if (savedEmail) {
+    var inputEmail = document.getElementById('cartClientEmail');
+    if (inputEmail) inputEmail.value = savedEmail;
+  }
+});
+
 /* ═══════════════════════════════════════════════════
    EPAYCO CONFIG
    Reemplaza TU_LLAVE_PUBLICA_EPAYCO por tu Public Key
@@ -1744,9 +2396,14 @@ async function inicializarSitioDinamico() {
             return '<span class="bc">' + g.trim() + '</span>'; 
           }).join('');
           
-          var priceBasicCOP = Math.round(beat.precio_basic * TRM);
-          var pricePremiumCOP = Math.round(beat.precio_premium * TRM);
-          var priceExclCOP = Math.round(beat.precio_excl * TRM);
+          // Guardar precios del beat en un mapa global para cambiar licencias dinámicamente en el carrito
+          if (!window.beatsMap) window.beatsMap = {};
+          window.beatsMap[beat.id] = {
+            nombre: beat.nombre,
+            precio_basic: beat.precio_basic,
+            precio_premium: beat.precio_premium,
+            precio_excl: beat.precio_excl
+          };
           
           html += 
             '<div class="beat-row has-player" id="br-' + num + '" onclick="toggleBeatPlayer(' + num + ',event)">' +
@@ -1755,9 +2412,9 @@ async function inicializarSitioDinamico() {
               '<span class="beat-bpm">' + beat.tempo + ' BPM</span>' +
               '<span class="beat-key">' + (beat.key || '') + '</span>' +
               '<div class="beat-lics" onclick="event.stopPropagation()">' +
-                '<button class="lb" onclick="pagarEpayco(\'' + beat.nombre.replace(/'/g, "\\'") + ' — Lic. Basic\',\'' + priceBasicCOP + '\',\'beat-' + beat.id + '-basic\')">Basic<span>$' + beat.precio_basic + ' USD</span></button>' +
-                '<button class="lb" onclick="pagarEpayco(\'' + beat.nombre.replace(/'/g, "\\'") + ' — Lic. Premium\',\'' + pricePremiumCOP + '\',\'beat-' + beat.id + '-premium\')">Premium<span>$' + beat.precio_premium + ' USD</span></button>' +
-                '<button class="lb" onclick="pagarEpayco(\'' + beat.nombre.replace(/'/g, "\\'") + ' — Lic. Exclusiva\',\'' + priceExclCOP + '\',\'beat-' + beat.id + '-exclusiva\')">Excl.<span>$' + beat.precio_excl + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'basic\', ' + beat.precio_basic + ')">Basic<span>$' + beat.precio_basic + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'premium\', ' + beat.precio_premium + ')">Premium<span>$' + beat.precio_premium + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'exclusiva\', ' + beat.precio_excl + ')">Excl.<span>$' + beat.precio_excl + ' USD</span></button>' +
               '</div>' +
             '</div>' +
             '<div class="beat-player-wrap" id="bpw-' + num + '">' +
