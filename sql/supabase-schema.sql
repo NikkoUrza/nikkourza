@@ -95,6 +95,9 @@ ALTER TABLE suscriptores ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "beats_publicos" ON beats;
 CREATE POLICY "beats_publicos" ON beats FOR SELECT USING (activo = true);
 
+DROP POLICY IF EXISTS "beats_admin_all" ON beats;
+CREATE POLICY "beats_admin_all" ON beats FOR ALL USING (true) WITH CHECK (true);
+
 -- Lectura de ventas por token (para página de descarga)
 DROP POLICY IF EXISTS "ventas_por_token" ON ventas;
 CREATE POLICY "ventas_por_token" ON ventas FOR SELECT USING (true);
@@ -160,8 +163,14 @@ ALTER TABLE presskit ENABLE ROW LEVEL SECURITY;
 DROP POLICY IF EXISTS "portafolio_publico" ON portafolio;
 CREATE POLICY "portafolio_publico" ON portafolio FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "portafolio_admin_all" ON portafolio;
+CREATE POLICY "portafolio_admin_all" ON portafolio FOR ALL USING (true) WITH CHECK (true);
+
 DROP POLICY IF EXISTS "presskit_publico" ON presskit;
 CREATE POLICY "presskit_publico" ON presskit FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "presskit_admin_all" ON presskit;
+CREATE POLICY "presskit_admin_all" ON presskit FOR ALL USING (true) WITH CHECK (true);
 
 -- Semilla de Portafolio
 INSERT INTO portafolio (titulo, tipo, artista, genero, anio, caratula_url) VALUES
