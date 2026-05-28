@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikko Urza — Manual de Marca</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c1: #2DD4CC;
+  --c2: #1BB8B0;
+  --c3: #0D9990;
+  --c4: #065E5A;
+  --c5: #061E1C;
+  --white: #F4F4F0;
+  --black: #080C0C;
+  --gray: #1A2424;
+  --gray2: #2A3838;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'DM Serif Display', serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 48px;
+  background: rgba(8,12,12,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 0.5px solid var(--gray2);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: .15em;
+  color: var(--c1);
+}
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--white);
+  text-decoration: none;
+  opacity: .6;
+  transition: opacity .2s, color .2s;
+}
+.nav-links a:hover { opacity: 1; color: var(--c1); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 80% 40%, rgba(45,212,204,0.12) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 20% 80%, rgba(6,94,90,0.2) 0%, transparent 60%);
+}
+.hero-line {
+  position: absolute;
+  top: 0; left: 48px;
+  width: 0.5px;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--c3), transparent);
+  opacity: .3;
+}
+.hero-tag {
+  font-size: 10px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--c1);
+  margin-bottom: 24px;
+  opacity: .8;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 14vw, 180px);
+  line-height: .9;
+  letter-spacing: .02em;
+  color: var(--white);
+  position: relative;
+  z-index: 1;
+}
+.hero-title span {
+  color: var(--c1);
+  display: block;
+}
+.hero-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(14px, 2vw, 20px);
+  color: var(--c2);
+  margin-top: 24px;
+  max-width: 480px;
+  line-height: 1.6;
+  opacity: .9;
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 40px; right: 48px;
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: .3;
+  writing-mode: vertical-rl;
+}
+
+/* SECTIONS */
+section {
+  padding: 120px 48px;
+  position: relative;
+}
+.section-num {
+  font-size: 9px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--c1);
+  opacity: .6;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 6vw, 80px);
+  letter-spacing: .04em;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: 64px;
+}
+.section-title em {
+  color: var(--c1);
+  font-style: normal;
+}
+
+/* DIVIDER */
+.divider {
+  height: 0.5px;
+  background: linear-gradient(to right, var(--c3), transparent);
+  margin: 0 48px;
+  opacity: .4;
+}
+
+/* IDENTIDAD */
+.identity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.identity-card {
+  background: var(--gray);
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.identity-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--c1);
+}
+.identity-card:nth-child(2)::before { background: var(--c2); }
+.identity-card:nth-child(3)::before { background: var(--c3); }
+.identity-card:nth-child(4)::before { background: var(--c4); }
+.identity-label {
+  font-size: 9px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--c1);
+  opacity: .7;
+  margin-bottom: 20px;
+}
+.identity-text {
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 2vw, 22px);
+  line-height: 1.6;
+  color: var(--white);
+}
+.identity-text strong {
+  color: var(--c1);
+  font-style: italic;
+}
+.identity-big {
+  grid-column: 1 / -1;
+  background: var(--c5);
+  padding: 64px 48px;
+  text-align: center;
+  border: 0.5px solid var(--c4);
+}
+.identity-big blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(20px, 3.5vw, 40px);
+  line-height: 1.5;
+  color: var(--c1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+.identity-big cite {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: .4;
+  margin-top: 24px;
+  font-style: normal;
+}
+
+/* PALETA */
+.palette-row {
+  display: flex;
+  gap: 0;
+  height: 200px;
+  margin-bottom: 48px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.palette-swatch {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  position: relative;
+  transition: flex .3s ease;
+  cursor: default;
+}
+.palette-swatch:hover { flex: 2; }
+.swatch-hex {
+  font-size: 11px;
+  letter-spacing: .1em;
+  font-weight: 700;
+}
+.swatch-name {
+  font-size: 9px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  opacity: .7;
+  margin-top: 4px;
+}
+.sw1 { background: var(--c1); color: var(--black); }
+.sw2 { background: var(--c2); color: var(--black); }
+.sw3 { background: var(--c3); color: var(--white); }
+.sw4 { background: var(--c4); color: var(--white); }
+.sw5 { background: var(--c5); color: var(--white); border: 0.5px solid var(--gray2); }
+
+.palette-extras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.extra-swatch {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  background: var(--gray);
+}
+.extra-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.extra-info {}
+.extra-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--white);
+}
+.extra-hex {
+  font-size: 10px;
+  letter-spacing: .15em;
+  color: var(--white);
+  opacity: .5;
+  margin-top: 4px;
+}
+.extra-use {
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--c1);
+  opacity: .7;
+  margin-top: 6px;
+}
+
+/* TIPOGRAFIA */
+.type-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.type-block {
+  background: var(--gray);
+  padding: 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+.type-sample {
+  line-height: 1;
+}
+.type-display { font-family: var(--font-display); font-size: 80px; letter-spacing: .04em; color: var(--c1); }
+.type-serif { font-family: var(--font-serif); font-style: italic; font-size: 48px; color: var(--white); }
+.type-mono { font-family: var(--font-mono); font-size: 18px; color: var(--c2); line-height: 1.6; }
+.type-info {
+  text-align: right;
+  flex-shrink: 0;
+}
+.type-name {
+  font-size: 11px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--c1);
+  opacity: .8;
+}
+.type-use {
+  font-size: 10px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: .4;
+  margin-top: 8px;
+}
+
+/* VOZ */
+.voice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+.voice-card {
+  background: var(--gray);
+  padding: 40px;
+}
+.voice-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: .06em;
+  color: var(--c1);
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 0.5px solid var(--gray2);
+}
+.voice-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.voice-list li {
+  font-size: 12px;
+  letter-spacing: .05em;
+  line-height: 1.6;
+  color: var(--white);
+  opacity: .8;
+  padding-left: 16px;
+  position: relative;
+}
+.voice-list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--c1);
+  opacity: .6;
+}
+.voice-no .voice-title { color: #E05555; }
+.voice-no .voice-list li::before { color: #E05555; }
+
+/* REDES */
+.social-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.social-card {
+  background: var(--gray);
+  padding: 40px 48px;
+}
+.social-platform {
+  font-family: var(--font-display);
+  font-size: 40px;
+  letter-spacing: .06em;
+  color: var(--c1);
+  margin-bottom: 8px;
+}
+.social-role {
+  font-size: 10px;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: .4;
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 0.5px solid var(--gray2);
+}
+.social-bio {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--c2);
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--c5);
+  border-left: 2px solid var(--c1);
+}
+.social-rules {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.social-rules li {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--white);
+  opacity: .7;
+  padding-left: 16px;
+  position: relative;
+}
+.social-rules li::before {
+  content: '↳';
+  position: absolute;
+  left: 0;
+  color: var(--c1);
+}
+
+/* CONTENIDO */
+.content-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.content-table th {
+  font-size: 9px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--c1);
+  opacity: .7;
+  text-align: left;
+  padding: 16px 24px;
+  border-bottom: 0.5px solid var(--gray2);
+}
+.content-table td {
+  padding: 20px 24px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--white);
+  border-bottom: 0.5px solid var(--gray2);
+  vertical-align: top;
+}
+.content-table tr:hover td { background: var(--gray); }
+.content-table td:first-child {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: .06em;
+  color: var(--c1);
+  white-space: nowrap;
+}
+.tag {
+  display: inline-block;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 0.5px solid var(--c3);
+  color: var(--c2);
+  margin-right: 6px;
+  margin-bottom: 4px;
+}
+
+/* MANIFIESTO */
+.manifiesto {
+  background: var(--c5);
+  border: 0.5px solid var(--c4);
+}
+.manifiesto-inner {
+  max-width: 760px;
+}
+.manifiesto p {
+  font-family: var(--font-serif);
+  font-size: clamp(18px, 2.5vw, 28px);
+  line-height: 1.7;
+  color: var(--white);
+  margin-bottom: 32px;
+  opacity: .9;
+}
+.manifiesto p strong {
+  color: var(--c1);
+  font-style: italic;
+}
+.manifiesto-sign {
+  font-family: var(--font-display);
+  font-size: 48px;
+  letter-spacing: .1em;
+  color: var(--c1);
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 0.5px solid var(--c4);
+}
+
+/* FOOTER */
+footer {
+  padding: 48px;
+  border-top: 0.5px solid var(--gray2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: .15em;
+  color: var(--c1);
+}
+.footer-copy {
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--white);
+  opacity: .3;
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-tag, .hero-title, .hero-subtitle {
+  animation: fadeUp .8s ease forwards;
+}
+.hero-tag { animation-delay: .1s; opacity: 0; }
+.hero-title { animation-delay: .3s; opacity: 0; }
+.hero-subtitle { animation-delay: .5s; opacity: 0; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  .hero { padding: 0 24px 64px; }
+  .hero-line { left: 24px; }
+  .identity-grid, .voice-grid, .social-grid { grid-template-columns: 1fr; }
+  .palette-extras { grid-template-columns: 1fr; }
+  .type-block { flex-direction: column; align-items: flex-start; }
+  .type-info { text-align: left; }
+  .type-display { font-size: 48px; }
+  .divider { margin: 0 24px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">NIKKO URZA</div>
+  <ul class="nav-links">
+    <li><a href="#identidad">Identidad</a></li>
+    <li><a href="#paleta">Paleta</a></li>
+    <li><a href="#tipografia">Tipografía</a></li>
+    <li><a href="#voz">Voz</a></li>
+    <li><a href="#redes">Redes</a></li>
+    <li><a href="#contenido">Contenido</a></li>
+    <li><a href="#manifiesto">Manifiesto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-tag">Manual de Marca — v1.0 — 2026</div>
+  <h1 class="hero-title">
+    NIKKO<br>
+    <span>URZA</span>
+  </h1>
+  <p class="hero-subtitle">Artista libre. Sin género. Sin filtro.<br>Música como acto filosófico.</p>
+  <div class="hero-scroll">Scroll para explorar</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- IDENTIDAD -->
+<section id="identidad">
+  <div class="section-num">01 — Identidad</div>
+  <h2 class="section-title">QUIÉN ES<br><em>NIKKO URZA</em></h2>
+
+  <div class="identity-grid">
+    <div class="identity-card">
+      <div class="identity-label">Esencia</div>
+      <p class="identity-text">
+        El artista que <strong>no pide permiso para crear.</strong> Libre por convicción, no por rebeldía. Hace música porque no puede no hacerla — y eso se nota en cada beat, en cada verso, en cada decisión creativa.
+      </p>
+    </div>
+    <div class="identity-card">
+      <div class="identity-label">Propósito</div>
+      <p class="identity-text">
+        Demostrar que la música sin etiquetas es posible. Que un artista independiente de Colombia puede <strong>sonar al mundo</strong> sin encajar en ninguna caja del mercado.
+      </p>
+    </div>
+    <div class="identity-card">
+      <div class="identity-label">Personalidad</div>
+      <p class="identity-text">
+        Sencillo. Reflexivo. Filosófico sin pretensión. No posturea. No aparenta. Lo que ves es lo que hay — y lo que hay <strong>es más profundo de lo que parece.</strong>
+      </p>
+    </div>
+    <div class="identity-card">
+      <div class="identity-label">Posición única</div>
+      <p class="identity-text">
+        Cantante, productor musical y audiovisual. Entiende la música desde <strong>adentro del artista</strong> — no solo desde la técnica. Eso lo hace irremplazable.
+      </p>
+    </div>
+    <div class="identity-big">
+      <blockquote>
+        "Soy dueño de mi arte y de mi tiempo. Creo con libertad, no me encasillo en un género porque la música es infinita."
+      </blockquote>
+      <cite>— Nikko Urza</cite>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PALETA -->
+<section id="paleta">
+  <div class="section-num">02 — Color</div>
+  <h2 class="section-title">PALETA<br><em>CROMÁTICA</em></h2>
+
+  <div class="palette-row">
+    <div class="palette-swatch sw1">
+      <div class="swatch-hex">#2DD4CC</div>
+      <div class="swatch-name">Cyan Libre</div>
+    </div>
+    <div class="palette-swatch sw2">
+      <div class="swatch-hex">#1BB8B0</div>
+      <div class="swatch-name">Teal Vivo</div>
+    </div>
+    <div class="palette-swatch sw3">
+      <div class="swatch-hex">#0D9990</div>
+      <div class="swatch-name">Verde Océano</div>
+    </div>
+    <div class="palette-swatch sw4">
+      <div class="swatch-hex">#065E5A</div>
+      <div class="swatch-name">Profundo</div>
+    </div>
+    <div class="palette-swatch sw5">
+      <div class="swatch-hex">#061E1C</div>
+      <div class="swatch-name">Abismo</div>
+    </div>
+  </div>
+
+  <div class="palette-extras">
+    <div class="extra-swatch">
+      <div class="extra-dot" style="background:#F4F4F0"></div>
+      <div class="extra-info">
+        <div class="extra-name">Blanco Cálido</div>
+        <div class="extra-hex">#F4F4F0</div>
+        <div class="extra-use">Texto principal sobre fondos oscuros</div>
+      </div>
+    </div>
+    <div class="extra-swatch">
+      <div class="extra-dot" style="background:#080C0C; border: 1px solid #2A3838;"></div>
+      <div class="extra-info">
+        <div class="extra-name">Negro Absoluto</div>
+        <div class="extra-hex">#080C0C</div>
+        <div class="extra-use">Fondo principal. Profundidad total.</div>
+      </div>
+    </div>
+    <div class="extra-swatch">
+      <div class="extra-dot" style="background:#2DD4CC"></div>
+      <div class="extra-info">
+        <div class="extra-name">Uso primario</div>
+        <div class="extra-hex">#2DD4CC</div>
+        <div class="extra-use">Nombre, acentos, elementos clave. Nunca en exceso.</div>
+      </div>
+    </div>
+    <div class="extra-swatch">
+      <div class="extra-dot" style="background:#065E5A"></div>
+      <div class="extra-info">
+        <div class="extra-name">Uso secundario</div>
+        <div class="extra-hex">#065E5A</div>
+        <div class="extra-use">Fondos de secciones, capas de profundidad.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIPOGRAFIA -->
+<section id="tipografia">
+  <div class="section-num">03 — Tipografía</div>
+  <h2 class="section-title">SISTEMA<br><em>TIPOGRÁFICO</em></h2>
+
+  <div class="type-showcase">
+    <div class="type-block">
+      <div class="type-sample">
+        <div class="type-display">NIKKO URZA</div>
+      </div>
+      <div class="type-info">
+        <div class="type-name">Bebas Neue</div>
+        <div class="type-use">Display / Títulos / Nombre artístico</div>
+      </div>
+    </div>
+    <div class="type-block">
+      <div class="type-sample">
+        <div class="type-serif">La música es infinita.</div>
+      </div>
+      <div class="type-info">
+        <div class="type-name">DM Serif Display Italic</div>
+        <div class="type-use">Citas / Frases filosóficas / Subtítulos</div>
+      </div>
+    </div>
+    <div class="type-block">
+      <div class="type-sample">
+        <div class="type-mono">Cantante · Productor · Libre<br>Colombia — Sin género definido</div>
+      </div>
+      <div class="type-info">
+        <div class="type-name">Space Mono</div>
+        <div class="type-use">Cuerpo / Datos / Etiquetas / Bio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VOZ -->
+<section id="voz">
+  <div class="section-num">04 — Voz y Tono</div>
+  <h2 class="section-title">CÓMO<br><em>HABLA NIKKO</em></h2>
+
+  <div class="voice-grid">
+    <div class="voice-card">
+      <div class="voice-title">SÍ SUENA</div>
+      <ul class="voice-list">
+        <li>Directo y sin rodeos — dice lo que piensa</li>
+        <li>Reflexivo pero accesible. Profundo sin ser denso.</li>
+        <li>Con jerga colombiana natural: parce, chimba, brutal, bro</li>
+        <li>Honesto sobre el proceso, incluidos los errores</li>
+        <li>Opiniones propias sobre música y creatividad</li>
+        <li>Frases cortas. Silencios intencionales.</li>
+        <li>Habla como le hablaría a un amigo de confianza</li>
+      </ul>
+    </div>
+    <div class="voice-card voice-no">
+      <div class="voice-title">NO SUENA</div>
+      <ul class="voice-list">
+        <li>Poses o frases clichés de "artista underground"</li>
+        <li>Contenido motivacional genérico sin sustancia</li>
+        <li>Presumir equipo, logros o números de seguidores</li>
+        <li>Seguir trends que no tienen nada que ver con él</li>
+        <li>Hablar como coach de emprendimiento</li>
+        <li>Pedir likes o seguidores directamente</li>
+        <li>Fingir que todo está perfecto en el proceso creativo</li>
+      </ul>
+    </div>
+    <div class="voice-card">
+      <div class="voice-title">EJEMPLOS</div>
+      <ul class="voice-list">
+        <li>"Llevo 3 horas en este verso y todavía no sale. Eso también es el proceso."</li>
+        <li>"No hago afrobeat ni trap. Hago lo que la canción necesita."</li>
+        <li>"La chimba de ser artista y productor es que sé lo que uno quiere escuchar."</li>
+        <li>"No necesitas permiso para crear. Nunca lo necesitaste."</li>
+        <li>"Brutal la diferencia, ¿no?" — sobre una mezcla antes/después</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- REDES -->
+<section id="redes">
+  <div class="section-num">05 — Redes Sociales</div>
+  <h2 class="section-title">PRESENCIA<br><em>DIGITAL</em></h2>
+
+  <div class="social-grid">
+    <div class="social-card">
+      <div class="social-platform">INSTAGRAM</div>
+      <div class="social-role">Plataforma principal — Identidad y profundidad</div>
+      <div class="social-bio">
+        Nikko Urza · Cantante · Productor 🎵<br>
+        Hago música sin pedir permiso.<br>
+        Mezcla · Máster · Afrobeat · Rap · Lo que la canción necesite.<br>
+        🇨🇴 Colombia — Link en bio si quieres sonar diferente.
+      </div>
+      <ul class="social-rules">
+        <li>Reels: proceso creativo real, antes/después de mezclas, opiniones musicales</li>
+        <li>Historias: el día a día del estudio sin editar. 30 seg de realidad.</li>
+        <li>Feed: coherencia visual — fondo oscuro, acento teal, tipografía limpia</li>
+        <li>Frecuencia: 1 Reel de fondo por semana + 3 historias diarias</li>
+      </ul>
+    </div>
+    <div class="social-card">
+      <div class="social-platform">TIKTOK</div>
+      <div class="social-role">Amplificación — Alcance masivo</div>
+      <div class="social-bio">
+        Nikko Urza · Hago música libre 🎵<br>
+        Afrobeat · Trap · Rap · Sin género fijo<br>
+        Mezcla y máster gratis → link en bio 🇨🇴
+      </div>
+      <ul class="social-rules">
+        <li>Reposta lo que ya funciona en Instagram — no crees contenido diferente</li>
+        <li>Hijack de trends: úsalos como plataforma para tu música, no los copies</li>
+        <li>Formato: vertical, gancho en segundo 1, sin intro larga</li>
+        <li>Frecuencia: 3-4 veces por semana, siempre con beat de fondo</li>
+      </ul>
+    </div>
+    <div class="social-card">
+      <div class="social-platform">YOUTUBE</div>
+      <div class="social-role">Archivo y profundidad — Contenido largo</div>
+      <div class="social-bio">
+        Nikko Urza — Música, proceso y libertad creativa.<br>
+        Producciones, behind the scenes y canciones completas.<br>
+        Colombia para el mundo. 🌍
+      </div>
+      <ul class="social-rules">
+        <li>Shorts: los mejores momentos del proceso, 30-60 seg</li>
+        <li>Videos largos: mini-documentales del proceso de una canción completa</li>
+        <li>Lives: sesiones de mezcla en vivo con canciones de la comunidad</li>
+        <li>Frecuencia: 1 video largo por mes + Shorts semanales</li>
+      </ul>
+    </div>
+    <div class="social-card">
+      <div class="social-platform">SEO</div>
+      <div class="social-role">Indexación — Que el algoritmo te entienda</div>
+      <div class="social-bio">
+        Las palabras clave van en 4 lugares obligatorios:<br>
+        nombre de perfil · bio · caption · hashtags
+      </div>
+      <ul class="social-rules">
+        <li>Nombre: "Nikko Urza | Productor Musical 🇨🇴"</li>
+        <li>Palabras clave: mezcla, máster, afrobeat, rap, producción musical, home studio</li>
+        <li>Hashtags fijos: #produccionmusical #homestudio #masterizacion #afrobeat #musicaindependiente</li>
+        <li>Caption: siempre describe el video con las palabras clave en las primeras 2 líneas</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTENIDO -->
+<section id="contenido">
+  <div class="section-num">06 — Estrategia de Contenido</div>
+  <h2 class="section-title">TIPOS DE<br><em>CONTENIDO</em></h2>
+
+  <table class="content-table">
+    <thead>
+      <tr>
+        <th>Formato</th>
+        <th>Concepto</th>
+        <th>Objetivo</th>
+        <th>Frecuencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Proceso</td>
+        <td>El beat construyéndose. El verso reescribiéndose. El error y cómo se resuelve. Sin editar demasiado — la realidad es el gancho.</td>
+        <td><span class="tag">Identidad</span><span class="tag">Fidelización</span></td>
+        <td>2× semana</td>
+      </tr>
+      <tr>
+        <td>Antes / Después</td>
+        <td>Canción sin mezclar vs resultado final. Sin explicar — el oído hace el trabajo. El formato con mayor potencial de conversión a clientes.</td>
+        <td><span class="tag">Clientes</span><span class="tag">Viral</span></td>
+        <td>1× semana</td>
+      </tr>
+      <tr>
+        <td>Opinión</td>
+        <td>Punto de vista real sobre géneros, industria, libertad creativa. Polémica sin agresión. Debate sin ego.</td>
+        <td><span class="tag">Engagement</span><span class="tag">Posicionamiento</span></td>
+        <td>1× semana</td>
+      </tr>
+      <tr>
+        <td>Mini-serie</td>
+        <td>"Hago una canción en X días." El proceso completo en episodios. Genera hábito — la gente vuelve a buscar la siguiente parte.</td>
+        <td><span class="tag">Retención</span><span class="tag">Comunidad</span></td>
+        <td>1× mes</td>
+      </tr>
+      <tr>
+        <td>Fragmento musical</td>
+        <td>El hook de una canción nueva, sin marketing. Solo: "esto salió hoy." La historia detrás en texto en pantalla.</td>
+        <td><span class="tag">Música</span><span class="tag">Lanzamiento</span></td>
+        <td>Cuando hay canción</td>
+      </tr>
+      <tr>
+        <td>Historias diarias</td>
+        <td>El estudio hoy. Sin editar. 30 segundos de realidad. Lo que está pasando mientras sucede.</td>
+        <td><span class="tag">Conexión</span><span class="tag">Humanidad</span></td>
+        <td>Diario</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- MANIFIESTO -->
+<section id="manifiesto" class="manifiesto">
+  <div class="section-num">07 — Manifiesto</div>
+  <h2 class="section-title">EL<br><em>MANIFIESTO</em></h2>
+
+  <div class="manifiesto-inner">
+    <p>
+      Soy dueño de mi arte y de mi tiempo. <strong>No le pido permiso a ningún género, a ningún algoritmo, a ninguna industria.</strong> Hago música porque no puedo no hacerla — y eso es lo único que necesito saber para justificar cada hora en el estudio.
+    </p>
+    <p>
+      No me interesa posturear ni aparentar lo que no soy. <strong>La sencillez no es limitación — es claridad.</strong> Y la claridad es lo más escaso en un mundo lleno de ruido.
+    </p>
+    <p>
+      Hago afrobeat, rap, reggae, trap — o lo que la canción necesite ese día. <strong>La música es infinita y encasillarla es reducirla.</strong> Mi identidad no es un género. Es una forma de escuchar, de sentir y de crear.
+    </p>
+    <p>
+      Comparto mi proceso no para enseñar ni para vender — sino porque <strong>creo que el camino importa tanto como el destino.</strong> Cada beat que no sale, cada verso reescrito diez veces, cada mezcla que empieza mal y termina bien — eso también soy yo.
+    </p>
+    <p>
+      <strong>Nikko Urza no es un nombre artístico. Es una declaración.</strong> Doce años construyendo algo que no se parece a nada más. Y apenas está empezando.
+    </p>
+    <div class="manifiesto-sign">NIKKO URZA</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NIKKO URZA</div>
+  <div class="footer-copy">Manual de Marca v1.0 — 2026 — Colombia</div>
+</footer>
+
+</body>
+</html>
