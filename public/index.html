@@ -1222,6 +1222,296 @@ footer{
 }
 
 /* ============================================================
+   BEAT MODAL (VENTANA FLOTANTE)
+============================================================ */
+.beat-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 8, 8, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.5rem;
+}
+
+.beat-modal-backdrop.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.beat-modal-card {
+  background: rgba(6, 30, 28, 0.75);
+  border: 1px solid rgba(45, 212, 204, 0.35);
+  box-shadow: 0 0 35px rgba(45, 212, 204, 0.15), inset 0 0 20px rgba(45, 212, 204, 0.05);
+  width: 100%;
+  max-width: 750px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transform: scale(0.9) translateY(20px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.beat-modal-backdrop.open .beat-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.beat-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: transparent;
+  border: none;
+  color: rgba(244, 244, 240, 0.5);
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.beat-modal-close:hover {
+  color: #2DD4CC;
+  text-shadow: 0 0 8px rgba(45, 212, 204, 0.8);
+}
+
+.beat-modal-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  padding: 2.5rem;
+}
+
+.beat-modal-cover-wrap {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(45, 212, 204, 0.2);
+}
+
+.beat-modal-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.beat-modal-cover-glow {
+  position: absolute;
+  inset: -10px;
+  background: inherit;
+  background-size: cover;
+  background-position: center;
+  filter: blur(25px);
+  opacity: 0.45;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.beat-modal-info-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+}
+
+.beat-modal-header {
+  margin-bottom: 1.2rem;
+}
+
+.beat-modal-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.54rem;
+  letter-spacing: 3px;
+  color: #2DD4CC;
+  text-shadow: 0 0 5px rgba(45, 212, 204, 0.5);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.beat-modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  color: #F4F4F0;
+  margin-bottom: 0.6rem;
+}
+
+.beat-modal-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.bm-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 1px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  background: rgba(244, 244, 240, 0.05);
+  color: rgba(244, 244, 240, 0.7);
+  border: 1px solid rgba(244, 244, 240, 0.1);
+  text-transform: uppercase;
+}
+
+.bm-badge.bpm {
+  border-color: rgba(45, 212, 204, 0.3);
+  color: #2DD4CC;
+  background: rgba(45, 212, 204, 0.05);
+}
+
+/* Reproductor de Beat */
+.beat-modal-player-box {
+  background: rgba(6, 8, 8, 0.4);
+  border: 1px solid rgba(45, 212, 204, 0.15);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.beat-modal-timer-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.beat-modal-timer-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.54rem;
+  color: rgba(244, 244, 240, 0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.beat-modal-timer {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: #2DD4CC;
+  letter-spacing: 1px;
+}
+
+/* Botones en la misma fila del modal */
+.beat-modal-ctrls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.beat-modal-filename {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.54rem;
+  color: rgba(244, 244, 240, 0.3);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.beat-modal-actions-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.modal-share-btn {
+  align-self: flex-start;
+  font-size: 0.6rem;
+  padding: 0.6rem 1rem;
+  background: rgba(244, 244, 240, 0.03);
+  border-color: rgba(244, 244, 240, 0.15);
+  color: #F4F4F0;
+}
+
+.modal-share-btn:hover {
+  background: rgba(244, 244, 240, 0.08);
+  border-color: rgba(244, 244, 240, 0.3);
+}
+
+.beat-modal-lics-wrap {
+  border-top: 1px solid rgba(244, 244, 240, 0.08);
+  padding-top: 1rem;
+}
+
+.beat-modal-lics-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.54rem;
+  color: rgba(244, 244, 240, 0.4);
+  letter-spacing: 1.5px;
+  margin-bottom: 0.6rem;
+}
+
+.beat-modal-lics-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.beat-modal-lics-buttons button {
+  width: 100%;
+}
+
+.modal-play-btn {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Ocultar visualmente el reproductor inline antiguo */
+.beat-player-wrap {
+  display: none !important;
+}
+
+/* Responsivo para el modal */
+@media (max-width: 768px) {
+  .beat-modal-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  .beat-modal-cover-wrap {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+  }
+  .beat-modal-info-wrap {
+    min-height: auto;
+  }
+  .beat-modal-title {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  .beat-modal-badges {
+    justify-content: center;
+  }
+  .beat-modal-tag {
+    text-align: center;
+  }
+  .modal-share-btn {
+    align-self: center;
+    width: 100%;
+    justify-content: center;
+  }
+  .beat-modal-lics-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
    RESPONSIVE
 ============================================================ */
 @media(max-width:768px){
@@ -3013,6 +3303,75 @@ function subNL(){
 ═══════════════════════════════════════════════════ */
 var activeBeat = null; // ID del beat actualmente abierto
 var raf = null;        // requestAnimationFrame loop
+window.modalActiveBeatNum = null;
+
+// Fallback de beats estáticos
+window.allBeats = [
+  {
+    id: 'beat-NL808',
+    nombre: 'Noche Libre 808',
+    genero: 'Lo-fi, Trap',
+    tempo: 140,
+    key: 'Am',
+    type_beat: 'Drake Type Beat',
+    precio_basic: 35,
+    precio_premium: 75,
+    precio_excl: 350,
+    caratula_url: 'Images/logo.png',
+    preview_url: 'beats/noche-libre-808-preview.mp3'
+  },
+  {
+    id: 'beat-AT',
+    nombre: 'Abismo Teal',
+    genero: 'Afrobeat',
+    tempo: 98,
+    key: 'Gm',
+    type_beat: 'Rema Type Beat',
+    precio_basic: 45,
+    precio_premium: 90,
+    precio_excl: 500,
+    caratula_url: 'Images/logo.png',
+    preview_url: 'beats/abismo-teal-preview.mp3'
+  },
+  {
+    id: 'beat-SP',
+    nombre: 'Sin Permiso',
+    genero: 'Rap, Boom Bap',
+    tempo: 88,
+    key: 'Dm',
+    type_beat: 'Canserbero Type Beat',
+    precio_basic: 30,
+    precio_premium: 65,
+    precio_excl: 300,
+    caratula_url: 'Images/logo.png',
+    preview_url: 'beats/sin-permiso-preview.mp3'
+  },
+  {
+    id: 'beat-OP',
+    nombre: 'Océano Profundo',
+    genero: 'Reggaeton',
+    tempo: 95,
+    key: 'Fm',
+    type_beat: 'Feid Type Beat',
+    precio_basic: 40,
+    precio_premium: 85,
+    precio_excl: 450,
+    caratula_url: 'Images/logo.png',
+    preview_url: 'beats/oceano-profundo-preview.mp3'
+  }
+];
+
+if (!window.beatsMap) {
+  window.beatsMap = {};
+  window.allBeats.forEach(function(beat) {
+    window.beatsMap[beat.id] = {
+      nombre: beat.nombre,
+      precio_basic: beat.precio_basic,
+      precio_premium: beat.precio_premium,
+      precio_excl: beat.precio_excl
+    };
+  });
+}
 
 function fmtTime(s){
   if(isNaN(s)||!isFinite(s)) return '0:00';
@@ -3027,33 +3386,140 @@ function stopAllBeats(){
     if(a&&!a.paused){a.pause();}
     if(b){b.classList.remove('playing');}
   }
+  // Sincronizar modal play button
+  var modalPlayBtn = document.getElementById('bm-play-btn');
+  if (modalPlayBtn) {
+    modalPlayBtn.classList.remove('playing');
+  }
   if(raf){cancelAnimationFrame(raf);raf=null;}
 }
 
-function toggleBeatPlayer(id, e){
-  // Si el clic viene de los botones de licencia, no hace nada
-  if(e&&e.target&&e.target.closest&&e.target.closest('.beat-lics')) return;
-  var wrap=document.getElementById('bpw-'+id);
-  if(!wrap) return;
+function abrirBeatModal(num) {
+  var beat = window.allBeats && window.allBeats[num - 1];
+  if (!beat) return;
 
-  // Si está cerrado → abrir (y cerrar el anterior si era otro)
-  if(!wrap.classList.contains('open')){
-    if(activeBeat && activeBeat!==id){
-      var prevWrap=document.getElementById('bpw-'+activeBeat);
-      if(prevWrap)prevWrap.classList.remove('open');
-      stopAllBeats();
-    }
-    wrap.classList.add('open');
-    activeBeat=id;
-    // Auto-play cuando se abre
-    startPlay(id);
-  } else {
-    // Si está abierto → solo toggle play/pause
-    var audio=document.getElementById('bpaudio-'+id);
-    if(audio){
-      if(audio.paused){ startPlay(id); } else { pausePlay(id); }
+  window.modalActiveBeatNum = num;
+  activeBeat = num; // Mantener sincro con activeBeat global
+
+  // Actualizar metadatos en el modal
+  var titleEl = document.getElementById('bm-title');
+  var bpmEl = document.getElementById('bm-bpm');
+  var keyEl = document.getElementById('bm-key');
+  var typeEl = document.getElementById('bm-type');
+  var coverEl = document.getElementById('bm-cover');
+  var genreEl = document.getElementById('bm-genre-label');
+  var filenameEl = document.getElementById('bm-filename');
+  var shareBtn = document.getElementById('bm-share-btn');
+  
+  if (titleEl) titleEl.textContent = beat.nombre.toUpperCase();
+  if (bpmEl) bpmEl.textContent = beat.tempo + ' BPM';
+  if (keyEl) keyEl.textContent = beat.key || 'N/A';
+  if (typeEl) {
+    if (beat.type_beat) {
+      typeEl.textContent = beat.type_beat.toUpperCase();
+      typeEl.style.display = 'inline-block';
+    } else {
+      typeEl.style.display = 'none';
     }
   }
+  
+  // Obtener carátula con conversor
+  var coverUrl = beat.caratula_url ? obtenerLinkDirectoImagen(beat.caratula_url) : 'Images/logo.png';
+  if (coverEl) {
+    coverEl.src = coverUrl;
+    // Glow aura background
+    var coverGlow = document.querySelector('.beat-modal-cover-glow');
+    if (coverGlow) {
+      coverGlow.style.backgroundImage = 'url(' + coverUrl + ')';
+    }
+  }
+
+  if (genreEl) genreEl.textContent = (beat.genero || 'GÉNERO / ESTILO').toUpperCase();
+  if (filenameEl) {
+    var previewFile = beat.preview_url ? beat.preview_url.split('/').pop() : 'PREVIEW.MP3';
+    filenameEl.textContent = previewFile.toUpperCase();
+  }
+
+  // Configurar botón compartir
+  if (shareBtn) {
+    shareBtn.onclick = function(e) {
+      compartirBeat(beat.id, beat.nombre, e);
+    };
+  }
+
+  // Inyectar botones de licencia y precios interactivos
+  var licsButtonsContainer = document.getElementById('bm-lics-buttons');
+  if (licsButtonsContainer) {
+    var priceBasic = beat.precio_basic || 35;
+    var pricePremium = beat.precio_premium || 75;
+    var priceExcl = beat.precio_excl || 350;
+
+    // Asegurar mapa de precios
+    if (!window.beatsMap) window.beatsMap = {};
+    window.beatsMap[beat.id] = {
+      nombre: beat.nombre,
+      precio_basic: priceBasic,
+      precio_premium: pricePremium,
+      precio_excl: priceExcl
+    };
+
+    licsButtonsContainer.innerHTML = 
+      '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'basic\', ' + priceBasic + ')">Basic<span class="beat-price-display" data-usd="' + priceBasic + '">$' + priceBasic + ' USD</span></button>' +
+      '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'premium\', ' + pricePremium + ')">Premium<span class="beat-price-display" data-usd="' + pricePremium + '">$' + pricePremium + ' USD</span></button>' +
+      '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'exclusiva\', ' + priceExcl + ')">Excl.<span class="beat-price-display" data-usd="' + priceExcl + '">$' + priceExcl + ' USD</span></button>';
+  }
+
+  // Actualizar precios al formato actual (COP/USD)
+  actualizarPreciosUI();
+
+  // Abrir modal
+  var backdrop = document.getElementById('beatModalBackdrop');
+  if (backdrop) {
+    backdrop.classList.add('open');
+  }
+
+  // Auto-play / Sincronizar estado si ya está sonando
+  var audio = document.getElementById('bpaudio-' + num);
+  var modalPlayBtn = document.getElementById('bm-play-btn');
+  if (audio && !audio.paused) {
+    if (modalPlayBtn) modalPlayBtn.classList.add('playing');
+    tickPlayer(num);
+  } else {
+    startPlay(num);
+  }
+}
+
+function cerrarBeatModal(e) {
+  if (e) {
+    e.stopPropagation();
+  }
+  var backdrop = document.getElementById('beatModalBackdrop');
+  if (backdrop) {
+    backdrop.classList.remove('open');
+  }
+  window.modalActiveBeatNum = null;
+}
+
+function togglePlayModal(e) {
+  if (e) { e.stopPropagation(); }
+  if (!window.modalActiveBeatNum) return;
+  togglePlay(window.modalActiveBeatNum, e);
+}
+
+function seekBeatModal(e) {
+  if (!window.modalActiveBeatNum) return;
+  var audio = document.getElementById('bpaudio-' + window.modalActiveBeatNum);
+  var track = document.getElementById('bm-track');
+  if (!audio || !track || !audio.duration) return;
+  var rect = track.getBoundingClientRect();
+  var pct = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = Math.max(0, Math.min(1, pct)) * audio.duration;
+}
+
+function toggleBeatPlayer(id, e){
+  if(e&&e.target&&e.target.closest&&e.target.closest('.beat-lics')) return;
+  if(e&&e.target&&e.target.closest&&e.target.closest('.share-btn')) return;
+  abrirBeatModal(id);
 }
 
 function compartirBeat(beatId, beatNombre, e) {
@@ -3140,11 +3606,25 @@ function startPlay(id){
   if(!audio) return;
   audio.play().then(function(){
     if(btn) btn.classList.add('playing');
+    
+    // Sincronizar play en modal
+    var modalPlayBtn = document.getElementById('bm-play-btn');
+    if (modalPlayBtn && window.modalActiveBeatNum === id) {
+      modalPlayBtn.classList.add('playing');
+    }
+    
     tickPlayer(id);
   }).catch(function(err){
     // El archivo aún no existe — mostrar mensaje amigable
     var timer=document.getElementById('bpt-'+id);
     if(timer) timer.textContent='— —';
+    
+    // Sincronizar timer en modal
+    var modalTimer = document.getElementById('bm-timer');
+    if (modalTimer && window.modalActiveBeatNum === id) {
+      modalTimer.textContent = '— —';
+    }
+    
     console.warn('Audio no encontrado:', audio ? audio.src : id);
   });
   audio.onended=function(){ pausePlay(id); resetPlayer(id); };
@@ -3155,6 +3635,13 @@ function pausePlay(id){
   var btn=document.getElementById('bpbtn-'+id);
   if(audio) audio.pause();
   if(btn) btn.classList.remove('playing');
+  
+  // Sincronizar pause en modal
+  var modalPlayBtn = document.getElementById('bm-play-btn');
+  if (modalPlayBtn && window.modalActiveBeatNum === id) {
+    modalPlayBtn.classList.remove('playing');
+  }
+  
   if(raf){cancelAnimationFrame(raf);raf=null;}
 }
 
@@ -3163,6 +3650,14 @@ function resetPlayer(id){
   var timer=document.getElementById('bpt-'+id);
   if(fill) fill.style.width='0%';
   if(timer) timer.textContent='0:00';
+  
+  // Sincronizar reset en modal
+  if (window.modalActiveBeatNum === id) {
+    var modalFill = document.getElementById('bm-fill');
+    var modalTimer = document.getElementById('bm-timer');
+    if (modalFill) modalFill.style.width = '0%';
+    if (modalTimer) modalTimer.textContent = '0:00';
+  }
 }
 
 function tickPlayer(id){
@@ -3173,6 +3668,15 @@ function tickPlayer(id){
   var pct=audio.duration?((audio.currentTime/audio.duration)*100):0;
   if(fill) fill.style.width=pct+'%';
   if(timer) timer.textContent=fmtTime(audio.currentTime)+(audio.duration?' / '+fmtTime(audio.duration):'');
+  
+  // Sincronizar progress/timer en modal
+  if (window.modalActiveBeatNum === id) {
+    var modalFill = document.getElementById('bm-fill');
+    var modalTimer = document.getElementById('bm-timer');
+    if (modalFill) modalFill.style.width = pct + '%';
+    if (modalTimer) modalTimer.textContent = fmtTime(audio.currentTime) + (audio.duration ? ' / ' + fmtTime(audio.duration) : '');
+  }
+
   raf=requestAnimationFrame(function(){ tickPlayer(id); });
 }
 
@@ -3583,5 +4087,65 @@ function filtrarBeatsInterno() {
 // Iniciar CMS dinámico al cargar
 inicializarSitioDinamico();
 </script>
+
+<!-- Modal del Beat (Ventana Flotante) -->
+<div class="beat-modal-backdrop" id="beatModalBackdrop" onclick="cerrarBeatModal(event)">
+  <div class="beat-modal-card" id="beatModalCard" onclick="event.stopPropagation()">
+    <button class="beat-modal-close" onclick="cerrarBeatModal(event)" aria-label="Cerrar modal">×</button>
+    <div class="beat-modal-grid">
+      <!-- Izquierda / Carátula Grande -->
+      <div class="beat-modal-cover-wrap">
+        <img src="Images/logo.png" class="beat-modal-cover" id="bm-cover" alt="Carátula del beat">
+        <div class="beat-modal-cover-glow"></div>
+      </div>
+      <!-- Derecha / Controles e Info -->
+      <div class="beat-modal-info-wrap">
+        <div class="beat-modal-header">
+          <span class="beat-modal-tag" id="bm-tag">PREVIEW EN VIVO</span>
+          <h3 class="beat-modal-title" id="bm-title">BEAT TITLE</h3>
+          <div class="beat-modal-badges">
+            <span class="bm-badge bpm" id="bm-bpm">140 BPM</span>
+            <span class="bm-badge key" id="bm-key">Am</span>
+            <span class="bm-badge type" id="bm-type">Drake Type Beat</span>
+          </div>
+        </div>
+        
+        <!-- Reproductor y Timeline -->
+        <div class="beat-modal-player-box">
+          <div class="beat-modal-timer-bar">
+            <span class="beat-modal-timer-label" id="bm-genre-label">GÉNERO / ESTILO</span>
+            <span class="beat-modal-timer" id="bm-timer">0:00 / 0:00</span>
+          </div>
+          <div class="beat-prog-track" id="bm-track" onclick="seekBeatModal(event)">
+            <div class="beat-prog-fill" id="bm-fill"></div>
+          </div>
+          
+          <div class="beat-ctrls beat-modal-ctrls">
+            <button class="beat-play-btn modal-play-btn" id="bm-play-btn" onclick="togglePlayModal(event)">
+              <div class="play-icon"></div>
+              <div class="pause-icon"><span></span><span></span></div>
+            </button>
+            <span class="beat-modal-filename" id="bm-filename">PREVIEW FILE.MP3</span>
+          </div>
+        </div>
+        
+        <!-- Compartir y Licencias -->
+        <div class="beat-modal-actions-box">
+          <button class="lb share-btn modal-share-btn" id="bm-share-btn" onclick="">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;display:inline-block;vertical-align:middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>COMPARTIR ENLACE</span>
+          </button>
+          
+          <div class="beat-modal-lics-wrap">
+            <p class="beat-modal-lics-title">SELECCIONA TU LICENCIA Y ADQUIERE EL BEAT:</p>
+            <div class="beat-modal-lics-buttons" id="bm-lics-buttons">
+              <!-- Botones dinámicos se inyectan aquí -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
