@@ -1234,246 +1234,382 @@ footer{
 }
 
 /* ============================================================
-   BEAT MODAL (VENTANA FLOTANTE)
+   BEAT DRAWER (CYBERPUNK RIGHT DRAWER)
 ============================================================ */
-.beat-modal-backdrop {
+.beat-drawer-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(6, 8, 8, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  z-index: 1000;
+  background: rgba(4, 8, 8, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 950;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.beat-drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.beat-drawer {
+  position: fixed;
+  top: 0;
+  right: -480px;
+  width: min(460px, 100%);
+  height: 100vh;
+  height: 100svh;
+  background: rgba(6, 24, 22, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(45, 212, 204, 0.35);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.85);
+  z-index: 960;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #F4F4F0;
+}
+
+.beat-drawer-backdrop.open .beat-drawer {
+  right: 0;
+}
+
+/* Custom Scrollbar for Drawer */
+.beat-drawer::-webkit-scrollbar {
+  width: 6px;
+}
+.beat-drawer::-webkit-scrollbar-track {
+  background: rgba(6, 8, 8, 0.2);
+}
+.beat-drawer::-webkit-scrollbar-thumb {
+  background: rgba(45, 212, 204, 0.25);
+  border-radius: 3px;
+}
+.beat-drawer::-webkit-scrollbar-thumb:hover {
+  background: rgba(45, 212, 204, 0.5);
+}
+
+.beat-drawer-header {
+  padding: 1.4rem 1.6rem;
+  border-bottom: 1px solid rgba(45, 212, 204, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(6, 8, 8, 0.25);
+}
+
+.beat-drawer-header-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 1.5px;
+  color: #F4F4F0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+.beat-drawer-close-btn {
+  background: transparent;
+  border: 1px solid rgba(244, 244, 240, 0.12);
+  color: rgba(244, 244, 240, 0.6);
+  border-radius: 6px;
+  width: 2.2rem;
+  height: 2.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 1.5rem;
-}
-
-.beat-modal-backdrop.open {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.beat-modal-card {
-  background: rgba(6, 30, 28, 0.75);
-  border: 1px solid rgba(45, 212, 204, 0.35);
-  box-shadow: 0 0 35px rgba(45, 212, 204, 0.15), inset 0 0 20px rgba(45, 212, 204, 0.05);
-  width: 100%;
-  max-width: 750px;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  transform: scale(0.9) translateY(20px);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.beat-modal-backdrop.open .beat-modal-card {
-  transform: scale(1) translateY(0);
-}
-
-.beat-modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1.2rem;
-  background: transparent;
-  border: none;
-  color: rgba(244, 244, 240, 0.5);
-  font-size: 2rem;
   cursor: pointer;
-  z-index: 10;
-  transition: color 0.2s;
-  line-height: 1;
+  transition: all 0.2s;
 }
 
-.beat-modal-close:hover {
+.beat-drawer-close-btn:hover {
   color: #2DD4CC;
-  text-shadow: 0 0 8px rgba(45, 212, 204, 0.8);
+  border-color: #2DD4CC;
+  background: rgba(45, 212, 204, 0.08);
+  box-shadow: 0 0 8px rgba(45, 212, 204, 0.2);
 }
 
-.beat-modal-grid {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 2rem;
-  padding: 2.5rem;
+.beat-drawer-body {
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
 }
 
-.beat-modal-cover-wrap {
+/* Hero Section */
+.beat-drawer-hero {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.beat-drawer-cover-wrap {
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: 120px;
+  height: 120px;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid rgba(45, 212, 204, 0.2);
+  border: 1px solid rgba(45, 212, 204, 0.25);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  flex-shrink: 0;
 }
 
-.beat-modal-cover {
+.beat-drawer-cover {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.beat-modal-cover-glow {
+.beat-drawer-cover-glow {
   position: absolute;
   inset: -10px;
-  background: inherit;
   background-size: cover;
   background-position: center;
   filter: blur(25px);
-  opacity: 0.45;
+  opacity: 0.35;
   z-index: -1;
   pointer-events: none;
 }
 
-.beat-modal-info-wrap {
+.beat-drawer-plays-badge {
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  background: rgba(6, 12, 12, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.52rem;
+  color: #2DD4CC;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(45, 212, 204, 0.15);
+}
+
+.beat-drawer-hero-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 280px;
+  flex: 1;
+  min-width: 0;
 }
 
-.beat-modal-header {
-  margin-bottom: 1.2rem;
-}
-
-.beat-modal-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.54rem;
-  letter-spacing: 3px;
-  color: #2DD4CC;
-  text-shadow: 0 0 5px rgba(45, 212, 204, 0.5);
-  text-transform: uppercase;
-  display: block;
-  margin-bottom: 0.4rem;
-}
-
-.beat-modal-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.2rem;
-  letter-spacing: 1px;
-  line-height: 1.1;
-  color: #F4F4F0;
-  margin-bottom: 0.6rem;
-}
-
-.beat-modal-badges {
+.beat-drawer-producer {
   display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
   flex-wrap: wrap;
+}
+
+.beat-drawer-prod-avatar {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2DD4CC;
+  box-shadow: 0 0 5px #2DD4CC;
+  display: inline-block;
+}
+
+.beat-drawer-prod-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: rgba(244, 244, 240, 0.6);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.beat-drawer-discount-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5rem;
+  background: linear-gradient(90deg, #F43F5E 0%, #BE123C 100%);
+  color: #FFF;
+  padding: 0.08rem 0.32rem;
+  border-radius: 3px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.beat-drawer-title-large {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.1rem;
+  letter-spacing: 1px;
+  color: #F4F4F0;
+  margin: 0 0 0.15rem 0;
+  line-height: 1.05;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.beat-drawer-duration-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(244, 244, 240, 0.4);
+  margin-bottom: 0.7rem;
+}
+
+.beat-drawer-actions-row {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.beat-drawer-action-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(244, 244, 240, 0.04);
+  border: 1px solid rgba(244, 244, 240, 0.08);
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(244, 244, 240, 0.7);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.beat-drawer-action-item:hover {
+  background: rgba(45, 212, 204, 0.08);
+  border-color: rgba(45, 212, 204, 0.3);
+  color: #2DD4CC;
+}
+
+.beat-drawer-action-item.active {
+  border-color: rgba(45, 212, 204, 0.4);
+  color: #2DD4CC;
+}
+
+.beat-drawer-action-item .wave-bar {
+  display: inline-block;
+  width: 2px;
+  height: 8px;
+  background-color: currentColor;
+  border-radius: 1px;
+  animation: wavePulse 1s ease-in-out infinite alternate;
+}
+.beat-drawer-action-item .wave-bar:nth-child(2) {
+  height: 12px;
+  animation-delay: 0.15s;
+}
+.beat-drawer-action-item .wave-bar:nth-child(3) {
+  height: 6px;
+  animation-delay: 0.3s;
+}
+
+@keyframes wavePulse {
+  0% { transform: scaleY(0.5); }
+  100% { transform: scaleY(1.3); }
+}
+
+/* Spec Badges */
+.beat-drawer-specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
 }
 
-.bm-badge {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 1px;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
-  background: rgba(244, 244, 240, 0.05);
-  color: rgba(244, 244, 240, 0.7);
-  border: 1px solid rgba(244, 244, 240, 0.1);
-  text-transform: uppercase;
+.beat-drawer-spec-pill {
+  background: rgba(4, 8, 8, 0.35);
+  border: 1px solid rgba(244, 244, 240, 0.06);
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
 }
 
-.bm-badge.bpm {
-  border-color: rgba(45, 212, 204, 0.3);
+.beat-drawer-spec-pill#bm-type-container {
+  grid-column: span 3;
+  text-align: left;
+}
+
+.spec-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.48rem;
+  color: rgba(244, 244, 240, 0.35);
+  letter-spacing: 0.5px;
+}
+
+.spec-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.64rem;
   color: #2DD4CC;
-  background: rgba(45, 212, 204, 0.05);
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Reproductor de Beat */
-.beat-modal-player-box {
-  background: rgba(6, 8, 8, 0.4);
-  border: 1px solid rgba(45, 212, 204, 0.15);
+.beat-drawer-player-box {
+  background: rgba(6, 8, 8, 0.5);
+  border: 1px solid rgba(45, 212, 204, 0.2);
+  box-shadow: inset 0 0 12px rgba(45, 212, 204, 0.04);
   border-radius: 8px;
   padding: 1rem;
-  margin-bottom: 1.2rem;
 }
 
-.beat-modal-timer-bar {
+.beat-drawer-timer-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
-.beat-modal-timer-label {
+.beat-drawer-style-tag {
   font-family: 'Space Mono', monospace;
   font-size: 0.54rem;
   color: rgba(244, 244, 240, 0.4);
   letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
-.beat-modal-timer {
+.beat-drawer-timer {
   font-family: 'Space Mono', monospace;
   font-size: 0.58rem;
   color: #2DD4CC;
-  letter-spacing: 1px;
+  font-weight: bold;
 }
 
-/* Botones en la misma fila del modal */
-.beat-modal-ctrls {
+.beat-drawer-player-ctrls {
   display: flex;
   align-items: center;
   gap: 0.8rem;
   margin-top: 0.8rem;
 }
 
-.beat-modal-filename {
+.beat-drawer-player-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.beat-drawer-filename {
   font-family: 'Space Mono', monospace;
   font-size: 0.54rem;
-  color: rgba(244, 244, 240, 0.3);
-  letter-spacing: 1px;
+  color: #F4F4F0;
+  letter-spacing: 0.5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 250px;
 }
 
-.beat-modal-actions-box {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.modal-share-btn {
-  align-self: flex-start;
-  font-size: 0.6rem;
-  padding: 0.6rem 1rem;
-  background: rgba(244, 244, 240, 0.03);
-  border-color: rgba(244, 244, 240, 0.15);
-  color: #F4F4F0;
-}
-
-.modal-share-btn:hover {
-  background: rgba(244, 244, 240, 0.08);
-  border-color: rgba(244, 244, 240, 0.3);
-}
-
-.beat-modal-lics-wrap {
-  border-top: 1px solid rgba(244, 244, 240, 0.08);
-  padding-top: 1rem;
-}
-
-.beat-modal-lics-title {
+.beat-drawer-bitrate {
   font-family: 'Space Mono', monospace;
-  font-size: 0.54rem;
-  color: rgba(244, 244, 240, 0.4);
-  letter-spacing: 1.5px;
-  margin-bottom: 0.6rem;
-}
-
-.beat-modal-lics-buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.6rem;
-}
-
-.beat-modal-lics-buttons button {
-  width: 100%;
+  font-size: 0.46rem;
+  color: rgba(244, 244, 240, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .modal-play-btn {
@@ -1483,45 +1619,242 @@ footer{
   flex-shrink: 0;
 }
 
+/* Licencias & Precios (Fila del Drawer) */
+.beat-drawer-lics-section {
+  border-top: 1px solid rgba(244, 244, 240, 0.08);
+  padding-top: 1.2rem;
+}
+
+.beat-drawer-section-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 1.5px;
+  color: rgba(244, 244, 240, 0.4);
+  margin: 0 0 0.8rem 0;
+  text-transform: uppercase;
+  border-left: 2px solid #2DD4CC;
+  padding-left: 0.5rem;
+}
+
+.beat-drawer-lics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.beat-drawer-lic-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(244, 244, 240, 0.02);
+  border: 1px solid rgba(244, 244, 240, 0.05);
+  border-radius: 8px;
+  padding: 0.85rem 1.1rem;
+  transition: all 0.22s ease-in-out;
+}
+
+.beat-drawer-lic-row:hover {
+  background: rgba(45, 212, 204, 0.04);
+  border-color: rgba(45, 212, 204, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.beat-drawer-lic-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: left;
+}
+
+.beat-drawer-lic-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: bold;
+  color: #F4F4F0;
+  letter-spacing: 0.5px;
+}
+
+.beat-drawer-lic-ext {
+  font-size: 0.54rem;
+  color: #2DD4CC;
+  background: rgba(45, 212, 204, 0.08);
+  padding: 0.05rem 0.25rem;
+  border-radius: 3px;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+  border: 1px solid rgba(45, 212, 204, 0.15);
+}
+
+.beat-drawer-lic-terms-link {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem;
+  color: rgba(244, 244, 240, 0.4);
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: color 0.2s;
+}
+
+.beat-drawer-lic-terms-link:hover {
+  color: #2DD4CC;
+  text-shadow: 0 0 5px rgba(45, 212, 204, 0.4);
+}
+
+.beat-drawer-lic-price {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  color: #F4F4F0;
+  font-weight: bold;
+  margin-top: 0.1rem;
+}
+
+.beat-drawer-cart-btn {
+  background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+  border: none;
+  color: #FFFFFF;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+  flex-shrink: 0;
+}
+
+.beat-drawer-cart-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.55), 0 0 10px rgba(45, 212, 204, 0.25);
+  background: linear-gradient(135deg, #8B5CF6 0%, #5850EC 100%);
+}
+
+.beat-drawer-cart-btn:active {
+  transform: scale(0.95);
+}
+
+/* Similar Beats Section */
+.beat-drawer-similar-section {
+  border-top: 1px solid rgba(244, 244, 240, 0.08);
+  padding-top: 1.2rem;
+}
+
+.beat-drawer-similar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.beat-drawer-similar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(244, 244, 240, 0.02);
+  border: 1px solid rgba(244, 244, 240, 0.04);
+  border-radius: 6px;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.beat-drawer-similar-row:hover {
+  background: rgba(45, 212, 204, 0.04);
+  border-color: rgba(45, 212, 204, 0.18);
+}
+
+.beat-drawer-similar-cover {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid rgba(45, 212, 204, 0.15);
+  flex-shrink: 0;
+}
+
+.beat-drawer-similar-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.beat-drawer-similar-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  color: #F4F4F0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.1;
+  margin-bottom: 0.05rem;
+}
+
+.beat-drawer-similar-meta {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.48rem;
+  color: rgba(244, 244, 240, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.beat-drawer-similar-play-btn {
+  background: transparent;
+  border: 1px solid rgba(45, 212, 204, 0.3);
+  color: #2DD4CC;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.beat-drawer-similar-play-btn:hover {
+  background: rgba(45, 212, 204, 0.12);
+  border-color: #2DD4CC;
+  transform: scale(1.08);
+}
+
 /* Ocultar visualmente el reproductor inline antiguo */
 .beat-player-wrap {
   display: none !important;
 }
 
-/* Responsivo para el modal */
+/* Responsivo para la ventana lateral (Drawer) */
 @media (max-width: 768px) {
-  .beat-modal-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 1.5rem;
-  }
-  .beat-modal-cover-wrap {
-    width: 180px;
-    height: 180px;
-    margin: 0 auto;
-  }
-  .beat-modal-info-wrap {
-    min-height: auto;
-  }
-  .beat-modal-title {
-    font-size: 1.8rem;
-    text-align: center;
-  }
-  .beat-modal-badges {
-    justify-content: center;
-  }
-  .beat-modal-tag {
-    text-align: center;
-  }
-  .modal-share-btn {
-    align-self: center;
+  .beat-drawer {
     width: 100%;
-    justify-content: center;
+    right: -100%;
+    border-left: none;
   }
-  .beat-modal-lics-buttons {
-    grid-template-columns: 1fr;
+  .beat-drawer-backdrop.open .beat-drawer {
+    right: 0;
+  }
+  .beat-drawer-header {
+    padding: 1.2rem 1.4rem;
+  }
+  .beat-drawer-body {
+    padding: 1.4rem;
+  }
+  .beat-drawer-hero {
+    gap: 1rem;
+  }
+  .beat-drawer-cover-wrap {
+    width: 100px;
+    height: 100px;
+  }
+  .beat-drawer-title-large {
+    font-size: 1.8rem;
   }
 }
+
 
 /* ============================================================
    RESPONSIVE
@@ -3408,6 +3741,20 @@ function stopAllBeats(){
   if(raf){cancelAnimationFrame(raf);raf=null;}
 }
 
+function abrirTerminosLicencia(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  cerrarBeatModal();
+  var el = document.getElementById('licencias');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    toast('⚡ Desplázate a la sección de Licencias para más información.');
+  }
+}
+
 function abrirBeatModal(num) {
   var beat = window.allBeats && window.allBeats[num - 1];
   if (!beat) return;
@@ -3415,25 +3762,29 @@ function abrirBeatModal(num) {
   window.modalActiveBeatNum = num;
   activeBeat = num; // Mantener sincro con activeBeat global
 
-  // Actualizar metadatos en el modal
+  // Actualizar metadatos en el drawer
   var titleEl = document.getElementById('bm-title');
+  var headerTitleEl = document.getElementById('bm-header-title');
   var bpmEl = document.getElementById('bm-bpm');
   var keyEl = document.getElementById('bm-key');
   var typeEl = document.getElementById('bm-type');
+  var typeContainer = document.getElementById('bm-type-container');
   var coverEl = document.getElementById('bm-cover');
   var genreEl = document.getElementById('bm-genre-label');
   var filenameEl = document.getElementById('bm-filename');
   var shareBtn = document.getElementById('bm-share-btn');
   
   if (titleEl) titleEl.textContent = beat.nombre.toUpperCase();
+  if (headerTitleEl) headerTitleEl.textContent = beat.nombre.toUpperCase();
   if (bpmEl) bpmEl.textContent = beat.tempo + ' BPM';
   if (keyEl) keyEl.textContent = beat.key || 'N/A';
+  
   if (typeEl) {
     if (beat.type_beat) {
       typeEl.textContent = beat.type_beat.toUpperCase();
-      typeEl.style.display = 'inline-block';
+      if (typeContainer) typeContainer.style.display = 'flex';
     } else {
-      typeEl.style.display = 'none';
+      if (typeContainer) typeContainer.style.display = 'none';
     }
   }
   
@@ -3442,7 +3793,7 @@ function abrirBeatModal(num) {
   if (coverEl) {
     coverEl.src = coverUrl;
     // Glow aura background
-    var coverGlow = document.querySelector('.beat-modal-cover-glow');
+    var coverGlow = document.querySelector('.beat-drawer-cover-glow') || document.querySelector('.beat-modal-cover-glow');
     if (coverGlow) {
       coverGlow.style.backgroundImage = 'url(' + coverUrl + ')';
     }
@@ -3461,7 +3812,49 @@ function abrirBeatModal(num) {
     };
   }
 
-  // Inyectar botones de licencia y precios interactivos
+  // Dinamizar vistas y likes
+  var playsEl = document.getElementById('bm-plays-count');
+  var likesEl = document.getElementById('bm-likes-count');
+  if (playsEl) {
+    var generatedPlays = Math.round((beat.tempo || 120) * 85 + (num * 342) + 245);
+    playsEl.textContent = (generatedPlays / 1000).toFixed(1) + 'K Plays';
+  }
+  if (likesEl) {
+    var generatedLikes = Math.round((beat.tempo || 120) * 0.4 + (num * 12) + 18);
+    likesEl.textContent = generatedLikes;
+  }
+
+  // Inyectar Beats Recomendados / Similares
+  var similarContainer = document.getElementById('bm-similar-list');
+  if (similarContainer && window.allBeats) {
+    // Filtrar el beat actual
+    var currentBeat = window.allBeats[num - 1];
+    var similarBeats = window.allBeats.filter(function(b) {
+      return b.id !== currentBeat.id;
+    }).slice(0, 2); // Tomamos 2 beats
+
+    var similarHTML = '';
+    similarBeats.forEach(function(sb) {
+      var sIdx = window.allBeats.findIndex(function(b) { return b.id === sb.id; }) + 1;
+      var sbCover = sb.caratula_url ? obtenerLinkDirectoImagen(sb.caratula_url) : 'Images/logo.png';
+      similarHTML += 
+        '<div class="beat-drawer-similar-row" onclick="abrirBeatModal(' + sIdx + ')">' +
+          '<img src="' + sbCover + '" class="beat-drawer-similar-cover" alt="' + sb.nombre + '">' +
+          '<div class="beat-drawer-similar-info">' +
+            '<span class="beat-drawer-similar-name">' + sb.nombre.toUpperCase() + '</span>' +
+            '<span class="beat-drawer-similar-meta">' + sb.tempo + ' BPM · ' + (sb.key || 'N/A') + '</span>' +
+          '</div>' +
+          '<button class="beat-drawer-similar-play-btn" onclick="event.stopPropagation(); startPlay(' + sIdx + ')" aria-label="Reproducir beat similar">' +
+            '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">' +
+              '<polygon points="5 3 19 12 5 21 5 3"></polygon>' +
+            '</svg>' +
+          '</button>' +
+        '</div>';
+    });
+    similarContainer.innerHTML = similarHTML;
+  }
+
+  // Inyectar filas de licencias premium e interactivas
   var licsButtonsContainer = document.getElementById('bm-lics-buttons');
   if (licsButtonsContainer) {
     var priceBasic = beat.precio_basic || 35;
@@ -3478,15 +3871,65 @@ function abrirBeatModal(num) {
     };
 
     licsButtonsContainer.innerHTML = 
-      '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'basic\', ' + priceBasic + ')">Basic<span class="beat-price-display" data-usd="' + priceBasic + '">$' + priceBasic + ' USD</span></button>' +
-      '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'premium\', ' + pricePremium + ')">Premium<span class="beat-price-display" data-usd="' + pricePremium + '">$' + pricePremium + ' USD</span></button>' +
-      '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'exclusiva\', ' + priceExcl + ')">Excl.<span class="beat-price-display" data-usd="' + priceExcl + '">$' + priceExcl + ' USD</span></button>';
+      // Fila 1: Basic
+      '<div class="beat-drawer-lic-row">' +
+        '<div class="beat-drawer-lic-info">' +
+          '<div class="beat-drawer-lic-name">MP3 - STANDARD <span class="beat-drawer-lic-ext">MP3</span></div>' +
+          '<span class="beat-drawer-lic-terms-link" onclick="abrirTerminosLicencia(event)">Términos de Licencia</span>' +
+          '<div class="beat-drawer-lic-price">' +
+            '<span class="beat-price-display" data-usd="' + priceBasic + '">$' + priceBasic + ' USD</span>' +
+          '</div>' +
+        '</div>' +
+        '<button class="beat-drawer-cart-btn" onclick="agregarAlCarrito(\'' + beat.id + '\', \'basic\', ' + priceBasic + ')" aria-label="Agregar al carrito">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="9" cy="21" r="1"></circle>' +
+            '<circle cx="20" cy="21" r="1"></circle>' +
+            '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>' +
+          '</svg>' +
+        '</button>' +
+      '</div>' +
+      
+      // Fila 2: Premium
+      '<div class="beat-drawer-lic-row">' +
+        '<div class="beat-drawer-lic-info">' +
+          '<div class="beat-drawer-lic-name">WAV - PREMIUM <span class="beat-drawer-lic-ext">WAV</span></div>' +
+          '<span class="beat-drawer-lic-terms-link" onclick="abrirTerminosLicencia(event)">Términos de Licencia</span>' +
+          '<div class="beat-drawer-lic-price">' +
+            '<span class="beat-price-display" data-usd="' + pricePremium + '">$' + pricePremium + ' USD</span>' +
+          '</div>' +
+        '</div>' +
+        '<button class="beat-drawer-cart-btn" onclick="agregarAlCarrito(\'' + beat.id + '\', \'premium\', ' + pricePremium + ')" aria-label="Agregar al carrito">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="9" cy="21" r="1"></circle>' +
+            '<circle cx="20" cy="21" r="1"></circle>' +
+            '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>' +
+          '</svg>' +
+        '</button>' +
+      '</div>' +
+      
+      // Fila 3: Exclusiva
+      '<div class="beat-drawer-lic-row">' +
+        '<div class="beat-drawer-lic-info">' +
+          '<div class="beat-drawer-lic-name">EXCLUSIVE <span class="beat-drawer-lic-ext">STEMS</span></div>' +
+          '<span class="beat-drawer-lic-terms-link" onclick="abrirTerminosLicencia(event)">Términos de Licencia</span>' +
+          '<div class="beat-drawer-lic-price">' +
+            '<span class="beat-price-display" data-usd="' + priceExcl + '">$' + priceExcl + ' USD</span>' +
+          '</div>' +
+        '</div>' +
+        '<button class="beat-drawer-cart-btn" onclick="agregarAlCarrito(\'' + beat.id + '\', \'exclusiva\', ' + priceExcl + ')" aria-label="Agregar al carrito">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="9" cy="21" r="1"></circle>' +
+            '<circle cx="20" cy="21" r="1"></circle>' +
+            '<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>' +
+          '</svg>' +
+        '</button>' +
+      '</div>';
   }
 
   // Actualizar precios al formato actual (COP/USD)
   actualizarPreciosUI();
 
-  // Abrir modal
+  // Abrir drawer
   var backdrop = document.getElementById('beatModalBackdrop');
   if (backdrop) {
     backdrop.classList.add('open');
@@ -4129,60 +4572,131 @@ function filtrarBeatsInterno() {
 inicializarSitioDinamico();
 </script>
 
-<!-- Modal del Beat (Ventana Flotante) -->
-<div class="beat-modal-backdrop" id="beatModalBackdrop" onclick="cerrarBeatModal(event)">
-  <div class="beat-modal-card" id="beatModalCard" onclick="event.stopPropagation()">
-    <button class="beat-modal-close" onclick="cerrarBeatModal(event)" aria-label="Cerrar modal">×</button>
-    <div class="beat-modal-grid">
-      <!-- Izquierda / Carátula Grande -->
-      <div class="beat-modal-cover-wrap">
-        <img src="Images/logo.png" class="beat-modal-cover" id="bm-cover" alt="Carátula del beat">
-        <div class="beat-modal-cover-glow"></div>
-      </div>
-      <!-- Derecha / Controles e Info -->
-      <div class="beat-modal-info-wrap">
-        <div class="beat-modal-header">
-          <span class="beat-modal-tag" id="bm-tag">PREVIEW EN VIVO</span>
-          <h3 class="beat-modal-title" id="bm-title">BEAT TITLE</h3>
-          <div class="beat-modal-badges">
-            <span class="bm-badge bpm" id="bm-bpm">140 BPM</span>
-            <span class="bm-badge key" id="bm-key">Am</span>
-            <span class="bm-badge type" id="bm-type">Drake Type Beat</span>
+<!-- Drawer del Beat (Cyberpunk Side Drawer) -->
+<div class="beat-drawer-backdrop" id="beatModalBackdrop" onclick="cerrarBeatModal(event)">
+  <div class="beat-drawer" id="beatModalCard" onclick="event.stopPropagation()">
+    <!-- Cabecera -->
+    <div class="beat-drawer-header">
+      <h3 class="beat-drawer-header-title" id="bm-header-title">BY YOUR SIDE</h3>
+      <button class="beat-drawer-close-btn" onclick="cerrarBeatModal(event)" aria-label="Cerrar detalles de beat">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+          <line x1="19" y1="5" x2="19" y2="19"></line>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Contenido del Drawer -->
+    <div class="beat-drawer-body">
+      <!-- Fila Principal (Carátula y Metadatos Rápidos) -->
+      <div class="beat-drawer-hero">
+        <div class="beat-drawer-cover-wrap">
+          <img src="Images/logo.png" class="beat-drawer-cover" id="bm-cover" alt="Carátula del beat">
+          <div class="beat-drawer-cover-glow"></div>
+          <div class="beat-drawer-plays-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="margin-right:3px;vertical-align:middle;display:inline-block;">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span id="bm-plays-count">12.5K Plays</span>
           </div>
         </div>
-        
-        <!-- Reproductor y Timeline -->
-        <div class="beat-modal-player-box">
-          <div class="beat-modal-timer-bar">
-            <span class="beat-modal-timer-label" id="bm-genre-label">GÉNERO / ESTILO</span>
-            <span class="beat-modal-timer" id="bm-timer">0:00 / 0:00</span>
+        <div class="beat-drawer-hero-info">
+          <div class="beat-drawer-producer">
+            <span class="beat-drawer-prod-avatar"></span>
+            <span class="beat-drawer-prod-name">NIKKO URZA</span>
+            <span class="beat-drawer-discount-badge">DESCUENTOS ACTIVOS</span>
           </div>
-          <div class="beat-prog-track" id="bm-track" onclick="seekBeatModal(event)">
-            <div class="beat-prog-fill" id="bm-fill"></div>
-          </div>
+          <h4 class="beat-drawer-title-large" id="bm-title">BY YOUR SIDE</h4>
+          <div class="beat-drawer-duration-label" id="bm-duration">03:20</div>
           
-          <div class="beat-ctrls beat-modal-ctrls">
-            <button class="beat-play-btn modal-play-btn" id="bm-play-btn" onclick="togglePlayModal(event)">
-              <div class="play-icon"></div>
-              <div class="pause-icon"><span></span><span></span></div>
-            </button>
-            <span class="beat-modal-filename" id="bm-filename">PREVIEW FILE.MP3</span>
-          </div>
-        </div>
-        
-        <!-- Compartir y Licencias -->
-        <div class="beat-modal-actions-box">
-          <button class="lb share-btn modal-share-btn" id="bm-share-btn" onclick="">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;display:inline-block;vertical-align:middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-            <span>COMPARTIR ENLACE</span>
-          </button>
-          
-          <div class="beat-modal-lics-wrap">
-            <p class="beat-modal-lics-title">SELECCIONA TU LICENCIA Y ADQUIERE EL BEAT:</p>
-            <div class="beat-modal-lics-buttons" id="bm-lics-buttons">
-              <!-- Botones dinámicos se inyectan aquí -->
+          <!-- Iconos de Acción -->
+          <div class="beat-drawer-actions-row">
+            <div class="beat-drawer-action-item" onclick="toast('⚡ ¡Te gusta este beat!')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+              <span id="bm-likes-count">48</span>
+            </div>
+            <div class="beat-drawer-action-item" onclick="toast('⚡ Añadido a favoritos')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </div>
+            <div class="beat-drawer-action-item active" id="bm-wave-btn">
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+            </div>
+            <div class="beat-drawer-action-item" id="bm-share-btn" title="Compartir enlace">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <!-- Fichas Técnicas (BPM, Key, Tipo) -->
+      <div class="beat-drawer-specs">
+        <div class="beat-drawer-spec-pill">
+          <span class="spec-label">ESTILO / GÉNERO</span>
+          <span class="spec-val" id="bm-genre-label">SOUL / RAP</span>
+        </div>
+        <div class="beat-drawer-spec-pill">
+          <span class="spec-label">TEMPO</span>
+          <span class="spec-val" id="bm-bpm">140 BPM</span>
+        </div>
+        <div class="beat-drawer-spec-pill">
+          <span class="spec-label">ESCALA / TONO</span>
+          <span class="spec-val" id="bm-key">Am</span>
+        </div>
+        <!-- Badge para el type beat en spec block -->
+        <div class="beat-drawer-spec-pill" id="bm-type-container">
+          <span class="spec-label">ESTILO BEAT</span>
+          <span class="spec-val" id="bm-type">DRAKE TYPE BEAT</span>
+        </div>
+      </div>
+      
+      <!-- Reproductor y Barra Seeker -->
+      <div class="beat-drawer-player-box">
+        <div class="beat-drawer-timer-bar">
+          <span class="beat-drawer-style-tag">PREVIEW REPRODUCTOR EN VIVO</span>
+          <span class="beat-drawer-timer" id="bm-timer">0:00 / 0:00</span>
+        </div>
+        <div class="beat-prog-track" id="bm-track" onclick="seekBeatModal(event)">
+          <div class="beat-prog-fill" id="bm-fill"></div>
+        </div>
+        <div class="beat-drawer-player-ctrls">
+          <button class="beat-play-btn modal-play-btn" id="bm-play-btn" onclick="togglePlayModal(event)" aria-label="Reproducir / Pausar">
+            <div class="play-icon"></div>
+            <div class="pause-icon"><span></span><span></span></div>
+          </button>
+          <div class="beat-drawer-player-info">
+            <span class="beat-drawer-filename" id="bm-filename">PREVIEW FILE.MP3</span>
+            <span class="beat-drawer-bitrate">PREVIEW COMPLETO · 320 KBPS · STEREO</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Licencias & Precios -->
+      <div class="beat-drawer-lics-section">
+        <h5 class="beat-drawer-section-title">LICENCIAS DISPONIBLES</h5>
+        <div class="beat-drawer-lics-list" id="bm-lics-buttons">
+          <!-- Botones inyectados dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Sonidos Similares -->
+      <div class="beat-drawer-similar-section">
+        <h5 class="beat-drawer-section-title">BEATS RECOMENDADOS</h5>
+        <div class="beat-drawer-similar-list" id="bm-similar-list">
+          <!-- Inyectados dinámicamente -->
         </div>
       </div>
     </div>
