@@ -137,8 +137,12 @@ CREATE TABLE IF NOT EXISTS portafolio (
   tidal_url     TEXT,
   drive_url     TEXT,
   caratula_url  TEXT,
+  descripcion   TEXT,
   created_at    TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Asegurar que la columna descripcion exista en bases de datos ya creadas
+ALTER TABLE portafolio ADD COLUMN IF NOT EXISTS descripcion TEXT;
 
 -- TABLA: presskit (almacena biografía y multimedia de forma global)
 CREATE TABLE IF NOT EXISTS presskit (

@@ -437,6 +437,7 @@ tr:hover td{background:rgba(45,212,204,0.03)}
     </div>
     <div class="fg"><label class="fl">Google Drive (archivo o preview)</label><input class="fi" id="portDrive" placeholder="https://drive.google.com/file/d/..."></div>
     <div class="fg"><label class="fl">URL de carátula (imagen)</label><input class="fi" id="portCaratula" placeholder="https://drive.google.com/uc?export=view&id=..."></div>
+    <div class="fg"><label class="fl">Descripción / Comentarios del trabajo</label><textarea class="fi" id="portDescripcion" rows="3" placeholder="Cuéntanos algo sobre este proyecto, anécdotas, proceso de producción, etc." style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:0.6rem;font-family:inherit;font-size:0.8rem;resize:vertical;"></textarea></div>
     <div class="btn-row">
       <button class="btn-primary" onclick="guardarPortafolio()">Guardar →</button>
       <button class="btn-secondary" onclick="cerrarModal('modalPortafolio')">Cancelar</button>
@@ -840,7 +841,7 @@ async function cargarPortafolio() {
 function abrirModalPortafolio() {
   document.getElementById('portEditId').value = '';
   ['portTitulo','portArtista','portGenero','portAnio','portSpotify','portApple',
-   'portYoutube','portSoundcloud','portDeezer','portTidal','portDrive','portCaratula']
+   'portYoutube','portSoundcloud','portDeezer','portTidal','portDrive','portCaratula','portDescripcion']
     .forEach(function(id){ document.getElementById(id).value = ''; });
   document.getElementById('portTipo').value = 'mezcla';
   document.getElementById('modalPortTitle').innerHTML = 'NUEVO <span>TRABAJO</span>';
@@ -864,6 +865,7 @@ function editarPortafolio(id) {
   document.getElementById('portTidal').value = p.tidal_url||'';
   document.getElementById('portDrive').value = p.drive_url||'';
   document.getElementById('portCaratula').value = p.caratula_url||'';
+  document.getElementById('portDescripcion').value = p.descripcion||'';
   document.getElementById('modalPortTitle').innerHTML = 'EDITAR <span>TRABAJO</span>';
   document.getElementById('modalPortafolio').classList.add('open');
 }
@@ -884,7 +886,8 @@ async function guardarPortafolio() {
     deezer_url: document.getElementById('portDeezer').value,
     tidal_url: document.getElementById('portTidal').value,
     drive_url: document.getElementById('portDrive').value,
-    caratula_url: document.getElementById('portCaratula').value
+    caratula_url: document.getElementById('portCaratula').value,
+    descripcion: document.getElementById('portDescripcion').value
   };
   try {
     var method = editId ? 'PUT' : 'POST';
