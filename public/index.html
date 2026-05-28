@@ -1193,7 +1193,6 @@ footer{
     <li><a href="#presskit" onclick="closeNav()">Presskit</a></li>
     <li><a href="#portafolio" onclick="closeNav()">Portafolio</a></li>
     <li><a href="#beats" onclick="closeNav()">Beats</a></li>
-    <li><a href="#licencias" onclick="closeNav()">Licencias</a></li>
     <li><a href="#servicios" onclick="closeNav()">Servicios</a></li>
     <li><a href="#contacto" onclick="closeNav()">Contacto</a></li>
     <li><a href="nikko-urza-landing.html" style="color:var(--cyan)">Link in Bio ↗</a></li>
@@ -1284,11 +1283,70 @@ footer{
 
 <!-- ===== BEATS ===== -->
 <section id="beats">
-  <p class="sec-label">03 — Tienda de Beats</p>
-  <h2 class="sec-title">COMPRAR<br><span>BEATS</span></h2>
+  <p class="sec-label">03 — Beats &amp; Licencias</p>
+  <h2 class="sec-title">TIENDA DE BEATS<br><span>&amp; LICENCIAS</span></h2>
   <p style="font-size:0.7rem;color:rgba(244,244,240,0.48);font-family:'Space Mono',monospace;max-width:680px;line-height:1.6;margin-top:0.5rem;margin-bottom:2rem">
     Explora mi catálogo y compra beats instrumentales de alta calidad con licencias Basic, Premium y Exclusivas. Encuentra el sonido perfecto para tus canciones filtrando por género, tempo (BPM), escala (Key) o type beat. Producción profesional desde Cali con proyección internacional.
   </p>
+
+  <!-- TARJETAS DE LICENCIAS -->
+  <div class="lic-grid" style="margin-bottom: 3.5rem;">
+    <div class="lic-card">
+      <p class="lic-type">Licencia</p>
+      <p class="lic-name">BASIC</p>
+      <ul class="lic-feats">
+        <li>MP3 alta calidad 320kbps</li>
+        <li>Hasta 100,000 streams</li>
+        <li>Plataformas digitales</li>
+        <li>Crédito obligatorio</li>
+        <li>No TV / cine / pub.</li>
+        <li>No exclusiva</li>
+      </ul>
+      <button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('filterSearch').scrollIntoView({behavior:'smooth'})">Comprar Beat</button>
+    </div>
+    <div class="lic-card feat">
+      <div class="lic-badge">Más Popular</div>
+      <p class="lic-type">Licencia</p>
+      <p class="lic-name">PREMIUM</p>
+      <ul class="lic-feats">
+        <li>WAV + MP3 + stems</li>
+        <li>Streams ilimitados</li>
+        <li>TV, YouTube, publicidad</li>
+        <li>Hasta 1,000 copias físicas</li>
+        <li>Crédito obligatorio</li>
+        <li>No exclusiva</li>
+      </ul>
+      <button class="btn-p" style="width:100%;text-align:center" onclick="document.getElementById('filterSearch').scrollIntoView({behavior:'smooth'})">Comprar Beat</button>
+    </div>
+    <div class="lic-card">
+      <p class="lic-type">Licencia</p>
+      <p class="lic-name">EXCLUSIVA</p>
+      <ul class="lic-feats">
+        <li>Archivos a 32 bits</li>
+        <li>Stems completos multitrack</li>
+        <li>Derechos exclusivos totales</li>
+        <li>Beat se retira de venta</li>
+        <li>Uso comercial ilimitado</li>
+        <li>Sin crédito obligatorio</li>
+        <li>Negociable</li>
+      </ul>
+      <button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('filterSearch').scrollIntoView({behavior:'smooth'})">Ver Beats</button>
+    </div>
+    <div class="lic-card">
+      <p class="lic-type">Licencia</p>
+      <p class="lic-name">CUSTOM</p>
+      <p class="lic-price" style="font-size:1.8rem">HABLEMOS</p>
+      <ul class="lic-feats">
+        <li>Sellos discográficos</li>
+        <li>Proyectos audiovisuales</li>
+        <li>Sincronización (sync)</li>
+        <li>Publicidad y campañas</li>
+        <li>Términos personalizados</li>
+        <li>Contacto directo</li>
+      </ul>
+      <button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar</button>
+    </div>
+  </div>
   <!-- BARRA DE BÚSQUEDA Y FILTROS DINÁMICOS -->
   <div class="beats-filter-bar">
     <div class="filter-search-wrap">
@@ -1456,19 +1514,6 @@ footer{
   </div>
   <p style="font-size:0.58rem;color:rgba(244,244,240,0.25);margin-top:0.8rem">* Precios en COP calculados a TRM ~$3,300. El checkout de ePayco muestra el monto exacto antes de confirmar. · <span style="color:rgba(45,212,204,0.4)">▶ Haz clic en cada beat para escuchar el preview</span></p>
   <div class="cart-notif" id="cartNotif"></div>
-</section>
-<div class="divider"></div>
-
-<!-- ===== LICENCIAS ===== -->
-<section id="licencias">
-  <p class="sec-label">04 — Licencias</p>
-  <h2 class="sec-title">ELIGE TU<br><span>LICENCIA</span></h2>
-  <div class="lic-grid">
-    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">BASIC</p><p class="lic-price lic-price-display" data-usd="35">$35 <span>USD</span></p><ul class="lic-feats"><li>MP3 alta calidad 320kbps</li><li>Hasta 100,000 streams</li><li>Plataformas digitales</li><li>Crédito obligatorio</li><li>No TV / cine / pub.</li><li>No exclusiva</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
-    <div class="lic-card feat"><div class="lic-badge">Más Popular</div><p class="lic-type">Licencia</p><p class="lic-name">PREMIUM</p><p class="lic-price lic-price-display" data-usd="75">$75 <span>USD</span></p><ul class="lic-feats"><li>WAV + MP3 + stems</li><li>Streams ilimitados</li><li>TV, YouTube, publicidad</li><li>Hasta 1,000 copias físicas</li><li>Crédito obligatorio</li><li>No exclusiva</li></ul><button class="btn-p" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Comprar Beat</button></div>
-    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">EXCLUSIVA</p><p class="lic-price lic-price-display" data-usd="350" data-plus="true">$350+ <span>USD</span></p><ul class="lic-feats"><li>Stems completos multitrack</li><li>Derechos exclusivos totales</li><li>Beat se retira de venta</li><li>Uso comercial ilimitado</li><li>Sin crédito obligatorio</li><li>Negociable</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('beats').scrollIntoView({behavior:'smooth'})">Ver Beats</button></div>
-    <div class="lic-card"><p class="lic-type">Licencia</p><p class="lic-name">CUSTOM</p><p class="lic-price" style="font-size:1.8rem">HABLEMOS</p><ul class="lic-feats"><li>Sellos discográficos</li><li>Proyectos audiovisuales</li><li>Sincronización (sync)</li><li>Publicidad y campañas</li><li>Términos personalizados</li><li>Contacto directo</li></ul><button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar</button></div>
-  </div>
 </section>
 <div class="divider"></div>
 
@@ -1769,7 +1814,6 @@ footer{
     <a href="#presskit">Presskit</a>
     <a href="#portafolio">Portafolio</a>
     <a href="#beats">Beats</a>
-    <a href="#licencias">Licencias</a>
     <a href="#servicios">Servicios</a>
     <a href="#contacto">Contacto</a>
   </div>
@@ -1918,18 +1962,7 @@ function actualizarPreciosUI() {
     var usd = parseFloat(el.getAttribute('data-usd'));
     el.textContent = formatCurrencyValue(usd);
   });
-  
-  // 2. Tarjetas de licencias estáticas
-  document.querySelectorAll('.lic-price-display').forEach(function(el) {
-    var usd = parseFloat(el.getAttribute('data-usd'));
-    var plus = el.getAttribute('data-plus') === 'true' ? '+' : '';
-    if (currentCurrency === 'COP') {
-      var cop = Math.round(usd * TRM);
-      el.innerHTML = '$' + cop.toLocaleString('es-CO') + plus + ' <span>COP</span>';
-    } else {
-      el.innerHTML = '$' + usd + plus + ' <span>USD</span>';
-    }
-  });
+
   
   // 3. Tarjetas de servicios
   document.querySelectorAll('.svc-price-display').forEach(function(el) {
