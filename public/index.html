@@ -1875,6 +1875,11 @@ function obtenerLinkDirectoAudio(url) {
   if (!url) return '';
   url = url.trim();
   
+  // Soporte para Dropbox
+  if (url.includes('dropbox.com')) {
+    return url.replace(/dl=[01]/, 'raw=1');
+  }
+  
   // Si ya es un enlace directo de Google Drive o un proxy de descarga, lo dejamos tal cual
   if (url.includes('drive.google.com/uc') || url.includes('docs.google.com/uc')) {
     return url;
