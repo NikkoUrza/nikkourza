@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Admin — Nikko Urza</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2240%22 fill=%22%23080c0c%22 stroke=%22%232dd4cc%22 stroke-width=%228%22/><path d=%22M40 65 A 10 10 0 1 1 30 55 L30 25 L65 15 L65 45 A 10 10 0 1 1 55 35 L55 25 L40 29 Z%22 fill=%22%232dd4cc%22/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -449,29 +450,50 @@ tr:hover td{background:rgba(45,212,204,0.03)}
 <script>
 // ─── CONFIG ──────────────────────────────────────────────
 var API_URL = window.location.origin;
-var ADMIN_SECRET = 'nikko-admin-2026';        // ← cámbiala en Vercel env vars
-var ADMIN_PASS = 'nikko-admin-2026';          // ← contraseña del panel
 
 // ─── LOGIN ───────────────────────────────────────────────
-function login() {
-  var pass = document.getElementById('loginPass').value;
-  if (pass === ADMIN_PASS) {
-    sessionStorage.setItem('adminAuth', '1');
+async function login() {
+  var pass = document.getElementById('loginPass').value.trim();
+  if (!pass) {
+    document.getElementById('loginErr').textContent = 'Ingresa una contraseña';
+    document.getElementById('loginErr').style.display = 'block';
+    return;
+  }
+  
+  sessionStorage.setItem('adminSecret', pass);
+  
+  try {
+    document.getElementById('loginErr').style.display = 'none';
+    // Intentamos cargar beats como prueba de autenticación con el servidor
+    await apiFetch('/api/beats');
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     cargarDashboard();
-  } else {
+  } catch (err) {
+    console.error('Error de login:', err);
+    sessionStorage.removeItem('adminSecret');
+    document.getElementById('loginErr').textContent = 'Contraseña incorrecta';
     document.getElementById('loginErr').style.display = 'block';
   }
 }
+
 function logout() {
-  sessionStorage.removeItem('adminAuth');
+  sessionStorage.removeItem('adminSecret');
   location.reload();
 }
-if (sessionStorage.getItem('adminAuth') === '1') {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  cargarDashboard();
+
+// Inicialización automática si ya hay sesión activa
+if (sessionStorage.getItem('adminSecret')) {
+  (async function autoLogin() {
+    try {
+      await apiFetch('/api/beats');
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      cargarDashboard();
+    } catch(e) {
+      sessionStorage.removeItem('adminSecret');
+    }
+  })();
 }
 
 // ─── NAVEGACIÓN ──────────────────────────────────────────
@@ -540,8 +562,9 @@ function obtenerLinkDirectoImagen(url) {
 // ─── API HELPERS ─────────────────────────────────────────
 async function apiFetch(path, opts) {
   var url = API_URL + path;
+  var secret = sessionStorage.getItem('adminSecret') || '';
   var res = await fetch(url, Object.assign({
-    headers: { 'Content-Type': 'application/json', 'x-admin-secret': ADMIN_SECRET }
+    headers: { 'Content-Type': 'application/json', 'x-admin-secret': secret }
   }, opts));
   
   if (!res.ok) {

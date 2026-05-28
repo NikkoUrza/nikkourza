@@ -91,7 +91,7 @@ body{background:var(--black);color:var(--warm);font-family:'Space Mono',monospac
 </div>
 
 <script>
-var API_URL = 'https://nikkourza.vercel.app'; // ← actualiza con tu URL de Vercel
+var API_URL = window.location.origin;
 
 function show(id) {
   ['stateLoading','stateSuccess','stateError'].forEach(function(s){

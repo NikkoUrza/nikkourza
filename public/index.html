@@ -2132,7 +2132,10 @@ function toggleCartDrawer(open) {
   }
 }
 
-function agregarAlCarrito(beatId, beatNombre, licencia, precioUSD) {
+function agregarAlCarrito(beatId, licencia, precioUSD) {
+  // Obtener nombre del beat de forma segura del mapa en memoria
+  var beatNombre = (window.beatsMap && window.beatsMap[beatId]) ? window.beatsMap[beatId].nombre : 'Beat';
+
   // Verificar si ya está en el carrito el mismo beat con la misma licencia
   var existe = cartState.items.some(function(item) {
     return item.beat_id === beatId && item.licencia === licencia;
@@ -3074,9 +3077,9 @@ async function inicializarSitioDinamico() {
               '<span class="beat-bpm">' + beat.tempo + ' BPM</span>' +
               '<span class="beat-key">' + (beat.key || '') + '</span>' +
               '<div class="beat-lics" onclick="event.stopPropagation()">' +
-                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'basic\', ' + beat.precio_basic + ')">Basic<span class="beat-price-display" data-usd="' + beat.precio_basic + '">$' + beat.precio_basic + ' USD</span></button>' +
-                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'premium\', ' + beat.precio_premium + ')">Premium<span class="beat-price-display" data-usd="' + beat.precio_premium + '">$' + beat.precio_premium + ' USD</span></button>' +
-                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'' + beat.nombre.replace(/'/g, "\\'") + '\', \'exclusiva\', ' + beat.precio_excl + ')">Excl.<span class="beat-price-display" data-usd="' + beat.precio_excl + '">$' + beat.precio_excl + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'basic\', ' + beat.precio_basic + ')">Basic<span class="beat-price-display" data-usd="' + beat.precio_basic + '">$' + beat.precio_basic + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'premium\', ' + beat.precio_premium + ')">Premium<span class="beat-price-display" data-usd="' + beat.precio_premium + '">$' + beat.precio_premium + ' USD</span></button>' +
+                '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'exclusiva\', ' + beat.precio_excl + ')">Excl.<span class="beat-price-display" data-usd="' + beat.precio_excl + '">$' + beat.precio_excl + ' USD</span></button>' +
               '</div>' +
             '</div>' +
             '<div class="beat-player-wrap" id="bpw-' + num + '">' +
