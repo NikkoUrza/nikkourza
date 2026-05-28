@@ -478,6 +478,33 @@ function obtenerLinkDirectoAudio(url) {
   return url;
 }
 
+function obtenerLinkDirectoImagen(url) {
+  if (!url) return '';
+  url = url.trim();
+  if (url.includes('dropbox.com')) {
+    return url.replace(/dl=[01]/, 'raw=1');
+  }
+  if (url.includes('drive.google.com/file/d/')) {
+    var match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  if (url.includes('drive.google.com/open')) {
+    var match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  if (url.includes('drive.google.com/uc') || url.includes('docs.google.com/uc')) {
+    var match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  return url;
+}
+
 // ─── API HELPERS ─────────────────────────────────────────
 async function apiFetch(path, opts) {
   var url = API_URL + path;
@@ -545,7 +572,7 @@ async function cargarBeats() {
       return '<div class="beat-card-admin">' +
         '<div class="bca-cover">' +
           (b.caratula_url
-            ? '<img src="' + obtenerLinkDirectoAudio(b.caratula_url) + '" alt="' + b.nombre + '" onerror="this.onerror=null; this.src=\'../Images/logo.png\';">'
+            ? '<img src="' + obtenerLinkDirectoImagen(b.caratula_url) + '" alt="' + b.nombre + '" onerror="this.onerror=null; this.src=\'../Images/logo.png\';">'
             : '<div class="bca-cover-placeholder">' + b.nombre.substring(0,6) + '</div>') +
         '</div>' +
         '<div class="bca-body">' +
@@ -739,7 +766,7 @@ async function cargarPortafolio() {
       if (p.youtube_url) links.push('<a href="'+p.youtube_url+'" target="_blank" style="color:#FF0000;font-size:0.55rem;text-decoration:none">YouTube</a>');
       if (p.soundcloud_url) links.push('<a href="'+p.soundcloud_url+'" target="_blank" style="color:#FF5500;font-size:0.55rem;text-decoration:none">SoundCloud</a>');
       return '<div class="beat-card-admin">' +
-        '<div class="bca-cover">' + (p.caratula_url ? '<img src="'+obtenerLinkDirectoAudio(p.caratula_url)+'" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null; this.src=\'../Images/logo.png\';">' : '<div class="bca-cover-placeholder">'+p.tipo.toUpperCase()+'</div>') + '</div>' +
+        '<div class="bca-cover">' + (p.caratula_url ? '<img src="'+obtenerLinkDirectoImagen(p.caratula_url)+'" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null; this.src=\'../Images/logo.png\';">' : '<div class="bca-cover-placeholder">'+p.tipo.toUpperCase()+'</div>') + '</div>' +
         '<div class="bca-body">' +
           '<div class="bca-nombre">' + p.titulo + '</div>' +
           '<div class="bca-meta">' + (p.artista||'—') + ' · ' + (p.genero||'—') + ' · ' + (p.anio||'—') + '</div>' +

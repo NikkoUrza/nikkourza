@@ -1952,6 +1952,41 @@ function obtenerLinkDirectoAudio(url) {
   return url;
 }
 
+function obtenerLinkDirectoImagen(url) {
+  if (!url) return '';
+  url = url.trim();
+  
+  // Soporte para Dropbox
+  if (url.includes('dropbox.com')) {
+    return url.replace(/dl=[01]/, 'raw=1');
+  }
+  
+  // Soporte para Google Drive (lh3.googleusercontent.com es el más rápido y confiable para imágenes)
+  if (url.includes('drive.google.com/file/d/')) {
+    var match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  
+  if (url.includes('drive.google.com/open')) {
+    var match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  
+  // Si ya es un uc de Google Drive, lo convertimos a lh3 para evitar redirecciones y bloqueos de cookies
+  if (url.includes('drive.google.com/uc') || url.includes('docs.google.com/uc')) {
+    var match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  
+  return url;
+}
+
 function formatCurrencyValue(usdValue) {
   if (currentCurrency === 'COP') {
     return '$' + Math.round(usdValue * TRM).toLocaleString('es-CO') + ' COP';
@@ -3009,7 +3044,7 @@ async function inicializarSitioDinamico() {
           var safeKey = (beat.key || '').replace(/"/g, '&quot;');
           var safeName = (beat.nombre || '').replace(/"/g, '&quot;');
           
-          var coverImgUrl = beat.caratula_url ? obtenerLinkDirectoAudio(beat.caratula_url) : 'Images/logo.png';
+          var coverImgUrl = beat.caratula_url ? obtenerLinkDirectoImagen(beat.caratula_url) : 'Images/logo.png';
           html += 
             '<div class="beat-row has-player" id="br-' + num + '" data-idx="' + num + '" data-nombre="' + safeName.toLowerCase() + '" data-genero="' + safeGenre.toLowerCase() + '" data-bpm="' + (beat.tempo || 0) + '" data-key="' + safeKey.toLowerCase() + '" data-type-beat="' + safeTypeBeat.toLowerCase() + '" onclick="toggleBeatPlayer(' + num + ',event)">' +
               '<div><span class="beat-num">' + strNum + '</span><div class="beat-pb"></div></div>' +
@@ -3081,7 +3116,7 @@ async function inicializarSitioDinamico() {
           var tipoClean = p.tipo.charAt(0).toUpperCase() + p.tipo.slice(1);
           var coverHTML = '';
           if (p.caratula_url) {
-            coverHTML = '<div class="pc-cover"><img src="' + obtenerLinkDirectoAudio(p.caratula_url) + '" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null; this.src=\'Images/logo.png\';"><div class="pc-play"></div></div>';
+            coverHTML = '<div class="pc-cover"><img src="' + obtenerLinkDirectoImagen(p.caratula_url) + '" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null; this.src=\'Images/logo.png\';"><div class="pc-play"></div></div>';
           } else {
             var gradient = gradients[renderedIdx % gradients.length];
             var wave = waves[renderedIdx % waves.length];

@@ -190,6 +190,33 @@ var currentUser = null;
   cargarPerfil();
 })();
 
+function obtenerLinkDirectoImagen(url) {
+  if (!url) return '';
+  url = url.trim();
+  if (url.includes('dropbox.com')) {
+    return url.replace(/dl=[01]/, 'raw=1');
+  }
+  if (url.includes('drive.google.com/file/d/')) {
+    var match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  if (url.includes('drive.google.com/open')) {
+    var match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  if (url.includes('drive.google.com/uc') || url.includes('docs.google.com/uc')) {
+    var match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://lh3.googleusercontent.com/d/' + match[1];
+    }
+  }
+  return url;
+}
+
 // ── LICENCIAS ──────────────────────────────────────────────
 async function cargarLicencias() {
   var grid = document.getElementById('licenciasGrid');
@@ -229,7 +256,7 @@ async function cargarLicencias() {
         '<div class="lic-header" onclick="toggleDetail(' + i + ')">' +
           '<div class="lic-cover">' +
             (v.caratula_url
-              ? '<img src="' + v.caratula_url + '" alt="' + (v.beat_nombre||'Beat') + '">'
+              ? '<img src="' + obtenerLinkDirectoImagen(v.caratula_url) + '" alt="' + (v.beat_nombre||'Beat') + '" onerror="this.onerror=null; this.src=\'Images/logo.png\';">'
               : '<div class="lic-cover-txt">' + (v.beat_nombre||'BEAT').substring(0,4) + '</div>') +
           '</div>' +
           '<div class="lic-info">' +
