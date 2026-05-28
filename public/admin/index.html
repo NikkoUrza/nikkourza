@@ -263,6 +263,38 @@ tr:hover td{background:rgba(45,212,204,0.03)}
         <p style="font-size:0.52rem;color:rgba(244,244,240,0.3);margin-top:-0.4rem;margin-bottom:0.8rem">Este widget se mostrará en la sección inferior de "Mi Música" para reproducir tu catálogo completo.</p>
       </div>
 
+      <div class="form-section">
+        <p class="form-title">Plataformas de Streaming (Link in Bio)</p>
+        <div class="fg">
+          <label class="fl">Spotify URL</label>
+          <input class="fi" id="libSpotify" placeholder="https://open.spotify.com/artist/...">
+        </div>
+        <div class="fg">
+          <label class="fl">Apple Music URL</label>
+          <input class="fi" id="libApple" placeholder="https://music.apple.com/artist/...">
+        </div>
+        <div class="fg">
+          <label class="fl">Tidal URL</label>
+          <input class="fi" id="libTidal" placeholder="https://tidal.com/artist/...">
+        </div>
+        <div class="fg">
+          <label class="fl">Deezer URL</label>
+          <input class="fi" id="libDeezer" placeholder="https://www.deezer.com/artist/...">
+        </div>
+        <div class="fg">
+          <label class="fl">YouTube Music URL</label>
+          <input class="fi" id="libYtMusic" placeholder="https://music.youtube.com/channel/...">
+        </div>
+        <div class="fg">
+          <label class="fl">Amazon Music URL</label>
+          <input class="fi" id="libAmazon" placeholder="https://music.amazon.com/artists/...">
+        </div>
+        <div class="fg">
+          <label class="fl">SoundCloud URL (Individual)</label>
+          <input class="fi" id="libSoundCloud" placeholder="https://soundcloud.com/...">
+        </div>
+      </div>
+
       <div class="btn-row">
         <button class="btn-primary" onclick="guardarLinkinbio()">Guardar Cambios →</button>
       </div>
@@ -904,7 +936,6 @@ async function guardarPresskit() {
   } catch(e) { toast(e.message || 'Error de conexión', true); }
 }
 
-// ── LINK IN BIO ─────────────────────────────────────────────────────────────
 async function cargarLinkinbioAdmin() {
   try {
     var data = await apiFetch('/api/presskit?tipo=linkinbio');
@@ -913,6 +944,22 @@ async function cargarLinkinbioAdmin() {
       document.getElementById('libAvatar').value = saved.foto || 'Images/logo.png';
       document.getElementById('libLanzamiento').value = saved.hero || '';
       document.getElementById('libProveedor').value = saved.download || 'https://soundcloud.com/nikkourza';
+      
+      // Parsear links de plataformas de streaming desde quote
+      var links = {};
+      try {
+        if (saved.quote) {
+          links = JSON.parse(saved.quote);
+        }
+      } catch (e) { console.error('Error parsing quote links:', e); }
+      
+      document.getElementById('libSpotify').value = links.spotify || '';
+      document.getElementById('libApple').value = links.apple || '';
+      document.getElementById('libTidal').value = links.tidal || '';
+      document.getElementById('libDeezer').value = links.deezer || '';
+      document.getElementById('libYtMusic').value = links.ytmusic || '';
+      document.getElementById('libAmazon').value = links.amazon || '';
+      document.getElementById('libSoundCloud').value = links.soundcloud || '';
       
       // Actualizar preview
       var previewImg = document.getElementById('libAvatarPreview');
@@ -932,7 +979,22 @@ async function guardarLinkinbio() {
   var hero = document.getElementById('libLanzamiento').value.trim();
   var download = document.getElementById('libProveedor').value.trim();
   
-  var payload = { foto, hero, download };
+  var links = {
+    spotify: document.getElementById('libSpotify').value.trim(),
+    apple: document.getElementById('libApple').value.trim(),
+    tidal: document.getElementById('libTidal').value.trim(),
+    deezer: document.getElementById('libDeezer').value.trim(),
+    ytmusic: document.getElementById('libYtMusic').value.trim(),
+    amazon: document.getElementById('libAmazon').value.trim(),
+    soundcloud: document.getElementById('libSoundCloud').value.trim()
+  };
+  
+  var payload = { 
+    foto, 
+    hero, 
+    download,
+    quote: JSON.stringify(links)
+  };
   
   try {
     var data = await apiFetch('/api/presskit?tipo=linkinbio', {

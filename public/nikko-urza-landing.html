@@ -569,6 +569,10 @@ body::before{
     <div class="web-cta-icon">→</div>
   </a>
 
+  <!-- PLATAFORMAS DIGITALES -->
+  <div class="section-label" id="labelPlataformas" style="display:none; animation-delay:0.3s"><span class="live-dot"></span>Plataformas Digitales</div>
+  <div class="socials" id="plataformasGrid" style="display:none; margin-bottom:2rem"></div>
+
   <!-- REDES -->
   <div class="section-label">Redes sociales</div>
 
@@ -705,6 +709,62 @@ function aplicarConfiguracion(config) {
   if (scProfileHandle) {
     var handle = extraerUsuarioSoundCloud(musicUrl);
     scProfileHandle.textContent = 'Escuchar en SoundCloud · @' + handle;
+  }
+
+  // 4. Aplicar Plataformas de Streaming
+  var platGrid = document.getElementById('plataformasGrid');
+  var platLabel = document.getElementById('labelPlataformas');
+  
+  if (platGrid && platLabel) {
+    var links = {};
+    try {
+      if (config.quote) {
+        links = JSON.parse(config.quote);
+      }
+    } catch(e) { console.error('Error parsing quote links:', e); }
+    
+    var html = '';
+    
+    var plataformas = [
+      { id: 'spotify', nombre: 'Spotify', color: '#1DB954', icon: 'SP', handle: 'Escuchar perfil' },
+      { id: 'apple', nombre: 'Apple Music', color: '#FC3C44', icon: 'AM', handle: 'Escuchar perfil' },
+      { id: 'tidal', nombre: 'Tidal', color: '#00FFFF', icon: 'TD', handle: 'Escuchar perfil' },
+      { id: 'deezer', nombre: 'Deezer', color: '#A238FF', icon: 'DZ', handle: 'Escuchar perfil' },
+      { id: 'ytmusic', nombre: 'YouTube Music', color: '#FF0000', icon: 'YT', handle: 'Escuchar perfil' },
+      { id: 'amazon', nombre: 'Amazon Music', color: '#25D1DA', icon: 'AZ', handle: 'Escuchar perfil' },
+      { id: 'soundcloud', nombre: 'SoundCloud', color: '#FF5500', icon: 'SC', handle: 'Escuchar perfil' }
+    ];
+    
+    var count = 0;
+    plataformas.forEach(function(plat) {
+      var url = links[plat.id] ? links[plat.id].trim() : '';
+      if (plat.id === 'soundcloud' && !url && config.download) {
+        url = config.download.trim();
+      }
+      
+      if (url) {
+        count++;
+        html += '<a href="' + url + '" target="_blank" rel="noopener" class="social-link">' +
+          '<div class="social-left">' +
+            '<div class="social-icon" style="background:' + plat.color + ';color:#060808;font-size:0.52rem;font-weight:900;text-shadow:none">' + plat.icon + '</div>' +
+            '<div class="social-text">' +
+              '<div class="social-platform">' + plat.nombre + '</div>' +
+              '<div class="social-handle" style="color:var(--teal)">' + plat.handle + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<span class="social-arr">→</span>' +
+        '</a>';
+      }
+    });
+    
+    if (count > 0) {
+      platGrid.innerHTML = html;
+      platGrid.style.display = 'flex';
+      platLabel.style.display = 'block';
+    } else {
+      platGrid.style.display = 'none';
+      platLabel.style.display = 'none';
+    }
   }
 }
 
