@@ -2,3 +2,4 @@ node_modules/
 .DS_Store
 .vercel/
 public/Images/Timeline 5.mp4
+.vercel
