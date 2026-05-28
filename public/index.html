@@ -1709,9 +1709,9 @@ footer{
 }
 
 .beat-drawer-cart-btn {
-  background: linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%);
+  background: linear-gradient(135deg, #2DD4CC 0%, #1BB8B0 100%);
   border: none;
-  color: #FFFFFF;
+  color: #080C0C;
   width: 2.6rem;
   height: 2.6rem;
   border-radius: 8px;
@@ -1719,15 +1719,15 @@ footer{
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  box-shadow: 0 4px 12px rgba(45, 212, 204, 0.35);
   flex-shrink: 0;
 }
 
 .beat-drawer-cart-btn:hover {
   transform: scale(1.06);
-  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.55), 0 0 10px rgba(45, 212, 204, 0.25);
-  background: linear-gradient(135deg, #8B5CF6 0%, #5850EC 100%);
+  box-shadow: 0 4px 18px rgba(45, 212, 204, 0.55), 0 0 10px rgba(45, 212, 204, 0.35);
+  background: linear-gradient(135deg, #3aeae1 0%, #20cdc4 100%);
 }
 
 .beat-drawer-cart-btn:active {
@@ -3801,8 +3801,7 @@ function abrirBeatModal(num) {
 
   if (genreEl) genreEl.textContent = (beat.genero || 'GÉNERO / ESTILO').toUpperCase();
   if (filenameEl) {
-    var previewFile = beat.preview_url ? beat.preview_url.split('/').pop() : 'PREVIEW.MP3';
-    filenameEl.textContent = previewFile.toUpperCase();
+    filenameEl.textContent = (beat.nombre + ' - PREVIEW.MP3').toUpperCase();
   }
 
   // Configurar botón compartir
