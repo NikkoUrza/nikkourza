@@ -1871,6 +1871,34 @@ function toast(msg, isError) {
   }, 3000);
 }
 
+function obtenerLinkDirectoAudio(url) {
+  if (!url) return '';
+  url = url.trim();
+  
+  // Si ya es un enlace directo de Google Drive o un proxy de descarga, lo dejamos tal cual
+  if (url.includes('drive.google.com/uc') || url.includes('docs.google.com/uc')) {
+    return url;
+  }
+  
+  // Formato: https://drive.google.com/file/d/FILE_ID/view...
+  if (url.includes('drive.google.com/file/d/')) {
+    var match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://drive.google.com/uc?export=download&id=' + match[1];
+    }
+  }
+  
+  // Formato: https://drive.google.com/open?id=FILE_ID
+  if (url.includes('drive.google.com/open')) {
+    var match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      return 'https://drive.google.com/uc?export=download&id=' + match[1];
+    }
+  }
+  
+  return url;
+}
+
 function formatCurrencyValue(usdValue) {
   if (currentCurrency === 'COP') {
     return '$' + Math.round(usdValue * TRM).toLocaleString('es-CO') + ' COP';
@@ -2969,7 +2997,7 @@ async function inicializarSitioDinamico() {
                     beat.nombre.toUpperCase() + ' · ' + (beat.genero || '') + ' · ' + beat.tempo + ' BPM · ' + (beat.key || '') + 
                   '</span>' +
                 '</div>' +
-                '<audio id="bpaudio-' + num + '" preload="none" src="' + (beat.preview_url || '') + '"></audio>' +
+                '<audio id="bpaudio-' + num + '" preload="none" src="' + obtenerLinkDirectoAudio(beat.preview_url || '') + '"></audio>' +
               '</div>' +
             '</div>';
         });
