@@ -639,7 +639,7 @@ section{padding:5.5rem 3rem}
   border-top:0 solid rgba(45,212,204,0.08);
 }
 .beat-player-wrap.open{
-  max-height:120px;
+  max-height:340px;
   border-top:1px solid rgba(45,212,204,0.08);
 }
 .beat-player-inner{
@@ -1151,6 +1151,76 @@ footer{
   font-family: 'Space Mono', monospace;
 }
 
+.beat-player-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(45, 212, 204, 0.08);
+}
+.beat-player-lics {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+.beat-player-lics-title {
+  font-size: 0.54rem;
+  font-family: 'Space Mono', monospace;
+  color: rgba(244, 244, 240, 0.38);
+  letter-spacing: 1px;
+  margin-right: 0.4rem;
+}
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem !important;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.54rem !important;
+  letter-spacing: 1px;
+  color: var(--cyan) !important;
+  border: 1px solid rgba(45, 212, 204, 0.3) !important;
+  background: rgba(45, 212, 204, 0.05) !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.share-btn:hover {
+  background: var(--cyan) !important;
+  color: var(--abyss) !important;
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 15px rgba(45, 212, 204, 0.4) !important;
+}
+.share-btn svg {
+  transition: transform 0.2s ease;
+}
+.share-btn:hover svg {
+  transform: scale(1.1);
+}
+
+@media(max-width:480px) {
+  .beat-player-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+  .share-btn {
+    justify-content: center;
+  }
+  .beat-player-lics {
+    justify-content: center;
+    width: 100%;
+  }
+  .beat-player-lics-title {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.2rem;
+  }
+}
+
 /* ============================================================
    RESPONSIVE
 ============================================================ */
@@ -1401,6 +1471,18 @@ footer{
           <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">NOCHE LIBRE 808 · Lo-fi Trap · 140 BPM · Am</span>
         </div>
         <audio id="bpaudio-1" preload="none" src="beats/noche-libre-808-preview.mp3"></audio>
+        <div class="beat-player-actions">
+          <button class="lb share-btn" onclick="compartirBeat('1', 'Noche Libre 808', event)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;display:inline-block;vertical-align:middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>Compartir</span>
+          </button>
+          <div class="beat-player-lics">
+            <span class="beat-player-lics-title">COMPRAR LICENCIA:</span>
+            <button class="lb" onclick="pagarEpayco('Noche Libre 808 — Lic. Basic','115000','beat-NL808-basic')">Basic<span class="beat-price-display" data-usd="35">$35 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Noche Libre 808 — Lic. Premium','247500','beat-NL808-premium')">Premium<span class="beat-price-display" data-usd="75">$75 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Noche Libre 808 — Lic. Exclusiva','1155000','beat-NL808-excl')">Excl.<span class="beat-price-display" data-usd="350">$350 USD</span></button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1432,6 +1514,18 @@ footer{
           <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">ABISMO TEAL · Afrobeat · 98 BPM · Gm</span>
         </div>
         <audio id="bpaudio-2" preload="none" src="beats/abismo-teal-preview.mp3"></audio>
+        <div class="beat-player-actions">
+          <button class="lb share-btn" onclick="compartirBeat('2', 'Abismo Teal', event)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;display:inline-block;vertical-align:middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>Compartir</span>
+          </button>
+          <div class="beat-player-lics">
+            <span class="beat-player-lics-title">COMPRAR LICENCIA:</span>
+            <button class="lb" onclick="pagarEpayco('Abismo Teal — Lic. Basic','148500','beat-AT-basic')">Basic<span class="beat-price-display" data-usd="45">$45 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Abismo Teal — Lic. Premium','297000','beat-AT-premium')">Premium<span class="beat-price-display" data-usd="90">$90 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Abismo Teal — Lic. Exclusiva','1650000','beat-AT-excl')">Excl.<span class="beat-price-display" data-usd="500">$500 USD</span></button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1463,6 +1557,18 @@ footer{
           <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">SIN PERMISO · Rap / Boom Bap · 88 BPM · Dm</span>
         </div>
         <audio id="bpaudio-3" preload="none" src="beats/sin-permiso-preview.mp3"></audio>
+        <div class="beat-player-actions">
+          <button class="lb share-btn" onclick="compartirBeat('3', 'Sin Permiso', event)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;display:inline-block;vertical-align:middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>Compartir</span>
+          </button>
+          <div class="beat-player-lics">
+            <span class="beat-player-lics-title">COMPRAR LICENCIA:</span>
+            <button class="lb" onclick="pagarEpayco('Sin Permiso — Lic. Basic','99000','beat-SP-basic')">Basic<span class="beat-price-display" data-usd="30">$30 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Sin Permiso — Lic. Premium','214500','beat-SP-premium')">Premium<span class="beat-price-display" data-usd="65">$65 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Sin Permiso — Lic. Exclusiva','990000','beat-SP-excl')">Excl.<span class="beat-price-display" data-usd="300">$300 USD</span></button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1494,6 +1600,18 @@ footer{
           <span style="font-size:0.54rem;color:rgba(244,244,240,0.22);letter-spacing:1px">OCÉANO PROFUNDO · Reggaeton · 95 BPM · Fm</span>
         </div>
         <audio id="bpaudio-4" preload="none" src="beats/oceano-profundo-preview.mp3"></audio>
+        <div class="beat-player-actions">
+          <button class="lb share-btn" onclick="compartirBeat('4', 'Océano Profundo', event)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;display:inline-block;vertical-align:middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            <span>Compartir</span>
+          </button>
+          <div class="beat-player-lics">
+            <span class="beat-player-lics-title">COMPRAR LICENCIA:</span>
+            <button class="lb" onclick="pagarEpayco('Océano Profundo — Lic. Basic','132000','beat-OP-basic')">Basic<span class="beat-price-display" data-usd="40">$40 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Océano Profundo — Lic. Premium','280500','beat-OP-premium')">Premium<span class="beat-price-display" data-usd="85">$85 USD</span></button>
+            <button class="lb" onclick="pagarEpayco('Océano Profundo — Lic. Exclusiva','1485000','beat-OP-excl')">Excl.<span class="beat-price-display" data-usd="450">$450 USD</span></button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2938,6 +3056,76 @@ function toggleBeatPlayer(id, e){
   }
 }
 
+function compartirBeat(beatId, beatNombre, e) {
+  if (e) { e.stopPropagation(); }
+  var shareUrl = window.location.origin + window.location.pathname + '#beat-' + beatId;
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl).then(function() {
+      toast('⚡ ¡Enlace de "' + beatNombre.toUpperCase() + '" copiado al portapapeles!');
+    }).catch(function(err) {
+      fallbackCopyText(shareUrl, beatNombre);
+    });
+  } else {
+    fallbackCopyText(shareUrl, beatNombre);
+  }
+}
+
+function fallbackCopyText(text, beatNombre) {
+  var textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+  textArea.style.opacity = "0";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    var successful = document.execCommand('copy');
+    if (successful) {
+      toast('⚡ ¡Enlace de "' + beatNombre.toUpperCase() + '" copiado al portapapeles!');
+    } else {
+      toast('No se pudo copiar el enlace', true);
+    }
+  } catch (err) {
+    console.error('Error al copiar enlace fallback:', err);
+    toast('No se pudo copiar el enlace', true);
+  }
+  document.body.removeChild(textArea);
+}
+
+function ejecutarDeepLinking() {
+  if (!window.location.hash) return;
+  var hash = window.location.hash;
+  if (hash.startsWith('#beat-')) {
+    var targetBeatId = hash.substring(6);
+    if (!window.allBeats || window.allBeats.length === 0) return;
+    
+    var idx = window.allBeats.findIndex(function(beat) {
+      return beat.id === targetBeatId;
+    });
+    
+    if (idx !== -1) {
+      var num = idx + 1;
+      var rowEl = document.getElementById('br-' + num);
+      if (rowEl) {
+        setTimeout(function() {
+          rowEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Esperar un momento a que termine el scroll para abrir
+          setTimeout(function() {
+            toggleBeatPlayer(num);
+            toast('⚡ Beat seleccionado: ' + window.allBeats[idx].nombre.toUpperCase());
+          }, 600);
+        }, 300);
+      }
+    }
+  }
+}
+
+// Escuchar cambios de hash para navegación dinámica en tiempo real
+window.addEventListener('hashchange', ejecutarDeepLinking);
+
 function togglePlay(id, e){
   if(e){e.stopPropagation();}
   var audio=document.getElementById('bpaudio-'+id);
@@ -3101,12 +3289,26 @@ async function inicializarSitioDinamico() {
                   '</span>' +
                 '</div>' +
                 '<audio id="bpaudio-' + num + '" preload="none" src="' + obtenerLinkDirectoAudio(beat.preview_url || '') + '"></audio>' +
+                '<div class="beat-player-actions">' +
+                  '<button class="lb share-btn" onclick="compartirBeat(\'' + beat.id + '\', \'' + safeName + '\', event)">' +
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:5px;display:inline-block;vertical-align:middle;"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>' +
+                    '<span>Compartir</span>' +
+                  '</button>' +
+                  '<div class="beat-player-lics">' +
+                    '<span class="beat-player-lics-title">COMPRAR LICENCIA:</span>' +
+                    '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'basic\', ' + beat.precio_basic + ')">Basic<span class="beat-price-display" data-usd="' + beat.precio_basic + '">$' + beat.precio_basic + ' USD</span></button>' +
+                    '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'premium\', ' + beat.precio_premium + ')">Premium<span class="beat-price-display" data-usd="' + beat.precio_premium + '">$' + beat.precio_premium + ' USD</span></button>' +
+                    '<button class="lb" onclick="agregarAlCarrito(\'' + beat.id + '\', \'exclusiva\', ' + beat.precio_excl + ')">Excl.<span class="beat-price-display" data-usd="' + beat.precio_excl + '">$' + beat.precio_excl + ' USD</span></button>' +
+                  '</div>' +
+                '</div>' +
               '</div>' +
             '</div>';
         });
         container.innerHTML = html;
         // Forzar actualización inmediata de precios tras inyectar dinámicamente
         actualizarPreciosUI();
+        // Verificar deep linking al cargar beats
+        ejecutarDeepLinking();
       }
     }
   } catch(e) {
