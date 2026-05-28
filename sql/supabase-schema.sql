@@ -187,7 +187,7 @@ INSERT INTO presskit (id, hero, foto, quote, bio, tags, anios, generos) VALUES
    'Images/HomePortada.png', 
    'Images/PressKit.png', 
    'Soy ese artista que quiere ser dueño de su arte y de su tiempo, que quiere crear con libertad, que no se encasilla en un género porque la música es infinita.', 
-   'Nikko Sepúlveda es un productor, compositor e intérprete de música urbana caleño, es un apasionado y creativo que cuenta con 10 años de experiencia en producción y composición, ha tenido la oportunidad de trabajar con diversos artistas de la escena en la ciudad de Cali.', 
+   'Nikko Urza es un productor, compositor e intérprete de música urbana caleño, es un apasionado y creativo que cuenta con 10 años de experiencia en producción y composición, ha tenido la oportunidad de trabajar con diversos artistas de la escena en la ciudad de Cali.', 
    'Afrobeat, Rap, Reggae, Trap, Lo-fi, Colombia, Independiente', 
    '12+', 
    '∞')
