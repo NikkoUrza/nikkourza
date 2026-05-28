@@ -1498,7 +1498,7 @@ footer{
     </div>
 
   </div>
-  <p style="font-size:0.58rem;color:rgba(244,244,240,0.25);margin-top:0.8rem">* Precios en COP calculados a TRM ~$3,300. El checkout de ePayco muestra el monto exacto antes de confirmar. · <span style="color:rgba(45,212,204,0.4)">▶ Haz clic en cada beat para escuchar el preview</span></p>
+  <p class="trm-note" style="font-size:0.58rem;color:rgba(244,244,240,0.25);margin-top:0.8rem">* Precios en COP calculados a TRM del día ($4,150). El checkout de ePayco muestra el monto exacto antes de confirmar. · <span style="color:rgba(45,212,204,0.4)">▶ Haz clic en cada beat para escuchar el preview</span></p>
   <div class="cart-notif" id="cartNotif"></div>
 </section>
 <div class="divider"></div>
@@ -3005,6 +3005,27 @@ function descargarPresskitLegacy() {
 }
 
 async function inicializarSitioDinamico() {
+  // 0. CARGAR TRM EN TIEMPO REAL DESDE LA SUPERINTENDENCIA FINANCIERA (datos.gov.co)
+  try {
+    var trmRes = await fetch('https://www.datos.gov.co/resource/ceyp-9c7c.json?$order=vigenciadesde%20DESC&$limit=1');
+    var trmData = await trmRes.json();
+    if (Array.isArray(trmData) && trmData.length > 0 && trmData[0].valor) {
+      var val = parseFloat(trmData[0].valor);
+      if (!isNaN(val) && val > 2000 && val < 6000) {
+        TRM = val;
+        console.log('TRM oficial del día cargada con éxito:', TRM);
+        
+        // Actualizar textos de TRM en el pie de precios de beats si existe
+        var trmNote = document.querySelector('.trm-note');
+        if (trmNote) {
+          trmNote.innerHTML = '* Precios en COP calculados a TRM del día ($' + Math.round(TRM).toLocaleString('es-CO') + '). El checkout de ePayco muestra el monto exacto antes de confirmar. · <span style="color:rgba(45,212,204,0.4)">▶ Haz clic en cada beat para escuchar el preview</span>';
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Error al cargar la TRM en tiempo real, usando TRM por defecto ($' + TRM + '):', e);
+  }
+
   // 1. CARGAR BEATS
   try {
     var res = await fetch('/api/beats');
