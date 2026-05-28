@@ -2304,7 +2304,7 @@ footer{
       </ul>
       <button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('filterSearch').scrollIntoView({behavior:'smooth'})">Ver Beats</button>
     </div>
-    <div class="lic-card">
+    <div class="lic-card" id="c-custom">
       <p class="lic-type">Licencia</p>
       <p class="lic-name">CUSTOM</p>
       <p class="lic-price" style="font-size:1.8rem">HABLEMOS</p>
@@ -2316,8 +2316,42 @@ footer{
         <li>Términos personalizados</li>
         <li>Contacto directo</li>
       </ul>
-      <button class="btn-o" style="width:100%;text-align:center" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactar</button>
+      <button class="btn-o" style="width:100%;text-align:center" onclick="openFlow('custom')">Solicitar Custom Beat →</button>
     </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       FLOW: CUSTOM BEAT — cotización
+  ══════════════════════════════════════ -->
+  <div class="flow-panel" id="flow-custom" style="margin-bottom: 2.5rem; border-radius: 8px;">
+    <div class="fsteps">
+      <div class="fstep"><div class="fsb done">1</div><span class="fsl">Propuesta</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">2</div><span class="fsl">Propuesta / Demo</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">3</div><span class="fsl">Acuerdo / Pago</span></div><div class="fsa"></div>
+      <div class="fstep"><div class="fsb">4</div><span class="fsl">Entrega</span></div>
+    </div>
+    <p class="ptitle">Solicitud de <span>Custom Beat (Beat Personalizado)</span></p>
+    <p class="psub">Cuéntame tu idea para crear un beat 100% exclusivo para ti. Nikko te responde con precio, detalles y disponibilidad en menos de 24h.</p>
+    <div class="g2">
+      <div>
+        <div class="fg"><label class="fl">Nombre artístico *</label><input class="fi" id="custom-nombre" type="text" placeholder="Tu nombre artístico para los créditos"></div>
+        <div class="fg"><label class="fl">Email *</label><input class="fi" id="custom-email" type="email" placeholder="tu@email.com"></div>
+        <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="custom-wsp" type="tel" placeholder="+57 3046455070"></div>
+        <div class="fg"><label class="fl">Género Musical *</label><input class="fi" id="custom-genero" type="text" placeholder="Ej: Afrobeat, Trap, Reggaeton, R&B"></div>
+        <div class="fg"><label class="fl">BPM / Tempo aproximado</label><input class="fi" id="custom-bpm" type="number" placeholder="Ej: 98 o dejar vacío si no sabes"></div>
+      </div>
+      <div>
+        <div class="fg"><label class="fl">Artistas / Canciones de Referencia *</label><input class="fi" id="custom-referencias" type="text" placeholder="Ej: Burna Boy - Ye, Travis Scott - Goosebumps"></div>
+        <div class="fg"><label class="fl">Escala / Key (Opcional)</label><input class="fi" id="custom-key" type="text" placeholder="Ej: Am, Dm, o dejar vacío si no sabes"></div>
+        <div class="fg"><label class="fl">Presupuesto Estimado (Opcional)</label><input class="fi" id="custom-presupuesto" type="text" placeholder="Ej: 200 USD / 800,000 COP"></div>
+        <div class="fg"><label class="fl">Describe tu visión musical en detalle *</label>
+          <textarea class="fi" id="custom-idea" rows="4" placeholder="Cuéntame el mood, qué instrumentos quieres (guitarras, piano, sintetizadores oscuros, 808 pesados), la estructura, cambios de ritmo, etc."></textarea>
+        </div>
+      </div>
+    </div>
+    <button class="submit-btn" onclick="submitCotizacion('custom')">Enviar Solicitud de Beat →</button>
+    <p class="form-note">Nikko Urza estudiará tu idea y te responderá con cotización y fecha de primer demo en menos de 24h. Sin compromiso.</p>
+    <div class="ok-msg" id="ok-custom">✓ ¡Solicitud de Custom Beat enviada con éxito! Nikko Urza te contactará en menos de 24 horas para comenzar a trabajar en tu sonido. Si deseas hablar al instante, presiona el botón de WhatsApp al final de la página.</div>
   </div>
   <!-- BARRA DE BÚSQUEDA Y FILTROS DINÁMICOS -->
   <div class="beats-filter-bar">
@@ -3582,7 +3616,7 @@ function dc(id,txt){var t=document.getElementById(id);if(t)t.value=(t.value?t.va
 /* SERVICE FLOWS — montos en USD, se convierten a COP con TRM */
 var servicioMontos = {
   mezcla: 80, master: 40, mixmaster: 110,
-  ep: 0, consul: 50, prod: 150
+  ep: 0, consul: 50, prod: 150, custom: 0
 };
 var servicioNombres = {
   mezcla: 'Mezcla Profesional',
@@ -3590,7 +3624,8 @@ var servicioNombres = {
   mixmaster: 'Mezcla + Master',
   ep: 'Cotización EP/Álbum',
   consul: 'Consultoría Creativa',
-  prod: 'Producción Musical'
+  prod: 'Producción Musical',
+  custom: 'Custom Beat Personalizado'
 };
 var activeFlow=null;
 function openFlow(id){
@@ -3610,7 +3645,7 @@ function openFlow(id){
   if(id==='consul')renderCal();
 }
 /* ── VALIDAR Y ENVIAR FORMULARIO + MOSTRAR SELECTOR DE PAGO ── */
-function submitConPago(id, montoUSD, nombre, camposReq) {
+function submitConPago(id, montoUSD, nombreServicio, camposReq) {
   // Validar campos obligatorios
   var valido = true;
   camposReq.forEach(function(cid) {
@@ -3629,21 +3664,54 @@ function submitConPago(id, montoUSD, nombre, camposReq) {
     return;
   }
 
-  // Enviar datos a Formspree
-  var endpoint = 'https://formspree.io/f/xzdwvjqr';
   var panel = document.getElementById('flow-' + id);
+  var btn = panel ? panel.querySelector('.submit-btn') : null;
+  var origText = btn ? btn.textContent : 'Continuar';
+  if (btn) { btn.textContent = 'Procesando...'; btn.disabled = true; }
+
+  // Detectar prefijo de campos según el servicio
+  var prefix = '';
+  if (id === 'mezcla') prefix = 'm-';
+  else if (id === 'master') prefix = 'ma-';
+  else if (id === 'mixmaster') prefix = 'mm-';
+  else if (id === 'consul') prefix = 'c-';
+  else if (id === 'prod') prefix = 'pr-';
+
+  var nombre = document.getElementById(prefix + 'nombre') ? document.getElementById(prefix + 'nombre').value.trim() : '';
+  var email = document.getElementById(prefix + 'email') ? document.getElementById(prefix + 'email').value.trim() : '';
+  var whatsapp = document.getElementById(prefix + 'wsp') ? document.getElementById(prefix + 'wsp').value.trim() : '';
+
+  var mensajeDetalle = 'Contratación de Servicio para ' + nombreServicio.toUpperCase() + ' ($' + montoUSD + ' USD)\n\n';
   if (panel) {
-    var data = new FormData();
-    data.append('_servicio', nombre);
     panel.querySelectorAll('input, select, textarea').forEach(function(el) {
-      var key = el.id || el.placeholder || 'campo';
-      if (el.value && el.value.trim()) data.append(key.substring(0,40), el.value);
+      if (el.id === prefix + 'nombre' || el.id === prefix + 'email' || el.id === prefix + 'wsp') return;
+      var labelEl = el.previousElementSibling;
+      var label = (labelEl && labelEl.classList.contains('fl')) ? labelEl.textContent : (el.placeholder || el.id);
+      if (el.value && el.value.trim()) {
+        mensajeDetalle += '• ' + label + ': ' + el.value.trim() + '\n';
+      }
     });
-    fetch(endpoint, { method:'POST', body:data, headers:{'Accept':'application/json'} }).catch(function(){});
   }
 
-  // Mostrar selector de pago
-  mostrarSelectorServicio(id, nombre, montoUSD);
+  var payload = {
+    nombre: nombre || 'Cliente de Servicio',
+    email: email || 'servicio@nikkourza.com',
+    whatsapp: whatsapp,
+    asunto: 'Contrato: ' + nombreServicio,
+    mensaje: mensajeDetalle
+  };
+
+  fetch('/api/contacto', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function() {
+    if (btn) { btn.textContent = origText; btn.disabled = false; }
+    mostrarSelectorServicio(id, nombreServicio, montoUSD);
+  }).catch(function() {
+    if (btn) { btn.textContent = origText; btn.disabled = false; }
+    mostrarSelectorServicio(id, nombreServicio, montoUSD);
+  });
 }
 
 /* ── COTIZACIÓN (sin pago inmediato) ── */
@@ -3664,20 +3732,57 @@ function submitCotizacion(id) {
   });
   if (!valido) { alert('Por favor completa nombre y email.'); return; }
 
-  var endpoint = 'https://formspree.io/f/xzdwvjqr';
   var panel = document.getElementById('flow-' + id);
+  var btn = panel ? panel.querySelector('.submit-btn') : null;
+  var origText = btn ? btn.textContent : 'Enviar';
+  if (btn) { btn.textContent = 'Enviando...'; btn.disabled = true; }
+
+  var nombre = document.getElementById(id + '-nombre').value.trim();
+  var email = document.getElementById(id + '-email').value.trim();
+  var whatsapp = document.getElementById(id + '-wsp') ? document.getElementById(id + '-wsp').value.trim() : '';
+
+  var mensajeDetalle = 'Solicitud de Cotización para ' + (servicioNombres[id] || id).toUpperCase() + '\n\n';
   if (panel) {
-    var data = new FormData();
-    data.append('_tipo', 'cotizacion');
-    data.append('_servicio', servicioNombres[id] || id);
     panel.querySelectorAll('input, select, textarea').forEach(function(el) {
-      var key = el.id || el.placeholder || 'campo';
-      if (el.value && el.value.trim()) data.append(key.substring(0,40), el.value);
+      if (el.id === id + '-nombre' || el.id === id + '-email' || el.id === id + '-wsp') return;
+      var labelEl = el.previousElementSibling;
+      var label = (labelEl && labelEl.classList.contains('fl')) ? labelEl.textContent : (el.placeholder || el.id);
+      if (el.value && el.value.trim()) {
+        mensajeDetalle += '• ' + label + ': ' + el.value.trim() + '\n';
+      }
     });
-    fetch(endpoint, { method:'POST', body:data, headers:{'Accept':'application/json'} }).catch(function(){});
   }
-  var ok = document.getElementById('ok-' + id);
-  if (ok) { ok.style.display='block'; ok.scrollIntoView({behavior:'smooth',block:'center'}); }
+
+  var payload = {
+    nombre: nombre,
+    email: email,
+    whatsapp: whatsapp,
+    asunto: 'Cotización: ' + (servicioNombres[id] || id),
+    mensaje: mensajeDetalle
+  };
+
+  fetch('/api/contacto', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(function(r) {
+    if (btn) { btn.textContent = origText; btn.disabled = false; }
+    if (r.ok) {
+      var ok = document.getElementById('ok-' + id);
+      if (ok) { ok.style.display='block'; ok.scrollIntoView({behavior:'smooth',block:'center'}); }
+      // Limpiar campos
+      if (panel) {
+        panel.querySelectorAll('input, select, textarea').forEach(function(el) {
+          if (el.type !== 'submit' && el.type !== 'button') el.value = '';
+        });
+      }
+    } else {
+      alert('Hubo un problema enviando tu solicitud. Escríbele por WhatsApp: +57 3046455070');
+    }
+  }).catch(function() {
+    if (btn) { btn.textContent = origText; btn.disabled = false; }
+    alert('Sin conexión. Escríbele por WhatsApp: +57 3046455070');
+  });
 }
 
 /* ── SELECTOR DE PAGO PARA SERVICIOS ── */
@@ -3880,12 +3985,18 @@ function subNL(){
   if(!e||!e.includes('@')){
     r.style.display='block';r.style.color='#e87';r.textContent='Ingresa un email válido.';return;
   }
-  var data=new FormData();
-  data.append('email',e);
-  data.append('_subject','Nuevo suscriptor newsletter — Nikko Urza');
-  data.append('tipo','newsletter');
-  fetch('https://formspree.io/f/xzdwvjqr',{
-    method:'POST',body:data,headers:{'Accept':'application/json'}
+  var payload = {
+    nombre: 'Suscriptor de Newsletter',
+    email: e,
+    whatsapp: '',
+    asunto: 'Newsletter: Nueva Suscripción',
+    mensaje: 'Se ha suscrito una nueva persona al newsletter con el correo: ' + e,
+    cn_hp: hp
+  };
+  fetch('/api/contacto', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
   }).then(function(r2){
     r.style.display='block';
     if(r2.ok){
