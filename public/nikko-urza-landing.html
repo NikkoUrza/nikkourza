@@ -224,6 +224,61 @@ body::before{
 .dot-amazon{background:#25D1DA}
 .dot-boomplay{background:#F5841F}
 
+/* PLATFORMS ROW */
+.platforms-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+  margin-bottom: 2.2rem;
+  padding: 0.5rem 0;
+}
+.platform-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(6, 30, 28, 0.45);
+  border: 1px solid var(--border);
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--warm);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.platform-icon-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.platform-icon-btn:hover {
+  transform: translateY(-4px) scale(1.08);
+  border-color: var(--hover-color);
+  box-shadow: 0 0 15px var(--glow-color);
+  color: var(--hover-color);
+}
+.platform-icon-btn:hover::after {
+  opacity: 1;
+}
+.platform-icon-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  transition: transform 0.22s ease;
+  display: block;
+}
+.platform-icon-btn:hover svg {
+  transform: scale(1.08);
+}
+
 /* SOCIAL LINKS */
 .socials{display:flex;flex-direction:column;gap:0.7rem;margin-bottom:2.5rem}
 
@@ -536,29 +591,6 @@ body::before{
     </div>
   </div>
 
-  <!-- MI MÚSICA — SoundCloud -->
-  <div class="section-label" style="animation-delay:0.2s"><span class="live-dot"></span>Mi música</div>
-
-  <div class="sc-wrap">
-    <div class="sc-embed-box">
-      <iframe
-        id="sc-player"
-        allow="autoplay"
-        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/nikkourza&color=%232DD4CC&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"
-        height="300"
-        scrolling="no"
-        frameborder="0">
-      </iframe>
-      <a class="sc-open-link" id="sc-profile-link" href="https://soundcloud.com/nikkourza" target="_blank" rel="noopener">
-        <div class="sc-open-left">
-          <div class="sc-dot"></div>
-          <span class="sc-open-txt" id="sc-profile-handle">Escuchar en SoundCloud · @nikkourza</span>
-        </div>
-        <span class="sc-open-arr">↗</span>
-      </a>
-    </div>
-  </div>
-
   <!-- WEB CTA -->
   <a href="index.html" class="web-cta">
     <div class="web-cta-left">
@@ -571,7 +603,7 @@ body::before{
 
   <!-- PLATAFORMAS DIGITALES -->
   <div class="section-label" id="labelPlataformas" style="display:none; animation-delay:0.3s"><span class="live-dot"></span>Plataformas Digitales</div>
-  <div class="socials" id="plataformasGrid" style="display:none; margin-bottom:2rem"></div>
+  <div class="platforms-row" id="plataformasGrid" style="display:none"></div>
 
   <!-- REDES -->
   <div class="section-label">Redes sociales</div>
@@ -726,13 +758,55 @@ function aplicarConfiguracion(config) {
     var html = '';
     
     var plataformas = [
-      { id: 'spotify', nombre: 'Spotify', color: '#1DB954', icon: 'SP', handle: 'Escuchar perfil' },
-      { id: 'apple', nombre: 'Apple Music', color: '#FC3C44', icon: 'AM', handle: 'Escuchar perfil' },
-      { id: 'tidal', nombre: 'Tidal', color: '#00FFFF', icon: 'TD', handle: 'Escuchar perfil' },
-      { id: 'deezer', nombre: 'Deezer', color: '#A238FF', icon: 'DZ', handle: 'Escuchar perfil' },
-      { id: 'ytmusic', nombre: 'YouTube Music', color: '#FF0000', icon: 'YT', handle: 'Escuchar perfil' },
-      { id: 'amazon', nombre: 'Amazon Music', color: '#25D1DA', icon: 'AZ', handle: 'Escuchar perfil' },
-      { id: 'soundcloud', nombre: 'SoundCloud', color: '#FF5500', icon: 'SC', handle: 'Escuchar perfil' }
+      { 
+        id: 'spotify', 
+        nombre: 'Spotify', 
+        color: '#1DB954', 
+        glow: 'rgba(29,185,84,0.3)',
+        svg: '<svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424c-.18.295-.563.387-.857.207-2.377-1.454-5.37-1.782-8.894-.98-.336.075-.668-.135-.745-.47-.077-.337.135-.668.47-.745 3.856-.88 7.15-.51 9.82 1.13.292.178.382.563.206.858zm1.225-2.72c-.228.368-.713.49-1.08.262-2.72-1.672-6.87-2.155-10.077-1.182-.413.125-.845-.107-.97-.52-.125-.413.107-.847.52-.972 3.666-1.11 8.24-.57 11.345 1.332.368.228.49.712.262 1.08zm.106-2.833C14.462 8.924 8.77 8.736 5.465 9.738a.962.962 0 01-1.22-.647.962.962 0 01.646-1.22c3.8-1.155 10.082-.93 14.053 1.428a.964.964 0 01-.3 1.815.961.961 0 01-.708-.242z"/></svg>' 
+      },
+      { 
+        id: 'apple', 
+        nombre: 'Apple Music', 
+        color: '#FC3C44', 
+        glow: 'rgba(252,60,68,0.3)',
+        svg: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5c0 1.38-1.12 2.5-2.5 2.5S8 17.88 8 16.5s1.12-2.5 2.5-2.5c.34 0 .65.08.93.21V8.5h4v2h-3v6z"/></svg>' 
+      },
+      { 
+        id: 'tidal', 
+        nombre: 'Tidal', 
+        color: '#00FFFF', 
+        glow: 'rgba(0,255,255,0.3)',
+        svg: '<svg viewBox="0 0 24 24"><path d="M12 6.536l-3.268 3.268 3.268 3.268 3.268-3.268L12 6.536zm0-5.464L8.732 4.34 12 7.608l3.268-3.268L12 1.072zM5.464 9.804L2.196 13.072 5.464 16.34l3.268-3.268-3.268-3.268zm13.072 0l-3.268 3.268 3.268 3.268 3.268-3.268-3.268-3.268zM12 17.608l-3.268 3.268L12 24.144l3.268-3.268L12 17.608z"/></svg>' 
+      },
+      { 
+        id: 'deezer', 
+        nombre: 'Deezer', 
+        color: '#A238FF', 
+        glow: 'rgba(162,56,255,0.3)',
+        svg: '<svg viewBox="0 0 24 24"><path d="M6 16h3v4H6zm5-5h3v9h-3zm5-5h3v14h-3zm5 5h3v9h-3zM1 18h3v2H1z"/></svg>' 
+      },
+      { 
+        id: 'ytmusic', 
+        nombre: 'YouTube Music', 
+        color: '#FF0000', 
+        glow: 'rgba(255,0,0,0.3)',
+        svg: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2.5-12.5l6.5 4.5-6.5 4.5v-9z"/></svg>' 
+      },
+      { 
+        id: 'amazon', 
+        nombre: 'Amazon Music', 
+        color: '#25D1DA', 
+        glow: 'rgba(37,209,218,0.3)',
+        svg: '<svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>' 
+      },
+      { 
+        id: 'soundcloud', 
+        nombre: 'SoundCloud', 
+        color: '#FF5500', 
+        glow: 'rgba(255,85,0,0.3)',
+        svg: '<svg viewBox="0 0 24 24"><path d="M7.5 16.5h11c1.93 0 3.5-1.57 3.5-3.5 0-1.83-1.4-3.32-3.2-3.48C18.23 6.94 15.39 5 12 5 9.3 5 6.97 6.2 5.5 8.1 3.53 8.35 2 10.05 2 12c0 2.48 2.02 4.5 4.5 4.5h1z"/></svg>' 
+      }
     ];
     
     var count = 0;
@@ -744,15 +818,8 @@ function aplicarConfiguracion(config) {
       
       if (url) {
         count++;
-        html += '<a href="' + url + '" target="_blank" rel="noopener" class="social-link">' +
-          '<div class="social-left">' +
-            '<div class="social-icon" style="background:' + plat.color + ';color:#060808;font-size:0.52rem;font-weight:900;text-shadow:none">' + plat.icon + '</div>' +
-            '<div class="social-text">' +
-              '<div class="social-platform">' + plat.nombre + '</div>' +
-              '<div class="social-handle" style="color:var(--teal)">' + plat.handle + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<span class="social-arr">→</span>' +
+        html += '<a href="' + url + '" target="_blank" rel="noopener" class="platform-icon-btn" title="' + plat.nombre + '" style="--hover-color:' + plat.color + '; --glow-color:' + plat.glow + '">' +
+          plat.svg +
         '</a>';
       }
     });
