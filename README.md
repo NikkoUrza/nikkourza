@@ -76,7 +76,7 @@ por tu URL real de Vercel (te la da Vercel después del despliegue).
 
 ## PASO 7 — Actualizar la página de descarga
 
-En `public/descarga.html`, línea con `API_URL`:
+En `descarga.html`, línea con `API_URL`:
 ```javascript
 var API_URL = 'https://nikkourza.vercel.app'; // ← actualiza con tu URL
 ```
@@ -114,12 +114,19 @@ nikko-urza/
 │   ├── descarga.js         ← valida token y entrega beat
 │   ├── beats.js            ← CRUD de beats
 │   └── ventas.js           ← estadísticas admin
-├── public/
-│   ├── index.html          ← tu web principal
-│   ├── nikko-urza-landing.html  ← landing/link in bio
-│   └── descarga.html       ← página de descarga post-pago
 ├── admin/
-│   └── index.html          ← panel de administración
+│   ├── index.html          ← panel de administración
+│   ├── manifest.json
+│   └── sw.js
+├── Images/                 ← carátulas, logotipos y recursos visuales
+├── beats/                  ← archivos de soporte de beats
+├── index.html              ← tu web principal
+├── index.css               ← estilos cyberpunk de la web principal
+├── nikko-urza-landing.html ← landing/link in bio
+├── landing.css             ← estilos neón del link in bio
+├── cuenta.html             ← área de cliente
+├── login.html              ← login de cliente
+├── descarga.html           ← página de descarga post-pago
 ├── supabase-schema.sql     ← schema de base de datos
 ├── package.json
 ├── vercel.json

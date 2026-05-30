@@ -2,16 +2,19 @@
   "version": 2,
   "builds": [
     { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "public/**/*", "use": "@vercel/static" }
+    { "src": "admin/**/*", "use": "@vercel/static" },
+    { "src": "Images/**/*", "use": "@vercel/static" },
+    { "src": "beats/**/*", "use": "@vercel/static" },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "*.css", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/$1.js" },
-    { "src": "/", "dest": "/public/index.html" },
-    { "src": "/descarga", "dest": "/public/descarga.html" },
-    { "src": "/login", "dest": "/public/login.html" },
-    { "src": "/cuenta", "dest": "/public/cuenta.html" },
-    { "src": "/admin", "dest": "/public/admin/index.html" },
-    { "src": "/(.*)\\.html", "dest": "/public/$1.html" },
-    { "src": "/(.*)", "dest": "/public/$1" }
+    { "src": "/descarga", "dest": "/descarga.html" },
+    { "src": "/login", "dest": "/login.html" },
+    { "src": "/cuenta", "dest": "/cuenta.html" },
+    { "src": "/admin", "dest": "/admin/index.html" },
+    { "src": "/(.*)\\.html", "dest": "/$1.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
